@@ -16,5 +16,6 @@ public class Main {
         }else{
             ai=new SmartAI()
         } */
+        
     }
 }
