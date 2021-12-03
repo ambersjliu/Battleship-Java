@@ -9,7 +9,7 @@ public class Main {
     AI ai;
 
     public static void main(String[] args) {
-        System.out.println("hello world");
+        System.out.println("hello wod");
 /*         if (low ai){
             ai=new DumbAI()
         }else{
