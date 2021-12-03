@@ -7,7 +7,7 @@ public abstract class AI {
     protected Renderer renderer;
 
     public AI(){
-        enemyBoard=new Board();
+        enemyBoard=new Board(10);
         renderer=new Renderer();
     }
 

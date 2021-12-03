@@ -4,16 +4,26 @@ public class Point {
     private boolean isTaken;
     private boolean isHit;
 
-    boolean getIsHit(){
+    public Point(boolean taken, boolean hit){
+        this.isTaken = taken;
+        this.isHit = hit;
+    }
+
+
+    public boolean getIsHit(){
         return this.isHit;
     }
 
-    boolean getIsTaken(){
+    public boolean getIsTaken(){
         return this.isTaken;
     }
 
-    void setIsHit(boolean state){
+    public void setIsHit(boolean state){
         this.isHit = state;
+    }
+
+    public void setIsTaken(boolean taken){
+        this.isTaken = taken;
     }
 
     
