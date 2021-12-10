@@ -12,12 +12,13 @@ public class Ship {
         this.shipName = shipName;
     }
 
-    public Ship(Board board, String shipName, int shipLength, Point start, Point end, String orientation){
+    public Ship(Board board, String shipName, int shipLength, Point start, String orientation){
         
         if(orientation.equals("UP")){
             for (int i = 0; i < shipLength; i++) {              
                 shipPoints.add(board.getPoint(start.getY()-i, start.getX()));
                 board.getPoint(start.getY()-i, start.getX()).setShipId(shipName);
+                board.getPoint(start.getY()-i, start.getX()).setIsTaken(true);
             }
         }
 
@@ -25,20 +26,24 @@ public class Ship {
             for (int i = 0; i < shipLength; i++) {             
                 shipPoints.add(board.getPoint(start.getY()+i, start.getX()));
                 board.getPoint(start.getY()+i, start.getX()).setShipId(shipName);
+                board.getPoint(start.getY()+i, start.getX()).setIsTaken(true);
             }
         }
 
         if(orientation.equals("LEFT")){
             for (int i = 0; i < shipLength; i++) {           
                 shipPoints.add(board.getPoint(start.getY(), start.getX()-i));
-                board.getPoint(start.getY()+i, start.getX()-i).setShipId(shipName);
+                board.getPoint(start.getY(), start.getX()-i).setShipId(shipName);
+                board.getPoint(start.getY(), start.getX()-i).setIsTaken(true);
             }
         }
 
         if(orientation.equals("RIGHT")){
             for (int i = 0; i < shipLength; i++) {          
                 shipPoints.add(board.getPoint(start.getY(), start.getX()+i));
-                board.getPoint(start.getY()+i, start.getX()+i).setShipId(shipName);
+                board.getPoint(start.getY(), start.getX()+i).setShipId(shipName);
+                board.getPoint(start.getY(), start.getX()+i).setIsTaken(true);
+
             }
         }
     }

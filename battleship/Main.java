@@ -24,14 +24,9 @@ public class Main {
 
         //Point[][] testBoard = new Point[10][10];
         
-
-
-
+        //Board board, String shipName, int shipLength, Point start, String orientation
         //"ships"
-        for(int i = 2; i < 7; i++){
-            testBoard.getPoint(i, 1).setIsTaken(true);
-            testBoard.getPoint(1, i).setIsTaken(true);
-        }
+        Ship carrier = new Ship(testBoard, "Carrier", 5, testBoard.getPoint(6, 2), "DOWN");
 
         testBoard.drawBoard(testBoard);
  
