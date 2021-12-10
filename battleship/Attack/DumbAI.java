@@ -12,7 +12,7 @@ public class DumbAI extends AI{
         int y = rand.nextInt(10);
         int attCoor [] = {x,y};
 
-        //should setting the point to miss/hit be in here as well in a controller
+        //should setting the point to miss/hit be in here as well or in a controller
 
 
         return attCoor;
