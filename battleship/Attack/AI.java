@@ -1,5 +1,5 @@
 package battleship.Attack;
-import battleship.Model.Board;
+import battleship.Model.*;
 import battleship.UI.Renderer;
 
 public abstract class AI {
@@ -7,7 +7,7 @@ public abstract class AI {
     protected Renderer renderer;
 
     public AI(){
-        enemyBoard=new Board(10);
+        enemyBoard = new Board(Constants.boardSize);
         renderer=new Renderer();
     }
 

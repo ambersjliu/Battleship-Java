@@ -2,22 +2,46 @@ package battleship.Model;
 
 public class Board {
     Point[][] points;
-    private int boardSize;
 
-    public Board(int size){
-        boardSize = size;
+
+    public Board(int boardSize){
         points = new Point[boardSize][boardSize];
 
         //initialize board with hit and taken all as false
         for(int i = 0; i<boardSize; i++){
             for(int j = 0; j < 10; j++){
-                points[i][j] = new Point(false, false);
+                //points[i][j] = new Point(i, j);
+                points[i][j] = new Point(i,j);
             }
         }
     }
 
-    //getter method for individiual coordinates
-    public Point getPoint(int pointX, int pointY){
-        return points[pointX][pointY];
+    public Point[][] getPoints() {
+		return points;
+	}
+
+	public void setPoints(Point[][] points) {
+		this.points = points;
+	}
+
+	public Point getPoint(int row, int column) {
+		return points[row][column];
+	}
+
+	public void setPoint(Point point, int row, int column) {
+		points[row][column] = point;
+	}
+
+    public void drawBoard(Board board){
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                if(board.getPoint(i, j).getIsTaken() == false){
+                    System.out.print("o ");
+                }else{
+                    System.out.print("* ");
+                }
+            }
+            System.out.println();
+        }
     }
 }

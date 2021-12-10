@@ -4,8 +4,8 @@ package battleship;
 import battleship.Attack.AI;
 import battleship.Attack.DumbAI;
 import battleship.Attack.SmartAI;
-import battleship.Model.Point;
-import battleship.Model.Board;
+import battleship.Model.*;
+
 
 public class Main {
     AI ai;
@@ -16,7 +16,9 @@ public class Main {
         }else{
             ai=new SmartAI()
         } */
-        Board testBoard = new Board(10);
+        Board testBoard = new Board(Constants.boardSize);
+
+        testBoard.getPoint(1, 1).getIsHit();
 
         //System.out.println(testBoard.get)
 
@@ -31,16 +33,7 @@ public class Main {
             testBoard.getPoint(1, i).setIsTaken(true);
         }
 
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                if(testBoard.getPoint(i, j).getIsTaken() == false){
-                    System.out.print("o ");
-                }else{
-                    System.out.print("* ");
-                }
-            }
-            System.out.println();
-        }
+        testBoard.drawBoard(testBoard);
  
 
 
