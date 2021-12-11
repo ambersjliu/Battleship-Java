@@ -24,31 +24,16 @@ public class Main {
 
         testBoard.drawBoard(testBoard);
         
-<<<<<<< HEAD
-        
-=======
- 
-
->>>>>>> aa9498522b87f64cb5e99eacab7a35351266ddf8
-
-        
-    
-        while(!ai.allSunk(carrier)){
+        while(carrier.getShipLength()>0){
             System.out.println("Enter a coordinate:");
-            String coordinate = input.nextLine();
-            
+            String coord = input.nextLine();
+            //convert inputted coord into an array of 2 ints
+            //check if carrier.shipPoints has that array
+            //if yes then set ishit to true on the board and subtract shiplength by one
+            //if no do nothing (loop repeats)
         }
         
 
     }
-    String coord;
-
-    public int[] (String coord){
-        String [] coor = coord.split(" ");
-        
-        
-
-    }
-
     
 }
