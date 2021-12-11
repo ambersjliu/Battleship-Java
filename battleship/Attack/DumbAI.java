@@ -1,11 +1,8 @@
 package battleship.Attack;
+import battleship.Model.*;
 
 public class DumbAI extends AI{
 
-    @Override
-    public String attack() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 
 }

@@ -2,7 +2,7 @@ package battleship.Attack;
 import battleship.Model.*;
 import battleship.UI.Renderer;
 
-public abstract class AI {
+public class AI {
     protected Board enemyBoard;
     protected Renderer renderer;
 
@@ -11,7 +11,21 @@ public abstract class AI {
         renderer=new Renderer();
     }
 
-    public abstract String attack();
+
+
+/*     public boolean allSunk(Ship ship){
+        for (int i = 0; i<ship.getShipLength();i++){
+            if (!ship.getShipPoint(i).getIsHit()){
+                return false;
+            }
+        }
+        return true;
+    }
+ */
+   /*  public boolean isValidShip(Ship ship){
+        
+       
+    } */
 
 
 
