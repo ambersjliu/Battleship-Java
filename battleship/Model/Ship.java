@@ -48,4 +48,23 @@ public class Ship {
         }
     }
 
+
+
+    public Point getShipPoint(int index){
+        return shipPoints.get(index);
+    }
+
+    public int getShipLength(){
+        return shipLength;
+    }
+
+    public String getShipName(){
+        return shipName;
+    }
+
+    public void setShipName(String name){
+        shipName  = name;
+    }
+
+
 }
