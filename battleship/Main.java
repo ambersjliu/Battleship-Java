@@ -29,6 +29,7 @@ public class Main {
         Ship carrier = new Ship(testBoard, "Carrier", 5, testBoard.getPoint(6, 2), "DOWN");
 
         testBoard.drawBoard(testBoard);
+        
  
 
 
@@ -37,4 +38,6 @@ public class Main {
         
 
     }
+
+    
 }
