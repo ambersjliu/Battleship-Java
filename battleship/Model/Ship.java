@@ -58,6 +58,11 @@ public class Ship {
         return shipLength;
     }
 
+    public void setShipLength(int newLength){
+        shipLength =newLength;
+        
+    }
+
     public String getShipName(){
         return shipName;
     }

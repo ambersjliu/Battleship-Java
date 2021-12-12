@@ -3,6 +3,7 @@ package battleship.Model;
 public class Point {
     private boolean isTaken;
     private boolean isHit;
+    private boolean isMiss;
     private String shipId;
     private boolean isSunk;
     private int x;
@@ -11,6 +12,7 @@ public class Point {
     public Point(){
         this.isTaken = false;
         this.isHit = false;
+        this.isMiss = false;
         this.isSunk = false;
         this.shipId = "default";
         
@@ -19,15 +21,17 @@ public class Point {
     public Point(int x, int y){
         this.isTaken = false;
         this.isHit = false;
+        this.isMiss = false;
         this.isSunk = false;
         this.shipId = "default";
         this.x = x;
         this.y = y;
     }
 
-    public Point(boolean taken, boolean hit, boolean isSunk, String shipId, int x, int y){
+    public Point(boolean taken, boolean hit, boolean isSunk, boolean isMiss, String shipId, int x, int y){
         this.isTaken = taken;
         this.isHit = hit;
+        this.isMiss = isMiss;
         this.shipId = shipId;
         this.isSunk = isSunk;
         this.x = x;
@@ -41,6 +45,14 @@ public class Point {
 
     public void setIsHit(boolean state){
         this.isHit = state;
+    }
+
+    public boolean getIsMiss(){
+        return this.isMiss;
+    }
+
+    public void setIsMiss(boolean state){
+        this.isMiss = state;
     }
 
     public boolean getIsTaken(){
