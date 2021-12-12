@@ -35,10 +35,17 @@ public class Board {
     public void drawBoard(Board board){
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-                if(board.getPoint(i, j).getIsTaken() == false){
-                    System.out.print("o ");
-                }else{
+                if (board.getPoint(i,j).getIsHit() == true){
+                    System.out.print("O ");
+                }
+                else if(board.getPoint(i, j).getIsTaken() == true){
                     System.out.print("* ");
+                }
+                else if(board.getPoint(i,j).getIsMiss() == true){
+                    System.out.print("x ");
+                }
+                else{
+                    System.out.print("o ");
                 }
             }
             System.out.println();
