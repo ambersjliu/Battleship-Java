@@ -16,19 +16,6 @@ public class Ship {
     public Ship(Board board, String shipName, int shipLength, Point start, String orientation){
         int[] coords; 
         this.shipLength = shipLength;
-        //create array of size 2 to save each point's coordinates in
-        //add it to the ship's "shipPoints" ArrayList
-
-        /* if(orientation.equals("V")){
-            for (int i = 0; i < shipLength; i++) {    
-                coords[0] = start.getY()-i; //going up
-                coords[1] = start.getX();
-                shipPoints.add(coords); 
-
-                board.getPoint(start.getY()-i, start.getX()).setShipId(shipName);
-                board.getPoint(start.getY()-i, start.getX()).setIsTaken(true);
-            }
-        } */
 
         int row=start.getY();
         int col=start.getX();
@@ -44,16 +31,6 @@ public class Ship {
             }
         }
 
-        /* if(orientation.equals("LEFT")){
-            for (int i = 0; i < shipLength; i++) { 
-                coords[0] = start.getY(); 
-                coords[1] = start.getX()-i;//going left
-                shipPoints.add(coords); 
-
-                board.getPoint(start.getY(), start.getX()-i).setShipId(shipName);
-                board.getPoint(start.getY(), start.getX()-i).setIsTaken(true);
-            }
-        } */
 
         if(orientation.equals("RIGHT")){
             for (int i = 0; i < shipLength; i++, col++) {  
