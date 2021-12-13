@@ -33,16 +33,27 @@ public class Board {
 	}
 
     public void drawBoard(Board board){
-        for(int i = 0; i < 10; i++){
+        System.out.print(" ");
+        for(int col=1; col<=Constants.boardSize; col++){
+            System.out.print(" " +col);
+        }
+
+        System.out.println();
+        char letter = 'A';
+
+        for(int rows = 1; rows < Constants.boardSize; rows++, letter++){
+            System.out.print(letter + " ");
             for(int j = 0; j < 10; j++){
-                if (board.getPoint(i,j).getIsHit() == true){
-                    System.out.print("O ");
+                if (board.getPoint(rows,j).getIsHit() == true){
+                    if(board.getPoint(rows, j).getIsTaken() == true){
+                        System.out.print("X ");
+                    }else{
+                        System.out.print("M ");
+                    }
                 }
-                else if(board.getPoint(i, j).getIsTaken() == true){
+                //only for testing. remove later
+                else if(board.getPoint(rows, j).getIsTaken() == true){
                     System.out.print("* ");
-                }
-                else if(board.getPoint(i,j).getIsMiss() == true){
-                    System.out.print("x ");
                 }
                 else{
                     System.out.print("o ");
