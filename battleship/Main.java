@@ -10,11 +10,17 @@ import java.util.zip.Adler32;
 public class Main {
     AI ai;
 
+    @Override
+    public boolean equals(Object obj) {
+        return (this == obj);
+    }
+
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
 
-        AI ai = new AI();
+        SmartAI ai = new SmartAI();
+
 
         Board testBoard = new Board(Constants.boardSize);
 
@@ -48,8 +54,7 @@ public class Main {
             System.out.println(Arrays.toString(numcoord));
 
             if(carrier.getShipPoints().contains(numcoord)){
-                carrier.setShipLength(carrier.getShipLength()-1);
-               
+                carrier.setShipLength(carrier.getShipLength()-1);          
                 System.out.println("Hit!");
             }else{
                
