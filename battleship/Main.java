@@ -24,8 +24,6 @@ public class Main {
 
         Board testBoard = new Board(Constants.boardSize);
 
-        testBoard.getPoint(1, 1).getIsHit();
-
         Ship carrier = new Ship(testBoard, "Carrier", 5, testBoard.getPoint(6, 2), "DOWN");
 
         carrier.printShipPoints();
@@ -38,18 +36,14 @@ public class Main {
 
             // convert inputted coord into an array of 2 ints
             
-            String coord = input.nextLine().toUpperCase(); //get user input
-            /* char[] coordArray = coord.toCharArray(); //convert
-            int ascii = Character.toUpperCase(coordArray[0]);
-            int[] numcoord = { ascii - 65, (coordArray[1] - '0')-1 };
-            System.out.println(Arrays.toString(numcoord)); */
+            String coord = input.nextLine().toUpperCase();
 
 
 
             int col = Integer.parseInt(coord.substring(1)) - 1;
             int row= ((int) coord.charAt(0)) - 65;
 
-            int[] numcoord = {row,col}; 
+            int[] numcoord = {row+1,col}; 
 
             System.out.println(Arrays.toString(numcoord));
 
