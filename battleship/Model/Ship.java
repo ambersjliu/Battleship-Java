@@ -8,7 +8,7 @@ public class Ship {
     private Board board;
     private ArrayList<int[]> shipPoints = new ArrayList<int[]>();
 
-    public Ship(Board board, String shipName, int shipLength){
+    public Ship(String shipName, int shipLength){
         this.shipLength = shipLength;
         this.shipName = shipName;
     }

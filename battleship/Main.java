@@ -25,8 +25,8 @@ public class Main {
         Board testBoard = new Board(Constants.boardSize);
 
 
-        Ship carrier = new Ship(testBoard, "Carrier", 5);
-        Ship destroyer = new Ship(testBoard, "Destroyer", 2);
+        Ship carrier = new Ship("Carrier", 5);
+        Ship destroyer = new Ship("Destroyer", 2);
 
         Ship[] shipArr = new Ship[]{carrier, destroyer};
 
