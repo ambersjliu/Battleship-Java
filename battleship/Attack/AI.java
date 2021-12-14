@@ -34,6 +34,7 @@ public class AI {
 
     public HashMap<String, Ship> placeShips(Ship[] ships, Board board){
         HashMap<String, Ship> shipDict = new HashMap<>();
+        
         for(int i = 0; i<ships.length; i++){
             Random rand = new Random();
             boolean okShip = false;
