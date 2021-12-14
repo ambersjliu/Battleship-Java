@@ -2,6 +2,9 @@ package battleship.Attack;
 import battleship.Model.*;
 import battleship.UI.Renderer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 
 public class AI {
     protected Board enemyBoard;
@@ -27,6 +30,40 @@ public class AI {
         renderer=new Renderer();
     }
 
+
+
+    public HashMap<String, Ship> placeShips(Ship[] ships, Board board){
+        HashMap<String, Ship> shipDict = new HashMap<>();
+        for(int i = 0; i<ships.length; i++){
+            Random rand = new Random();
+            boolean okShip = false;
+            
+            int startX = 0;
+            int startY = 0;
+            int orientation = 0; //either 1 or 0: 0 is down, 1 is right
+
+            
+
+            while (!okShip) { // while the ship isnt ok
+                startX = rand.nextInt(10); // generate new start coords
+                startY = rand.nextInt(10);
+                orientation = rand.nextInt(2);
+
+                System.out.println("The orientation is "+ orientation);
+
+                // check if it's valid
+                okShip = validShip(board, ships[i].getShipLength(), board.getPoint(startY, startX),
+                        Constants.orientation[orientation]);
+            }
+
+            Ship newShip = new Ship(board, ships[i].getShipName(), ships[i].getShipLength(),
+                    board.getPoint(startY, startX), Constants.orientation[orientation]);
+            shipDict.put(ships[i].getShipName(), newShip);
+            }
+        return shipDict;
+     }
+
+
     public boolean validShip(Board board, int shipLength, Point start, String orientation){
         int row=start.getY();
         int col=start.getX();  
@@ -34,11 +71,12 @@ public class AI {
 
         if(orientation == "DOWN"){
             int endRow = row + shipLength;
+            System.out.println("End row: " + endRow);
             if(endRow>Constants.boardSize){
                 return false;
             }
 
-            for(int i = row; i<=endRow; i++){
+            for(int i = row; i<endRow; i++){
                 if(!board.getPoint(i, col).getShipId().equals("default")){
                     return false;
                 }
@@ -48,11 +86,13 @@ public class AI {
 
         if(orientation == "RIGHT"){
             int endCol= col + shipLength;
+            System.out.println("End col: " + endCol);
+
             if(endCol>Constants.boardSize){
                 return false;
             }
 
-            for(int i = col; i<=endCol; i++){
+            for(int i = col; i<endCol; i++){
                 if(!board.getPoint(row, i).getShipId().equals("default")){
                     return false;
                 }

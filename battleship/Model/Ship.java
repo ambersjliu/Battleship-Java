@@ -30,9 +30,7 @@ public class Ship {
                 board.getPoint(row, col).setIsTaken(true);
             }
         }
-
-
-        if(orientation.equals("RIGHT")){
+        else{
             for (int i = 0; i < shipLength; i++, col++) {  
                 coords=new int[2];        
                 coords[0] = row; 

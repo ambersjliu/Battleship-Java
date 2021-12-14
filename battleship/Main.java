@@ -24,11 +24,17 @@ public class Main {
 
         Board testBoard = new Board(Constants.boardSize);
 
-        Ship carrier = new Ship(testBoard, "Carrier", 5, testBoard.getPoint(6, 2), "DOWN");
 
-        carrier.printShipPoints();
+        Ship carrier = new Ship(testBoard, "Carrier", 5);
+        Ship destroyer = new Ship(testBoard, "Destroyer", 2);
+
+        Ship[] shipArr = new Ship[]{carrier, destroyer};
+
+        HashMap<String, Ship> ships = ai.placeShips(shipArr, testBoard);
+    
+
         
-        while (carrier.getShipLength() > 0) {
+        while (ships.get("Carrier").getShipLength() > 0) {
 
             testBoard.drawBoard(testBoard);
 
@@ -38,8 +44,6 @@ public class Main {
             
             String coord = input.nextLine().toUpperCase();
 
-
-
             int col = Integer.parseInt(coord.substring(1)) - 1;
             int row= ((int) coord.charAt(0)) - 65;
 
@@ -47,28 +51,14 @@ public class Main {
 
             System.out.println(Arrays.toString(numcoord));
 
-            if(carrier.getShipPoints().contains(numcoord)){
-                carrier.setShipLength(carrier.getShipLength()-1);          
+            if(carrier.getShipPoints().contains(numcoord)){ //need to override equals for this to work, working on that...
+                carrier.setShipLength(carrier.getShipLength()-1);    //temp, will create a checkShipHit method + shipSunk      
                 System.out.println("Hit!");
             }else{
                
                 System.out.println("Miss!");
             }
             testBoard.getPoint(numcoord[0], numcoord[1]).setIsHit(true);
-            
- /*            if (testBoard.getPoint(numcoord[0],numcoord[1]).getIsTaken() == true){
-                testBoard.getPoint(numcoord[0],numcoord[1]).setIsHit(true);
-                carrier.setShipLength(carrier.getShipLength()-1);
-                System.out.println(carrier.getShipLength());
-            }
-            else{
-                testBoard.getPoint(numcoord[0],numcoord[1]).setIsHit(true);
-                System.out.println(testBoard.getPoint(numcoord[0],numcoord[1]).getIsTaken());
-            } */
-
-            
-
-
 
 
 
@@ -95,13 +85,13 @@ public class Main {
         Board enemyBoard = new Board(Constants.boardSize);
 
         //while enemyhits or ourhits are less than 17
-        while (enemyHits<17||ourHits<17){
+        while (enemyHits<17&&ourHits<17){
 
             ourBoard.drawBoard(ourBoard);
 
             //player turn
             if (firstMove == 1){
-                System.out.println("Enter a coordiante: letter number");
+                System.out.println("Enter a coordinate (letter-number format):");
                 String coord = input.nextLine().toUpperCase();
 
                 int col = Integer.parseInt(coord.substring(1)) - 1;
@@ -113,7 +103,7 @@ public class Main {
 
                 //if player hit
                 //if numcoord coord on the ourboard is not deflaut 
-                if (!ourBoard.getPoint(numcoord[0],numcoord[1]).getShipId().equals("deflaut")){
+                if (!ourBoard.getPoint(numcoord[0],numcoord[1]).getShipId().equals("default")){
                     //call checkIfHit
                    //check which ship is hit and which ship is 
                    //tell user, which ship is hit
