@@ -11,7 +11,7 @@ import battleship.UI.Renderer;
 public class AI {
     protected Board enemyBoard;
     protected Renderer renderer;
-    protected ArrayList<Coordinate> pastHits = new ArrayList<Coordinate>();
+    protected ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();
 
     //todo: checkIfHit
     //todo: checkIfSunk
