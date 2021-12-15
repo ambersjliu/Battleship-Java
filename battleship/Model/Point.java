@@ -35,6 +35,7 @@ public class Point {
     }
     
 
+
     public boolean getIsHit(){
         return this.isHit;
     }
@@ -42,14 +43,6 @@ public class Point {
     public void setIsHit(boolean state){
         this.isHit = state;
     }
-
-/*     public boolean getIsMiss(){
-        return this.isMiss;
-    }
-
-    public void setIsMiss(boolean state){
-        this.isMiss = state;
-    } */
 
     public boolean getIsTaken(){
         return this.isTaken;
