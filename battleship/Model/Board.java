@@ -41,7 +41,7 @@ public class Board {
         System.out.println();
         char letter = 'A';
 
-        for(int rows = 1; rows < Constants.boardSize; rows++, letter++){
+        for(int rows = 0; rows < Constants.boardSize; rows++, letter++){
             System.out.print(letter + " ");
             for(int j = 0; j < 10; j++){
                 if (board.getPoint(rows,j).getIsHit() == true){

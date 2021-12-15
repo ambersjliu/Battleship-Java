@@ -1,45 +1,41 @@
 package battleship.Model;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Ship {
     private int shipLength;
     private String shipName;
     private Board board;
-    private ArrayList<int[]> shipPoints = new ArrayList<int[]>();
+    private ArrayList<Coordinate> shipPoints = new ArrayList<Coordinate>();
 
     public Ship(String shipName, int shipLength){
         this.shipLength = shipLength;
         this.shipName = shipName;
     }
 
-    public Ship(Board board, String shipName, int shipLength, Point start, String orientation){
-        int[] coords; 
+	public Ship(Board board, String shipName, int shipLength, int startRow, int startCol, String orientation) {
         this.shipLength = shipLength;
+		this.board = board;
+		this.shipName = shipName;
 
-        int row=start.getY();
-        int col=start.getX();
         if(orientation.equals("DOWN")){
-            for (int i = 0; i < shipLength; i++,row++) { 
-                coords=new int[2];
-                coords[0] = row; //going down
-                coords[1] = col;
-                shipPoints.add(coords);                 
+			for (int i = 0; i < shipLength; i++) {
+				int row = startRow + i;
+				Coordinate coord = new Coordinate(row, startCol);
+
+                shipPoints.add(coord);                 
                 
-                board.getPoint(row, col).setShipId(shipName);
-                board.getPoint(row, col).setIsTaken(true);
+				board.getPoint(row, startCol).setShipId(shipName);
+				board.getPoint(row, startCol).setIsTaken(true);
             }
         }
         else{
-            for (int i = 0; i < shipLength; i++, col++) {  
-                coords=new int[2];        
-                coords[0] = row; 
-                coords[1] = col;//going right
-                shipPoints.add(coords); 
+			for (int i = 0; i < shipLength; i++) {
+				int col = startCol + i;
+				Coordinate coord = new Coordinate(startRow, col);
+                shipPoints.add(coord); 
 
-                board.getPoint(row,col).setShipId(shipName);
-                board.getPoint(row, col).setIsTaken(true);
-
+				board.getPoint(startRow, col).setShipId(shipName);
+				board.getPoint(startRow, col).setIsTaken(true);
             }
         }
     }
@@ -47,15 +43,15 @@ public class Ship {
 
 
 
-    public ArrayList<int[]> getShipPoints(){
+    public ArrayList<Coordinate> getShipPoints(){
         return shipPoints;
     }
 
-    public void printShipPoints(){
+/*     public void printShipPoints(){
         for(int i = 0; i<shipLength; i++){
             System.out.println(Arrays.toString(shipPoints.get(i)));
         }
-    }
+    } */
 
     public int getShipLength(){
         return shipLength;
@@ -73,5 +69,13 @@ public class Ship {
         shipName  = name;
     }
 
+	public int getShipSurvivingPoints() {
+		int sum = 0;
+		for (Coordinate c : shipPoints) {
+			if (!this.board.getPoint(c.getRow(), c.getColumn()).getIsHit())
+				sum++;
+		}
+		return sum;
+	}
 
 }

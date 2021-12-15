@@ -1,8 +1,44 @@
-/* package battleship.Model;
+package battleship.Model;
+
+import java.util.Objects;
 
 public class Coordinate {
+private int row;
+private int column;
 
-    public Coordinate() {
+
+
+    public Coordinate(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
+
+
+    public int getRow() {
+        return this.row;
+    }
+
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+
+    public int getColumn() {
+        return this.column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " row='" + getRow() + "'" +
+            ", column='" + getColumn() + "'" +
+            "}";
     }
 
 
@@ -13,14 +49,14 @@ public class Coordinate {
         if (!(o instanceof Coordinate)) {
             return false;
         }
-        
+        Coordinate coordinate = (Coordinate) o;
+        return row == coordinate.row && column == coordinate.column;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode);
+        return Objects.hash(row, column);
     }
     
     
 }
- */
