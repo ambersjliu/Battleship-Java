@@ -7,11 +7,11 @@ import java.util.Random;
 import battleship.Model.*;
 import battleship.UI.Renderer;
 
-
 public class AI {
     protected Board enemyBoard;
     protected Renderer renderer;
     protected ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();
+    
 
     //todo: checkIfHit
     //todo: checkIfSunk
@@ -95,4 +95,13 @@ public class AI {
         }
         return true;
     }
-}
+
+   
+
+    
+    }
+
+
+
+
+

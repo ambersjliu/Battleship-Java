@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import battleship.Attack.AI;
-import battleship.Attack.SmartAI;
+import battleship.Attack.*;
 import battleship.Model.Board;
 import battleship.Model.Constants;
 import battleship.Model.Coordinate;
@@ -21,60 +20,91 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scanner input = new Scanner(System.in);
+		// Scanner input = new Scanner(System.in);
 
-		SmartAI ai = new SmartAI();
+		// DumbAI ai = new DumbAI();
 
-		Board testBoard = new Board(Constants.boardSize);
+		// Board testBoard = new Board(Constants.boardSize);
 
-		Ship carrier = new Ship("Carrier", 5);
-		Ship destroyer = new Ship("Destroyer", 2);
+		// Ship carrier = new Ship("Carrier", 5);
+		// Ship destroyer = new Ship("Destroyer", 2);
 
-		Ship[] shipArr = new Ship[] { carrier, destroyer };
+		// Ship[] shipArr = new Ship[] { carrier, destroyer };
 
-		HashMap<String, Ship> ships = ai.placeShips(shipArr, testBoard);
+		// HashMap<String, Ship> ships = ai.placeShips(shipArr, testBoard);
 
-		while (ships.get("Carrier").getShipSurvivingPoints() > 0) {
+		// while (ships.get("Carrier").getShipSurvivingPoints() > 0) {
 
-			testBoard.drawBoard(testBoard);
+		// 	testBoard.drawBoard(testBoard);
 
-			System.out.println("Enter a coordinate:");
+		// 	System.out.println("Enter a coordinate:");
+
 
 			// convert inputted coord into an array of 2 ints
 
-			String coord = input.nextLine().toUpperCase();
+			// String coord = input.nextLine().toUpperCase();
 
-			int col = Integer.parseInt(coord.substring(1)) - 1;
-			int row = ((int) coord.charAt(0)) - 65;
+			// int col = Integer.parseInt(coord.substring(1)) - 1;
+			// int row = ((int) coord.charAt(0)) - 65;
+			
+			// Coordinate numcoord = new Coordinate(row,col);
 
-			Coordinate numcoord = new Coordinate(row, col);
 
-			System.out.println(ships.get("Carrier").getShipPoints().size());
-			for (Coordinate p : ships.get("Carrier").getShipPoints()) {
-				System.out.println(p);
-			}
+			//convert num coordinate to (letter, number)
 
-			System.out.println(numcoord);
+			// Coordinate numcoord = new Coordinate(ai.attack().getRow(), ai.attack().getColumn());
 
-			if (ships.get("Carrier").getShipPoints().contains(numcoord)) { // need to override equals for this to work,
-																			// working on that...
-				carrier.setShipLength(carrier.getShipLength() - 1); // temp, will create a checkShipHit method +
-																	// shipSunk
-				System.out.println("Hit!");
-			} else {
+			// System.out.println("Ai attacks "+numcoord);
 
-				System.out.println("Miss!");
-			}
-			testBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 
-		}
-		System.out.println("Carrier is down.");
+			// String letter = String.valueOf((char)numcoord.getRow()).toUpperCase();
+
+			// char letter = (char)(numcoord.getRow()+65);
+			// System.out.println(letter);
+
+			// String num = String.valueOf(numcoord.getColumn());
+			// System.out.println(numcoord.getColumn());
+        	// String coord = letter+num;
+
+			// System.out.println("Ai attacks "+coord);
+
+			// String next = input.next();
+
+			// System.out.println(ships.get("Carrier").getShipPoints().size());
+			// for (Coordinate p : ships.get("Carrier").getShipPoints()) {
+			// 	System.out.println(p);
+			// }
+
+		// 	System.out.println(numcoord);
+
+		// 	if (ships.get("Carrier").getShipPoints().contains(numcoord)) { // need to override equals for this to work,
+		// 																	// working on that...
+		// 		carrier.setShipLength(carrier.getShipLength() - 1); // temp, will create a checkShipHit method +
+		// 															// shipSunk
+		// 		System.out.println("Hit!");
+		// 	} else {
+
+		// 		System.out.println("Miss!");
+		// 	}
+		// 	testBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
+
+		// }
+		// System.out.println("Carrier is down.");
+
+
+
+        
 		// before game setup (menu)
 
 		// prompts user to load save or start a new game
 
+		Scanner input = new Scanner(System.in);
+
+
 		System.out.println("complex (1) or simple (2) ai?");
 		int gameMode = input.nextInt();
+		DumbAI ai = new DumbAI();
+
 		// set the ai
 
 		System.out.println("Who goes first? you (1) or ai (2)?");
@@ -88,9 +118,19 @@ public class Main {
 
 		Board ourBoard = new Board(Constants.boardSize);
 		// place 5 ships on ourboard
+
+		Ship carrier = new Ship("Carrier", 5);
+		Ship destroyer = new Ship("Destroyer", 2);
+
 		Board enemyBoard = new Board(Constants.boardSize);
 
+
+		Ship[] shipArr = new Ship[] { carrier, destroyer };
+		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);
+
+
 		// while enemyhits or ourhits are less than 17
+    
 		while (enemyHits < 17 && ourHits < 17) {
 
 			ourBoard.drawBoard(ourBoard);
@@ -103,23 +143,28 @@ public class Main {
 				int col = Integer.parseInt(coord.substring(1)) - 1;
 				int row = ((int) coord.charAt(0)) - 65;
 
-				int[] numcoord = { row, col };
+				Coordinate numcoord = new Coordinate(row,col);
 
-				System.out.println("You attacked" + Arrays.toString(numcoord));
+				System.out.println("You attacked" + numcoord);
+
 
 				// if player hit
 				// if numcoord coord on the ourboard is not deflaut
-				if (!ourBoard.getPoint(numcoord[0], numcoord[1]).getShipId().equals("default")) {
-					// call checkIfHit
-					// check which ship is hit and which ship is
+				if (!ourBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId().equals("default")) {
+					if (ourBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsHit())// call checkIfHit
 					// tell user, which ship is hit
-					System.out.println("YOU HIT MY" + ourBoard.getPoint(numcoord[0], numcoord[1]).getShipId());
+					System.out.println("YOU HIT MY" + ourBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId());// check which ship is hit and which ship is
+					carrier.setShipLength(carrier.getShipLength() - 1);
 					enemyHits++;
 
 					// if sunk
+					if (ships.get(ourBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId()).getShipSurvivingPoints() < 0){
+						 System.out.println("YOU'VE SUNK MY"); 						 //u sunk my ship id
+
+					}
 					// call check if sunk
 					// if shipIsSunk is true{
-					// System.out.println("YOU"VE SUNK MY"+shipId);
+					
 					// }
 
 					// if player miss
@@ -132,8 +177,10 @@ public class Main {
 
 			// ai turn
 			else {
-				// int[] numcoord = call attack method and return an attack coordinate
-				// System.out.println("AI's attack"+Arrays.toString(numcoord));
+				Coordinate numcoord = new Coordinate(ai.attack().getRow(), ai.attack().getColumn());
+
+				System.out.println("Ai attacks "+numcoord);
+				
 
 				System.out.println("hit(1) or miss(2)?");
 				int userinput = input.nextInt();
@@ -149,9 +196,9 @@ public class Main {
 						System.out.println((i + 1) + " " + theShips[i]);
 					}
 					userinput = input.nextInt();
+					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 					// updating the enemyboard
-					// enemyBoard.getPoint(numcoord[0],numcoord[1]).setShipId(theShips[userinput-1]);
-					// enemyBoard.getPoint(numcoord[0],numcoord[1]).setIsHit(true));
+					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setShipId(theShips[userinput-1]);
 					// add point to shipPoints
 
 					ourHits++;

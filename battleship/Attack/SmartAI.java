@@ -25,13 +25,13 @@ public class SmartAI extends AI {
         
     }
 
-    public Coordinate nextMove(){
-        if(!mode){
-            return hunt();
-        }else{
-            return target();
-        }
-    }
+    // public Coordinate nextMove(){
+    //     if(!mode){
+    //         return hunt();
+    //     }else{
+    //         return target();
+    //     }
+    // }
 
 
 

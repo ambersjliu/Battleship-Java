@@ -1,5 +1,7 @@
 package battleship.Model;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class Ship {
     private int shipLength;
@@ -78,4 +80,12 @@ public class Ship {
 		return sum;
 	}
 
+    public boolean checkIfSunk(String shipId, HashMap <String, Ship> ships){
+        if (ships.get(shipId).getShipSurvivingPoints()==0){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }
