@@ -6,15 +6,16 @@ import java.util.Random;
 
 public class DumbAI extends AI{
     //pain, wanted to test github
+    Random rand = new Random();
+
     public Coordinate attack() {
-        Random rand = new Random();
-
-        int x = rand.nextInt(10);
-        int y = rand.nextInt(10);
-        Coordinate attCoor = new Coordinate(x, y);
-
-        //should setting the point to miss/hit be in here as well or in a controller
-        return attCoor;
+        Coordinate coord = new Coordinate(1, 2);
+        while((coord.getRow()+coord.getColumn())%2==1 && !pastShots.contains(coord)){
+            coord.setRow(rand.nextInt(Constants.boardSize));
+            coord.setColumn(rand.nextInt(Constants.boardSize));
+        }
+        pastShots.add(coord);
+        return coord;
     }
 
 }

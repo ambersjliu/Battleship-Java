@@ -43,19 +43,14 @@ public class Board {
 
         for(int rows = 0; rows < Constants.boardSize; rows++, letter++){
             System.out.print(letter + " ");
-            for(int j = 0; j < 10; j++){
-                if (board.getPoint(rows,j).getIsHit() == true){
-                    if(board.getPoint(rows, j).getIsTaken() == true){
-                        System.out.print("X ");
-                    }else{
-                        System.out.print("M ");
-                    }
+            for (int j = 0; j < 10; j++) {
+                if (board.getPoint(rows, j).getIsHit() == true) {
+                    System.out.print("M ");
                 }
-                //only for testing. remove later
-                else if(board.getPoint(rows, j).getIsTaken() == true){
-                    System.out.print("* ");
-                }
-                else{
+                else if(board.getPoint(rows, j).getIsTaken() && board.getPoint(rows, j).getIsHit()) {
+                    System.out.print("X ");
+                } else {
+
                     System.out.print("o ");
                 }
             }

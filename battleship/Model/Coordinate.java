@@ -58,5 +58,11 @@ private int column;
         return Objects.hash(row, column);
     }
     
+    //converts a coord to letter-number format.
+    public String coordFormat(Coordinate c){
+        char row = (char)(c.getRow()+65);
+        String col = c.getColumn()+1+"";
+        return row+col;
+    }
     
 }

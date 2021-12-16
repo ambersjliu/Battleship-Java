@@ -8,10 +8,11 @@ public class SmartAI extends AI {
     boolean mode = false; //false = HUNT, true = TARGET
     boolean directionSet = false;
     Coordinate firstHit;
+    
 
     Random rand = new Random();
 
-
+/* 
     public Coordinate target(){
 
         if(!directionSet){
@@ -22,17 +23,17 @@ public class SmartAI extends AI {
                 //return another hit in that direction]
             
         }
-        
+         
     }
-
-    // public Coordinate nextMove(){
-    //     if(!mode){
-    //         return hunt();
-    //     }else{
-    //         return target();
-    //     }
-    // }
-
+/* 
+    public Coordinate nextMove(){
+        if(!mode){
+            return hunt();
+        }else{
+            return target();
+        }
+    }
+ */
 
 
     public Coordinate hunt(){
@@ -43,6 +44,14 @@ public class SmartAI extends AI {
         }
         pastShots.add(coord);
         return coord;
+    }
+
+    public void resetVals(){
+        mode = false;
+        directionSet = false;
+        direction = 0;
+        firstHit.setColumn(-1);
+        firstHit.setRow(-1);
     }
 
 

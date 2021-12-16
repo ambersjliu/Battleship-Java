@@ -48,7 +48,6 @@ public class AI {
                 startRow = rand.nextInt(10);
                 orientation = rand.nextInt(2);
 
-                System.out.println("The orientation is "+ orientation);
 
                 // check if it's valid
 				okShip = validShip(board, ships[i].getShipLength(), startRow, startCol,
@@ -67,7 +66,6 @@ public class AI {
 
         if(orientation == "DOWN"){
 				int endRow = startRow + shipLength;
-            System.out.println("End row: " + endRow);
             if(endRow>Constants.boardSize){
                 return false;
             }
@@ -81,7 +79,6 @@ public class AI {
 
         if(orientation == "RIGHT"){
 			int endCol = startCol + shipLength;
-            System.out.println("End col: " + endCol);
 
             if(endCol>Constants.boardSize){
                 return false;
