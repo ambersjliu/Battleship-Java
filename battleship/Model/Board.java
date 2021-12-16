@@ -44,13 +44,13 @@ public class Board {
         for(int rows = 0; rows < Constants.boardSize; rows++, letter++){
             System.out.print(letter + " ");
             for (int j = 0; j < 10; j++) {
-                if (board.getPoint(rows, j).getIsHit() == true) {
-                    System.out.print("M ");
-                }
-                else if(board.getPoint(rows, j).getIsTaken() && board.getPoint(rows, j).getIsHit()) {
+                if (board.getPoint(rows, j).getIsHit()) {
+                    if(board.getPoint(rows, j).getIsTaken()) {
                     System.out.print("X ");
+                    }else{
+                        System.out.print("M ");
+                    }
                 } else {
-
                     System.out.print("o ");
                 }
             }

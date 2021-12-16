@@ -170,7 +170,7 @@ public class Main {
 						// set all points of said enemyShip to sunk
 						for(int i = 0; i<Constants.boardSize; i++){
 							for(int j = 0; j<Constants.boardSize; j++){
-								if(enemyBoard.getPoint(i,j).equals(enemyShipId)){
+								if(enemyBoard.getPoint(i,j).getShipId().equals(enemyShipId)){
 									enemyBoard.getPoint(i, j).setIsSunk(true);
 								}
 							}
@@ -183,6 +183,8 @@ public class Main {
 					ourMisses++;
 
 				}
+				System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
+
 				enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 
 
