@@ -10,13 +10,20 @@ public class SmartAI extends AI {
     Coordinate firstHit;
 
     Random rand = new Random();
-/* 
 
-    public Coordinate target(Point lastShot){
-        //if last shot was a miss, then continue switching directions...
-        //else, if the ship isn't sunk, then keep going
-        //if we miss again and the ship isnt sunk, go back to the first shot in the opposite direction
-    } */
+
+    public Coordinate target(){
+
+        if(!directionSet){
+            //fire shot in our current direction
+            //direction should be incremented somewhere else...
+        }else{
+            //if last shot hit
+                //return another hit in that direction]
+            
+        }
+        
+    }
 
     public Coordinate nextMove(){
         if(!mode){
@@ -25,6 +32,8 @@ public class SmartAI extends AI {
             return target();
         }
     }
+
+
 
     public Coordinate hunt(){
         Coordinate coord = new Coordinate(0,0);
@@ -56,21 +65,6 @@ public class SmartAI extends AI {
 
 
 
-/*     //called with aim
-    public int[] target(Mode mode, Board board, ArrayList<Coordinate> arr){
-        Random rand = new Random();
-        int[] coord = new int[]{1, 2};
-
-        if(mode == mode.HUNT){
-            while((coord[0]+coord[1])%2==1 && !arr.contains(coord)){
-                coord[0] = rand.nextInt(Constants.boardSize);
-                coord[1] = rand.nextInt(Constants.boardSize);
-            }
-            
-        }else{
-            //gonna write aim first lol
-        }
-    } */
 
 
     public int getDirection() {
