@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import battleship.Attack.AI;
-import battleship.Attack.SmartAI;
+import battleship.Attack.*;
 import battleship.Model.Board;
 import battleship.Model.Constants;
 import battleship.Model.Coordinate;
@@ -23,7 +22,7 @@ public class Main {
 
 		Scanner input = new Scanner(System.in);
 
-		SmartAI ai = new SmartAI();
+		DumbAI ai = new DumbAI();
 
 		Board testBoard = new Board(Constants.boardSize);
 
@@ -49,6 +48,15 @@ public class Main {
 
 			Coordinate numcoord = new Coordinate(row, col);
 
+
+
+            System.out.println("Ai attacks "+ai.attack());
+
+            numcoord = ai.attack();
+            coord = +String.valueOf(numcoord.getColumn());
+
+
+
 			System.out.println(ships.get("Carrier").getShipPoints().size());
 			for (Coordinate p : ships.get("Carrier").getShipPoints()) {
 				System.out.println(p);
@@ -69,6 +77,10 @@ public class Main {
 
 		}
 		System.out.println("Carrier is down.");
+
+
+
+        
 		// before game setup (menu)
 
 		// prompts user to load save or start a new game
@@ -91,6 +103,7 @@ public class Main {
 		Board enemyBoard = new Board(Constants.boardSize);
 
 		// while enemyhits or ourhits are less than 17
+    
 		while (enemyHits < 17 && ourHits < 17) {
 
 			ourBoard.drawBoard(ourBoard);

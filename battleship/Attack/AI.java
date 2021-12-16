@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-
+import battleship.Model.*;
+import battleship.UI.Renderer;
 
 public class AI {
     protected Board enemyBoard;
     protected Renderer renderer;
     protected ArrayList<Coordinate> pastHits = new ArrayList<Coordinate>();
+    
 
     //todo: checkIfHit
     //todo: checkIfSunk
@@ -94,31 +96,12 @@ public class AI {
         return true;
     }
 
+   
 
-
-    // public boolean checkIfSunk(String shipID, HashMap <String, Ship> shipDict){
-    //     ArrayList<int[]> shipPoints = new ArrayList<int[]>();
-    //     shipPoints = shipDict.get(shipID).getShipPoints();
-    //     boolean check = false;
-    //     int hits = 0;
-    //     for (int i = 0; i <shipDict.get(shipID).getShipLength();i++){
-    //         //this is really bad
-    //         // if shipID's Points at index i is hit
-    //         if (shipPoints.get(i).getIsHit() == true){
-    //            hits++;
-    //         }
-    //     }
-
-    //     if (hits = shipDict.get(shipID).getShipLength()){
-    //        return true;
-    //     }
-
-        
-        
-
-    // }
+    
+    }
 
 
 
 
-}
+
