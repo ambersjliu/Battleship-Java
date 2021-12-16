@@ -18,13 +18,13 @@ public class SmartAI extends AI {
         //if we miss again and the ship isnt sunk, go back to the first shot in the opposite direction
     } */
 
-    public Coordinate nextMove(){
-        if(!mode){
-            return hunt();
-        }else{
-            return target();
-        }
-    }
+    // public Coordinate nextMove(){
+    //     if(!mode){
+    //         return hunt();
+    //     }else{
+    //         return target();
+    //     }
+    // }
 
     public Coordinate hunt(){
         Coordinate coord = new Coordinate(0,0);
