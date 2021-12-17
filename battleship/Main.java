@@ -32,7 +32,7 @@ public class Main {
 
 
 		System.out.println("complex (1) or simple (2) ai?");
-		int gameMode = input.nextInt();
+		int gameMode = input.nextInt(); //i havent figured out how to switch game modes yet...
 		SmartAI ai = new SmartAI();
 
 		// set the ai
@@ -83,7 +83,7 @@ public class Main {
 				System.out.println("Your turn!");
 				System.out.println("Enter a coordinate (letter-number format):");
 				
-				String enter = input.nextLine();
+				String enter = input.nextLine(); //catch enter, had issues with input earlier
 				String coord = input.nextLine().toUpperCase();
 
 				int col = Integer.parseInt(coord.substring(1)) - 1;
@@ -171,7 +171,7 @@ public class Main {
 					// updating the enemyboard
 					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsTaken(true);
 
-					String enemyShipId = enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId();
+					//String enemyShipId = enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId();
 					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setShipId(theShips[userinput-1]);
 					// add point to shipPoints
 					ai.setMode(true); //enter target mode
@@ -212,15 +212,18 @@ public class Main {
 				} else {
 					// enemyBoard.getPoint(numcoord[0],numcoord[1]).setIsTaken(true));
 					ourMisses++;
-					if(ai.getDirectionSet()){
-						if(ai.getDirection()>1){
-							ai.getHits().add(ai.getFirstHit());
-							ai.setDirection(ai.getDirection()-2);
+					
+					if(ai.getMode()){ //ONLY if in hunt mode! 
+						if(ai.getDirectionSet()){
+							if(ai.getDirection()>1){ 
+								ai.getHits().add(ai.getFirstHit());
+								ai.setDirection(ai.getDirection()-2);
+							}else{
+								ai.setDirection(ai.getDirection()+2);
+							}
 						}else{
-							ai.setDirection(ai.getDirection()+2);
+							ai.setDirection(ai.getDirection()+1);
 						}
-					}else{
-						ai.setDirection(ai.getDirection()+1);
 					}
 
 				}
@@ -238,7 +241,7 @@ public class Main {
 
 		
 		if(enemyHits == 17){
-			System.out.println("Congrats on winning!");
+			System.out.println("Congrats on winning! Play again soon!");
 		} 
 		if(ourHits == 17){
 			System.out.println("\nOur AI won! Better luck next time!");
