@@ -64,5 +64,9 @@ private int column;
         String col = c.getColumn()+1+"";
         return row+col;
     }
+
+    public Point coordPoint(Coordinate c, Board b){
+        return(b.getPoint(c.getRow(), c.getColumn()));
+    }
     
 }

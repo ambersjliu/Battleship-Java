@@ -33,7 +33,7 @@ public class Main {
 
 		System.out.println("complex (1) or simple (2) ai?");
 		int gameMode = input.nextInt();
-		DumbAI ai = new DumbAI();
+		SmartAI ai = new SmartAI();
 
 		// set the ai
 
@@ -63,6 +63,7 @@ public class Main {
 		Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer};
 		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);
 
+		ai.resetVals();
 
 		// while enemyhits or ourhits are less than 17
     
@@ -81,6 +82,7 @@ public class Main {
 
 				System.out.println("Your turn!");
 				System.out.println("Enter a coordinate (letter-number format):");
+				
 				String enter = input.nextLine();
 				String coord = input.nextLine().toUpperCase();
 
@@ -104,15 +106,18 @@ public class Main {
 							 ourBoard.getPoint(p.getRow(), p.getColumn()).setIsHit(true);
 						 }
 					}
+					System.out.println(hitShipId + " has " + ships.get(hitShipId).getShipSurvivingPoints() + " points left.");
 					enemyHits++;
 
 					// if sunk
 					if (ships.get(hitShipId).getShipSurvivingPoints() < 0){
-						 System.out.println("You sunk our " + hitShipId); 						 //u sunk my ship id
-
-					}
+						System.out.println("You sunk our " + hitShipId); 						 //u sunk my ship id
+	
+					   }
 		
-				} else {
+				} 
+
+				else {
 					System.out.println("Missed ;)");
 					enemyMisses++;
 				}
@@ -131,7 +136,7 @@ public class Main {
 				enemyBoard.drawBoard(enemyBoard);
 
 				first = false;
-				Coordinate numcoord = new Coordinate(ai.attack().getRow(), ai.attack().getColumn());
+				Coordinate numcoord = ai.attack();
 
 				System.out.println("Ai's turn!");
 
@@ -143,14 +148,25 @@ public class Main {
 
 				// if ai hit
 				if (userinput == 1) {
+					if(ai.getFirstHit().getRow()==-1){
+						ai.setFirstHit(numcoord);
+						ai.getHits().add(numcoord);
+
+					}else{
+						ai.getHits().add(numcoord);
+					}
+
+					System.out.println("Current first hit: " +ai.getFirstHit().coordFormat(ai.getFirstHit()));
+					System.out.println("Current last hit " + ai.getHits().get(ai.getHits().size()-1));
 
 					System.out.println("Which ship?");
-					String[] theShips = { "Carrier", "BattleShip", "Cruiser", "Submarine", "Destroyer" };
+					String[] theShips = { "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer" };
 
 					// prints shipIDs alongside numbers
 					for (int i = 0; i < theShips.length; i++) {
 						System.out.println((i + 1) + " " + theShips[i]);
 					}
+
 					userinput = input.nextInt();
 					// updating the enemyboard
 					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsTaken(true);
@@ -158,7 +174,19 @@ public class Main {
 					String enemyShipId = enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId();
 					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setShipId(theShips[userinput-1]);
 					// add point to shipPoints
-					
+					ai.setMode(true); //enter target mode
+					//if this this also hit
+
+					/* if(ai.getFirstHit().coordPoint(ai.getFirstHit(), enemyBoard).getShipId().equals(enemyShipId)){
+						ai.setDirectionSet(true);
+						System.out.println("Current last hit " + ai.getHits().get(ai.getHits().size()-1));
+					} */
+
+					if(ai.getHits().size()>=2){
+						ai.setDirectionSet(true);
+					}
+	
+
 
 					ourHits++;
 
@@ -167,22 +195,37 @@ public class Main {
 
 					// if sunk
 					if (userinput == 2) {
-						// set all points of said enemyShip to sunk
+/* 						// set all points of said enemyShip to sunk
 						for(int i = 0; i<Constants.boardSize; i++){
 							for(int j = 0; j<Constants.boardSize; j++){
-								if(enemyBoard.getPoint(i,j).equals(enemyShipId)){
+								if(enemyBoard.getPoint(i,j).getShipId().equals(enemyShipId)){
 									enemyBoard.getPoint(i, j).setIsSunk(true);
 								}
 							}
-						}
+						} */
+						ai.resetVals();
+						System.out.println("Current direction is " + ai.getDirection());
+						ai.setMode(false);
 					} 
 
 					// if ai miss
 				} else {
 					// enemyBoard.getPoint(numcoord[0],numcoord[1]).setIsTaken(true));
 					ourMisses++;
+					if(ai.getDirectionSet()){
+						if(ai.getDirection()>1){
+							ai.getHits().add(ai.getFirstHit());
+							ai.setDirection(ai.getDirection()-2);
+						}else{
+							ai.setDirection(ai.getDirection()+2);
+						}
+					}else{
+						ai.setDirection(ai.getDirection()+1);
+					}
 
 				}
+				System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
+
 				enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 
 
