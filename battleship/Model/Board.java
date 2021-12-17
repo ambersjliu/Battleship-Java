@@ -51,10 +51,7 @@ public class Board {
                         System.out.print("M ");
                     }
                 }
-                else if(board.getPoint(rows, j).getIsTaken()){
-                    System.out.print("* ");
-                
-                } else {
+                else {
                     System.out.print("o ");
                 }
             }
