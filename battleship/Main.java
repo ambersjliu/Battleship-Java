@@ -177,11 +177,6 @@ public class Main {
 					ai.setMode(true); //enter target mode
 					//if this this also hit
 
-					/* if(ai.getFirstHit().coordPoint(ai.getFirstHit(), enemyBoard).getShipId().equals(enemyShipId)){
-						ai.setDirectionSet(true);
-						System.out.println("Current last hit " + ai.getHits().get(ai.getHits().size()-1));
-					} */
-
 					if(ai.getHits().size()>=2){
 						ai.setDirectionSet(true);
 					}
