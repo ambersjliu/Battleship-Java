@@ -33,8 +33,9 @@ public class Main {
 
 		System.out.println("complex (1) or simple (2) ai?");
 		int gameMode = input.nextInt(); //i havent figured out how to switch game modes yet...
-		SmartAI ai = new SmartAI();
+		//ok, screw it. im putting everything inside ai!
 
+		AI ai = new AI();
 		// set the ai
 
 		System.out.println("Who goes first? you (1) or ai (2)?");
@@ -136,7 +137,7 @@ public class Main {
 				enemyBoard.drawBoard(enemyBoard);
 
 				first = false;
-				Coordinate numcoord = ai.attack();
+				Coordinate numcoord = ai.getNextMove(gameMode);
 
 				System.out.println("Ai's turn!");
 
