@@ -278,6 +278,12 @@ public class AI {
         return hits;
     }
 
+    public ArrayList<Coordinate> getPastShots(){
+
+        return pastShots;
+    }
+   
+
 
 
    

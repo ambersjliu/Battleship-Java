@@ -1,7 +1,10 @@
 package battleship;
 
+import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+
 
 import battleship.Attack.*;
 import battleship.Model.Board;
@@ -23,12 +26,21 @@ public class Main {
 
         
 		// before game setup (menu)
-
-		// prompts user to load save or start a new game
-
 		
-
+		// prompts user to load save or start a new game
+	
 		Scanner input = new Scanner(System.in);
+
+
+		System.out.println("New game (1) or load? (2)");
+		int userLoad = input.nextInt();
+
+
+		SaveLoad s = new SaveLoad();
+		if (userLoad == 2){
+			System.out.println(s.Load());
+			
+		}
 
 
 		System.out.println("complex (1) or simple (2) ai?");
@@ -109,6 +121,7 @@ public class Main {
 					}
 					System.out.println(hitShipId + " has " + ships.get(hitShipId).getShipSurvivingPoints() + " points left.");
 					enemyHits++;
+					
 
 					// if sunk
 					if (ships.get(hitShipId).getShipSurvivingPoints() < 0){
@@ -125,7 +138,8 @@ public class Main {
 				ourBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 
 			}
-			// prompt user to save, or save and exit
+
+
 
 			// ai turn
 			if(firstMove == 2 || first == false){
@@ -186,6 +200,7 @@ public class Main {
 
 					ourHits++;
 
+
 					System.out.println("Not sunk(1) or has sunk(2)?");
 					userinput = input.nextInt();
 
@@ -223,13 +238,22 @@ public class Main {
 					}
 
 				}
-				System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
+				//System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
 
 				enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
 
 
 
 			}
+			// prompt user to save, or save and exit
+			System.out.println("Enter (1) to continue, (2) to save");
+			userLoad = input.nextInt(); 
+			if ( userLoad == 2){
+				s.Save(enemyMisses, ourMisses, ourMisses, ourMisses, null);
+				break;
+
+			}
+
 		} // end of while gameplay loop
 
 		System.out.println("\nYour total hits: " + enemyHits + "\nYour total misses: " + enemyMisses);
