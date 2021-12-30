@@ -1,5 +1,6 @@
 package battleship.Control;
 import battleship.Model.*;
+import battleship.Model.Point;
 import battleship.Attack.*;
 import battleship.UI.*;
 
@@ -56,13 +57,42 @@ public class GameController {
 	void attack(){
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
+		String attackResult = gameWindow.getAttackResult(ourAttackString);
+
+		System.out.println("Our AI attacks " + ourAttackString);
+
+		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
+		attackPoint.setIsHit(true);
+
+		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
+		if (attackResult.equals("Hit!")) {
+			attackPoint.setIsTaken(true);
+			String hitShip = gameWindow.getShipHit(); //get id of ship
+			attackPoint.setShipId(hitShip); //in BoardPanel i will add a condition where the button "mark" changes to be the ship initial :)
+			enemyStats.incrementTotalHit();
+		}else if(attackResult.equals("Sank!")){
+			attackPoint.setIsSunk(true);
+			attackPoint.setIsTaken(true);
+			String hitShip = gameWindow.getShipHit();
+			attackPoint.setShipId(hitShip);
+			enemyStats.incrementTotalHit();
+			enemyStats.incrementTotalSunk();
+		}else{
+			enemyStats.incrementTotalMiss();
+		}
+		if(enemyStats.getTotalHit()==Constants.hitsToWin){
+			gameWindow.popupDialog("We won!", "Good game! Press OK to restart.");
+		}
+
+		stage = 2;
+		
 
 	}
 
     void updateState() {
 		switch (stage) {
 		case 0:
-			//attack(); //call attack method
+			attack(); //call attack method
 			break;
 
 		case 2:

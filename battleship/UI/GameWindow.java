@@ -141,7 +141,7 @@ public class GameWindow {
 
 	}
 
-	public void refreshDarkBoard(Board enemyBoard) {
+	public void refreshEnemyBoard(Board enemyBoard) {
 		enemyBoardPanel.updateBoard(enemyBoard);
 	}
 
@@ -154,13 +154,13 @@ public class GameWindow {
 		getFrmBattleship().dispose(); // Destroy the JFrame object;
 	}
 
-	public void refreshLightStats(Stats ourStats) {
+	public void refreshOurStats(Stats ourStats) {
 		ourStatsPanel.setHitStats(ourStats.getTotalHit());
 		ourStatsPanel.setMissedStats(ourStats.getTotalMiss());
 		ourStatsPanel.setSunkStats(ourStats.getTotalSunk());
 	}
 
-	public void refreshDarkStats(Stats enemyStats) {
+	public void refreshEnemyStats(Stats enemyStats) {
 		enemyStatsPanel.setHitStats(enemyStats.getTotalHit());
 		enemyStatsPanel.setMissedStats(enemyStats.getTotalMiss());
 		enemyStatsPanel.setSunkStats(enemyStats.getTotalSunk());
