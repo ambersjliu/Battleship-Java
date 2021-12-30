@@ -4,18 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-
-import battleship.Control.GameController;
+import javax.swing.*;
+import battleship.Attack.*;
+import battleship.Control.*;
 import battleship.Model.*;
-import battleship.UI.*;
 
 public class GameWindow {
 
@@ -70,8 +62,8 @@ public class GameWindow {
 		JTabbedPane boardsPane = new JTabbedPane(JTabbedPane.TOP);
 
 		JPanel ourPanel = new JPanel();
-		boardsPane.addTab("Our board", null, ourPanel, null);
-		ourPanel.setLayout(new BorderLayout(0, 0));
+        boardsPane.addTab("Our board", null, ourPanel, null);
+        ourPanel.setLayout(new BorderLayout(0, 0));
 
 		ourBoardPanel = new BoardPanel(this.ourBoard, this.gameController, "Light");
 		ourPanel.add(ourBoardPanel, BorderLayout.CENTER);
@@ -93,11 +85,11 @@ public class GameWindow {
 		return boardsPane;
 	}
 
-	public BoardPanel getDarkBoardPanel() {
+	public BoardPanel getEnemyBoardPanel() {
 		return enemyBoardPanel;
 	}
 
-	public BoardPanel getLightBoardPanel() {
+	public BoardPanel getOurBoardPanel() {
 		return ourBoardPanel;
 	}
 
@@ -108,7 +100,7 @@ public class GameWindow {
 		JComboBox jcFirstMover = new JComboBox(whoMovesFirst);
 		JComboBox jcAILevel = new JComboBox(AIlevel);
 
-		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Pick an AI level:", jcAILevel };
+		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
@@ -143,7 +135,7 @@ public class GameWindow {
 		enemyBoardPanel.updateBoard(enemyBoard);
 	}
 
-	public void refreshLightBoard(Board ourBoard) {
+	public void refreshOurBoard(Board ourBoard) {
 		ourBoardPanel.updateBoard(ourBoard);
 	}
 
@@ -164,7 +156,7 @@ public class GameWindow {
 		enemyStatsPanel.setSunkStats(enemyStats.getTotalSunk());
 	}
 
-	public String getDarkAttackCoord() {
+	public String getEnemyAttackCoord() { 
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
 		JLabel lbl = new JLabel("Incoming attack coordinate");

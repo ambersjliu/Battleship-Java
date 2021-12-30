@@ -1,4 +1,4 @@
-package battleship;
+package battleship.ConsoleGame;
 
 import java.util.HashMap;
 import java.util.Scanner;
