@@ -120,15 +120,25 @@ public class GameWindow {
 	}
 
 	public String getAttackResult(String ourAttackCoordStr) {
-		String[] attackResults = { "Missed :-(", "Hit :-)", "Sink! :-))" };
+		String[] attackResults = { "Missed!", "Hit!", "Sank!" };
 
-        //Change so that if "hit", a new pop will appear with a ComboBox asking which one we hit.
+        //Change so that if "hit" or "sank", a new popup will appear with a ComboBox asking which one we hit.
 
 		JComboBox jcAttackResults = new JComboBox(attackResults);
 		Object objects[] = new Object[] { "Our AI attacks: ", ourAttackCoordStr, "Did we hit?", jcAttackResults };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Attack result", JOptionPane.DEFAULT_OPTION);
 
 		return jcAttackResults.getSelectedItem().toString();
+	}
+
+	public String getShipHit(){
+		String[] ships = {"Carrier","Battleship", "Cruiser", "Submarine", "Destroyer"};
+		JComboBox jcShipOptions = new JComboBox(ships);
+		Object objects[] = new Object[]{"Which ship was struck?", jcShipOptions};
+		JOptionPane.showConfirmDialog(frmBattleship, objects, "Attack result", JOptionPane.DEFAULT_OPTION);
+
+		return jcShipOptions.getSelectedItem().toString();
+
 	}
 
 	public void refreshDarkBoard(Board enemyBoard) {

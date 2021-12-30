@@ -15,6 +15,7 @@ public class GameController {
 	private int stage = 0;
 	private Coordinate ourAttackCoord, enemyAttackCoord;
 	private Stats ourStats, enemyStats;
+	private StartUpParams sup;
 
     private boolean currentGameOver = false;
 
@@ -29,7 +30,15 @@ public class GameController {
 
 		ai = new AI();
 
-		HashMap<String, Ship> ships = ai.placeShips(Constants.shipArr, ourBoard);		
+		Ship carrier = new Ship("Carrier", 5);
+		Ship battleship = new Ship("Battleship", 4);
+		Ship cruiser = new Ship("Cruiser", 3);
+		Ship submarine = new Ship("Submarine", 3);
+		Ship destroyer = new Ship("Destroyer", 2);
+	
+		Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer}; 
+
+		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);		
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
 		EventQueue.invokeLater(new Runnable() {
@@ -41,6 +50,13 @@ public class GameController {
 				}
 			}
 		});
+	}
+
+
+	void attack(){
+		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
+		String ourAttackString = ourAttack.coordFormat(ourAttack);
+
 	}
 
     void updateState() {
@@ -61,7 +77,7 @@ public class GameController {
 
 		while (true) { //loop that brings game back to initial state after game over
 			initialize(); //reset vals to 0
-			StartUpParams sup = gameWindow.getStartParams(); //get start up params (who goes first, etc) from gui
+			sup = gameWindow.getStartParams(); //get start up params (who goes first, etc) from gui
 			System.out.println("Start up params" + sup); //test
 			if (sup.doWeGoFirst())
 				stage = 0;

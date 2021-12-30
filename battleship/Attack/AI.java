@@ -20,7 +20,7 @@ public class AI {
     Random rand = new Random();
 
 
-    public Coordinate getNextMove(int gameMode){
+    public Coordinate getNextMove(int gameMode){ //for console
         if(gameMode == 1){
             System.out.println("You picked complex.");
             return attack();
@@ -29,6 +29,16 @@ public class AI {
             return randAttack();
         }
     } 
+
+    public Coordinate getNextMove(boolean gameMode){ //for GUI
+        if(gameMode == false){
+            System.out.println("You picked complex.");
+            return attack();
+        } else{
+            System.out.println("You picked simple.");
+            return randAttack();        
+        }
+    }
 
     //random attack
     public Coordinate randAttack() {
