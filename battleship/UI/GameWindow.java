@@ -70,7 +70,7 @@ public class GameWindow {
 		JTabbedPane boardsPane = new JTabbedPane(JTabbedPane.TOP);
 
 		JPanel ourPanel = new JPanel();
-		boardsPane.addTab("Light side", null, ourPanel, null);
+		boardsPane.addTab("Our board", null, ourPanel, null);
 		ourPanel.setLayout(new BorderLayout(0, 0));
 
 		ourBoardPanel = new BoardPanel(this.ourBoard, this.gameController, "Light");
@@ -80,7 +80,7 @@ public class GameWindow {
 		ourPanel.add(ourStatsPanel, BorderLayout.EAST);
 
 		JPanel enemyPanel = new JPanel();
-		boardsPane.addTab("Dark side", null, enemyPanel, null);
+		boardsPane.addTab("Your board", null, enemyPanel, null);
 		enemyPanel.setLayout(new BorderLayout(0, 0));
 
 		enemyStatsPanel = new StatsPanel();
@@ -103,12 +103,12 @@ public class GameWindow {
 
 	public StartUpParams getStartParams() {
 
-		String[] whoMovesFirst = { "Light", "Dark" };
+		String[] whoMovesFirst = { "Our AI", "Your AI" };
 		String[] AIlevel = { "Random", "Advanced" };
 		JComboBox jcFirstMover = new JComboBox(whoMovesFirst);
 		JComboBox jcAILevel = new JComboBox(AIlevel);
 
-		Object[] objects = new Object[] { "Who moves first", jcFirstMover, "AI level", jcAILevel };
+		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Pick an AI level:", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
@@ -130,8 +130,10 @@ public class GameWindow {
 	public String getAttackResult(String ourAttackCoordStr) {
 		String[] attackResults = { "Missed :-(", "Hit :-)", "Sink! :-))" };
 
+        //Change so that if "hit", a new pop will appear with a ComboBox asking which one we hit.
+
 		JComboBox jcAttackResults = new JComboBox(attackResults);
-		Object objects[] = new Object[] { "X-Wings, attack: ", ourAttackCoordStr, "Did we hit?", jcAttackResults };
+		Object objects[] = new Object[] { "Our AI attacks: ", ourAttackCoordStr, "Did we hit?", jcAttackResults };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Attack result", JOptionPane.DEFAULT_OPTION);
 
 		return jcAttackResults.getSelectedItem().toString();

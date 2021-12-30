@@ -67,10 +67,11 @@ public class BoardPanel extends JPanel{
 				if (p.getIsHit()){ //if point is hit
 					currentBtn.setBackground(p.getIsTaken() ? Color.RED : Color.WHITE); //if ship hit, make it red. otherwise, make it white
 					mark = "X";
-				}
-				else //nothing was hit
+                    //Adjust later so that if isTaken, "mark" should be a letter based on which ship is there (for clarity's sake...)
+				}else{ //nothing was hit
 					currentBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY); //only for viewing ships on our end...
 					mark = " ";
+                }
 				currentBtn.setText(mark);
 			}
 		}
