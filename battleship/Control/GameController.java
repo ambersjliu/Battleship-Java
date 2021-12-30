@@ -57,12 +57,12 @@ public class GameController {
 	void attack(){
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
-		String attackResult = gameWindow.getAttackResult(ourAttackString);
+		String attackResult = gameWindow.getAttackResult(ourAttackString); //GUI shows a popup prompting answer from user
 
-		System.out.println("Our AI attacks " + ourAttackString);
+		System.out.println("Our AI attacks " + ourAttackString); //print to console
 
-		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
-		attackPoint.setIsHit(true);
+		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn()); 
+		attackPoint.setIsHit(true); //either way the attacked point is hit
 
 		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
 		if (attackResult.equals("Hit!")) {
@@ -81,12 +81,25 @@ public class GameController {
 			enemyStats.incrementTotalMiss();
 		}
 		if(enemyStats.getTotalHit()==Constants.hitsToWin){
-			gameWindow.popupDialog("We won!", "Good game! Press OK to restart.");
+			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); //SHEEESH WE WIN
 		}
 
 		stage = 2;
 		
 
+	}
+
+	void recordAttack(){
+		String enemyAttack = gameWindow.getEnemyAttackCoord();
+		//convert the entered string into a Coord
+		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
+        int row = ((int) enemyAttack.charAt(0)) - 65;
+        Coordinate enemyAtkCoord = new Coordinate(row, col);
+
+		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
+		attackedPoint.setIsHit(true);
+
+		
 	}
 
     void updateState() {
