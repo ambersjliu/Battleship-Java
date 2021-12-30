@@ -28,17 +28,8 @@ public class GameController {
 		stage = 0;
 
 		ai = new AI();
-		Ship carrier = new Ship("Carrier", 5);
-		Ship battleship = new Ship("Battleship", 4);
-		Ship cruiser = new Ship("Cruiser", 3);
-		Ship submarine = new Ship("Submarine", 3);
-		Ship destroyer = new Ship("Destroyer", 2);
 
-		
-		boolean first = true;
-
-		Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer};
-		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);		
+		HashMap<String, Ship> ships = ai.placeShips(Constants.shipArr, ourBoard);		
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
 		EventQueue.invokeLater(new Runnable() {
