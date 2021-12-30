@@ -1,6 +1,7 @@
 package battleship;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import battleship.Attack.*;
@@ -9,27 +10,57 @@ import battleship.Model.*;
 
 
 
-public class SaveLoad {
+public class SaveLoad implements Serializable{
 
-    AI ai = new AI();
-    
-    Board ourBoard = new Board(Constants.boardSize);
-	Board enemyBoard = new Board(Constants.boardSize);
-    Board board = new Board(Constants.boardSize);
+    // AI ai = new AI();
+        Board ourBoard = new Board(Constants.boardSize);
+	    Board enemyBoard = new Board(Constants.boardSize);
 
-    public void Save(int enemyMisses, int enemyHits, int ourHits, int ourMisses, ArrayList<Coordinate> pastShots){
+        int enemyMisses=0;
+        int enemyHits = 0;
+		int ourHits = 0;
+		int ourMisses = 0;
+
+        ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();       
+        ArrayList<Coordinate> hits = new ArrayList<Coordinate>();  
+        ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();  
+
+        Ship carrier = new Ship("Carrier", 5);
+		Ship battleship = new Ship("Battleship", 4);
+		Ship cruiser = new Ship("Cruiser", 3);
+		Ship submarine = new Ship("Submarine", 3);
+		Ship destroyer = new Ship("Destroyer", 2);
+
+        Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer };
+
+
+    public void save(int enemyMisses, int enemyHits, int ourHits, int ourMisses, 
+    ArrayList<Coordinate> pastShots, ArrayList<Coordinate> hits, ArrayList<Coordinate> userHits, 
+    Ship [] shipArr, Ship carrier){
+
         try{
             FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
-
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
 
             save.writeObject(enemyMisses);
-            pastShots = ai.getPastShots();
+            save.writeObject(enemyHits);
+            save.writeObject(ourHits);
+            save.writeObject(ourMisses);
+           
             save.writeObject(pastShots);
+            save.writeObject(hits);
+            save.writeObject(userHits);
+
+            save.writeObject(shipArr);
+
+
+            // save.writeObject(carrier);
+            // save.writeObject(battleship);
+            // save.writeObject(crusier);
+            // save.writeObject(submarine);
+            // save.writeObject(destroyer);
             //save our ship placements
-            //save our pasthits
             //save time
-            //save player pastShots 
 
             save.close();
         }catch (Exception exc){
@@ -37,44 +68,39 @@ public class SaveLoad {
         }
     }
 
-    public int Load(){
-        int enemyMisses=0;
-        ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();
+
+    public int load(){
+             
 
         try{
             FileInputStream saveFile = new FileInputStream("SaveFile.sav");
             
             ObjectInputStream save = new ObjectInputStream(saveFile);
+        
             
             enemyMisses = (Integer) save.readObject();
-            pastShots = (ArrayList) save.readObject();
-            //load our past hits
-            //load other stats
+            enemyHits = (Integer)save.readObject();
+            ourHits = (Integer) save.readObject();
+            ourMisses = (Integer) save.readObject();
+
+            pastShots = (ArrayList<Coordinate>) save.readObject();
+            hits = (ArrayList<Coordinate>) save.readObject();
+            userHits = (ArrayList<Coordinate>) save.readObject();
+
+
+            shipArr = (Ship []) save.readObject();
+            // carrier = (Ship) save.readObject();
+            // battleship = (Ship) save.readObject();
+            // cruiser = (Ship) save.readObject();
+            // submarine = (Ship) save.readObject();
+            // destroyer = (Ship) save.readObject();
+
             //load timer
-            //load player pastShots
             //load our ship placements
 
-            //for loop to load the point status to draw the board
-            //if point = pastShots[i]
-                //if pastShots [i] = past hit
-                    //set point to is taken, and is hit
-                //else
-                    //set point to is taken
-
-                    // for(int rows = 0; rows < Constants.boardSize; rows++){
-                    //     for (int j = 0; j < 10; j++) {
-                    //         if (board.getPoint(rows, j)==pastShots.get(j).getRow()) {
-                    //             if(board.getPoint(rows, j).getIsTaken()) {
-                    //             System.out.print("X ");
-                    //             }else{
-                    //                 System.out.print("M ");
-                    //             }
-                    //         }
-                    //         else {
-                    //             System.out.print("o ");
-                    //         }
-                    //     }
-                    //     System.out.println();
+            // for (Coordinate pastShot : hits) {
+			// 	System.out.println(pastShot);
+			// }
 
             save.close();
 
@@ -85,4 +111,41 @@ public class SaveLoad {
         return enemyMisses;
 
     }
+
+    public ArrayList<Coordinate> getHits(){
+        return hits;
+    }
+
+    public ArrayList<Coordinate> getPastShots(){
+
+        return pastShots;
+    }
+    public int getEnemyMisses(){
+
+        return enemyMisses;
+    }
+    public int getEnemyHits(){
+        
+        return enemyHits;
+    }
+    public int getOurMisses(){
+        
+        return ourMisses;
+    }
+    public int getOurHits(){
+        
+        return ourHits;
+    }
+
+    public Ship[] getShipArr(){
+
+        return shipArr;
+    }
+
+
+    public ArrayList<Coordinate> getUserHits() {
+        return userHits;
+    }
+
+    
 }

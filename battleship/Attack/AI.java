@@ -278,10 +278,21 @@ public class AI {
         return hits;
     }
 
+    public void setHits(ArrayList<Coordinate> hits){
+        this.hits = hits;
+    }
+
+
     public ArrayList<Coordinate> getPastShots(){
 
         return pastShots;
     }
+
+    public void setPastShots(ArrayList<Coordinate> pastShots){
+        this.pastShots = pastShots;
+    }
+
+
    
 
 

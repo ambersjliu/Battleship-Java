@@ -1,8 +1,9 @@
 package battleship.Model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate implements Serializable{
 private int row;
 private int column;
 
@@ -11,6 +12,11 @@ private int column;
     public Coordinate(int row, int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public Coordinate(int[] coord){
+        this.row = coord[0];
+        this.column = coord[1];
     }
 
 

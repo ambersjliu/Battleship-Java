@@ -1,9 +1,10 @@
 package battleship.Model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Ship {
+public class Ship implements Serializable{
     private int shipLength;
     private String shipName;
     private Board board;
