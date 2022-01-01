@@ -8,4 +8,7 @@ public class Constants {
     public static String[] theShips= {"Carrier","BattleShip","Cruiser","Submarine","Destroyer"};
 
     public static int hitsToWin = 17;
+
+
+
 }
