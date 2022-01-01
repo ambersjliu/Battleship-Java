@@ -3,6 +3,7 @@ package battleship;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import battleship.Attack.*;
 import battleship.Model.*;
@@ -12,9 +13,9 @@ import battleship.Model.*;
 
 public class SaveLoad implements Serializable{
 
-    // AI ai = new AI();
-        Board ourBoard = new Board(Constants.boardSize);
-	    Board enemyBoard = new Board(Constants.boardSize);
+     //AI ai = new AI();
+
+        String saveName;
 
         int enemyMisses=0;
         int enemyHits = 0;
@@ -22,24 +23,35 @@ public class SaveLoad implements Serializable{
 		int ourMisses = 0;
 
         ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();       
-        ArrayList<Coordinate> hits = new ArrayList<Coordinate>();  
-        ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();  
+        ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();
+        ArrayList<Coordinate> aiHits = new ArrayList<Coordinate>();
 
+        
         Ship carrier = new Ship("Carrier", 5);
 		Ship battleship = new Ship("Battleship", 4);
 		Ship cruiser = new Ship("Cruiser", 3);
 		Ship submarine = new Ship("Submarine", 3);
 		Ship destroyer = new Ship("Destroyer", 2);
 
-        Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer };
+        ArrayList<Ship> shipsPlaced;
 
+        int gameMode;
+        ArrayList<Coordinate> hits = new ArrayList<Coordinate>();  
+        boolean mode = false;
+        boolean directionSet = false;
+        int direction = 0;
+        Coordinate firstHit;
 
-    public void save(int enemyMisses, int enemyHits, int ourHits, int ourMisses, 
-    ArrayList<Coordinate> pastShots, ArrayList<Coordinate> hits, ArrayList<Coordinate> userHits, 
-    Ship [] shipArr, Ship carrier){
+    public void save(String saveName, int enemyMisses, int enemyHits, int ourHits, int ourMisses, 
+    ArrayList<Coordinate> pastShots,  ArrayList<Coordinate> userHits, ArrayList<Coordinate> aiHits,
+     ArrayList<Ship> shipsPlaced, int gameMode, ArrayList<Coordinate> hits, boolean mode, boolean directionSet,
+     int direction, Coordinate firstHit){
 
         try{
-            FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
+
+            FileOutputStream saveFile = new FileOutputStream(saveName);
+
+            // FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
 
             save.writeObject(enemyMisses);
@@ -48,18 +60,22 @@ public class SaveLoad implements Serializable{
             save.writeObject(ourMisses);
            
             save.writeObject(pastShots);
-            save.writeObject(hits);
             save.writeObject(userHits);
+            save.writeObject(aiHits);
 
-            save.writeObject(shipArr);
+            save.writeObject(shipsPlaced);
+
+            save.writeObject(gameMode);
+            save.writeObject(hits);
+            save.writeObject(mode);
+            save.writeObject(directionSet);
+            save.writeObject(direction);
+            save.writeObject(firstHit);
+
+            System.out.println(firstHit.toString());
 
 
-            // save.writeObject(carrier);
-            // save.writeObject(battleship);
-            // save.writeObject(crusier);
-            // save.writeObject(submarine);
-            // save.writeObject(destroyer);
-            //save our ship placements
+    
             //save time
 
             save.close();
@@ -69,11 +85,15 @@ public class SaveLoad implements Serializable{
     }
 
 
-    public int load(){
+
+    public String load(){
              
 
         try{
-            FileInputStream saveFile = new FileInputStream("SaveFile.sav");
+            
+            FileInputStream saveFile = new FileInputStream(saveName);
+
+            // FileInputStream saveFile = new FileInputStream("SaveFile.sav");
             
             ObjectInputStream save = new ObjectInputStream(saveFile);
         
@@ -84,19 +104,24 @@ public class SaveLoad implements Serializable{
             ourMisses = (Integer) save.readObject();
 
             pastShots = (ArrayList<Coordinate>) save.readObject();
-            hits = (ArrayList<Coordinate>) save.readObject();
             userHits = (ArrayList<Coordinate>) save.readObject();
+            aiHits = (ArrayList<Coordinate>) save.readObject();
+
+            shipsPlaced = (ArrayList<Ship>) save.readObject();
+
+            gameMode = (Integer) save.readObject();
+            hits = (ArrayList<Coordinate>) save.readObject();
+            mode = (boolean) save.readObject();
+            directionSet =(boolean) save.readObject();
+            direction = (Integer) save.readObject();
+            firstHit = (Coordinate) save.readObject();
+
+            System.out.println(firstHit.toString());
 
 
-            shipArr = (Ship []) save.readObject();
-            // carrier = (Ship) save.readObject();
-            // battleship = (Ship) save.readObject();
-            // cruiser = (Ship) save.readObject();
-            // submarine = (Ship) save.readObject();
-            // destroyer = (Ship) save.readObject();
+
 
             //load timer
-            //load our ship placements
 
             // for (Coordinate pastShot : hits) {
 			// 	System.out.println(pastShot);
@@ -108,9 +133,23 @@ public class SaveLoad implements Serializable{
         catch(Exception exc){
             exc.printStackTrace();
         }
-        return enemyMisses;
+        String loadMessage = "Loading";
+        
+        return loadMessage;
 
     }
+
+
+    public String getSaveName(){
+
+        return saveName;
+    }
+
+    public void setSaveName(String saveName){
+        this.saveName = saveName;
+    }
+
+    //getters to get the info back to main or ai
 
     public ArrayList<Coordinate> getHits(){
         return hits;
@@ -137,15 +176,40 @@ public class SaveLoad implements Serializable{
         return ourHits;
     }
 
-    public Ship[] getShipArr(){
+    public ArrayList<Ship> getShipsPlaced(){
 
-        return shipArr;
+        return shipsPlaced;
     }
-
 
     public ArrayList<Coordinate> getUserHits() {
         return userHits;
     }
 
+    public ArrayList<Coordinate> getAiHits() {
+        return aiHits;
+    }
+
+
+    public int getGameMode(){
+        return gameMode;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public boolean getMode() {
+        return mode;
+    }
+
+    public boolean getDirectionSet() {
+        return directionSet;
+    }
+
+    public Coordinate getFirstHit() {
+        return firstHit;
+    }
     
+
+
 }
