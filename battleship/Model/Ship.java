@@ -1,12 +1,16 @@
 package battleship.Model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Ship {
+public class Ship implements Serializable{
     private int shipLength;
     private String shipName;
     private Board board;
+    private int startRow;
+    private int startCol;
+    private String orientation;
     private ArrayList<Coordinate> shipPoints = new ArrayList<Coordinate>();
 
     public Ship(String shipName, int shipLength){
@@ -18,6 +22,9 @@ public class Ship {
         this.shipLength = shipLength;
 		this.board = board;
 		this.shipName = shipName;
+        this.startRow = startRow;
+        this.startCol = startCol;
+        this.orientation = orientation;
 
         if(orientation.equals("DOWN")){
 			for (int i = 0; i < shipLength; i++) {
@@ -49,11 +56,11 @@ public class Ship {
         return shipPoints;
     }
 
-/*     public void printShipPoints(){
-        for(int i = 0; i<shipLength; i++){
-            System.out.println(Arrays.toString(shipPoints.get(i)));
-        }
-    } */
+//    public void printShipPoints(){
+//         for(int i = 0; i<shipLength; i++){
+//             System.out.println(Arrays.toString(shipPoints.get(i)));
+//         }
+//     } 
 
     public int getShipLength(){
         return shipLength;
@@ -70,6 +77,20 @@ public class Ship {
     public void setShipName(String name){
         shipName  = name;
     }
+
+    public int getStartRow(){
+        return startRow;
+    }
+    public int getStartCol(){
+        return startCol;
+    }
+    public String getStartOrient(){
+        return orientation;
+    }
+
+    
+
+
 
 	public int getShipSurvivingPoints() {
 		int sum = 0;

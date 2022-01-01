@@ -1,6 +1,8 @@
 package battleship.Model;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable{
     private boolean isTaken;
     private boolean isHit;
     private String shipId;

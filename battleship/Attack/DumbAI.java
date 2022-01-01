@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 public class DumbAI extends AI{
-    //pain, wanted to test github
+    
     Random rand = new Random();
 
     public Coordinate attack() {
