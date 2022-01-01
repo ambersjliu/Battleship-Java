@@ -110,6 +110,7 @@ public class SmartAI extends AI {
 
     public Coordinate attack(){
         if(!mode){
+            
             return hunt();
         }else{
             return target();
