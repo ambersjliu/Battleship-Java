@@ -16,8 +16,12 @@ public class AI {
     protected boolean directionSet = false;
     protected Coordinate firstHit = new Coordinate(-1, -1);
     protected ArrayList<Coordinate> hits = new ArrayList<Coordinate>();
+    protected HashMap<String, Ship> shipDict;
 
     Random rand = new Random();
+
+
+
 
 
     public Coordinate getNextMove(int gameMode){ //for console
@@ -239,6 +243,23 @@ public class AI {
         }
         return true;
     }
+
+
+    //determine whether we got hit or not
+    public AttackResults getEnemyAttackResult(Board board, Coordinate enemyAttackCoord) {
+		Point enemyAttackPoint = board.getPoint(enemyAttackCoord.getRow(), enemyAttackCoord.getColumn());
+		if (!enemyAttackPoint.getIsTaken())
+			return new AttackResults(null, "Miss");
+
+		String hitShipName = enemyAttackPoint.getShipId();
+		Ship hitShip = shipDict.get(hitShipName);
+
+		if (hitShip.checkIfSunk(hitShipName, shipDict))
+			return new AttackResults(hitShipName, "Sink");
+		else
+			return new AttackResults(hitShipName, "Hit");
+	}
+
 
     //setters, getters for hunt and target ai...
 

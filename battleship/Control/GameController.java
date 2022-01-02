@@ -98,7 +98,29 @@ public class GameController {
 
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true);
+		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
+		if(enemyAttackResult.getResult()=="Hit"){
+			ourStats.incrementTotalHit();
+			gameWindow.popupDialog("Ouch..." , "You hit our " + enemyAttackResult.getShipName());
+		}else if(enemyAttackResult.getResult()=="Sink"){
+			ourStats.incrementTotalHit();
+			ourStats.incrementTotalSunk();
+			gameWindow.popupDialog("Oh no!", "You sank our" + enemyAttackResult.getShipName());
+		}else{
+			ourStats.incrementTotalMiss();
+			gameWindow.popupDialog("Phew!", "Missed!");
+		}
 
+		gameWindow.refreshOurBoard(ourBoard);
+		gameWindow.refreshOurStats(ourStats);
+
+		if(ourStats.getTotalHit()==Constants.hitsToWin){
+			gameWindow.popupDialog("Oh dear...", "Looks like we've lost! Press OK to restart.");
+			//gamewindow destroy?
+			currentGameOver =  true;
+		}
+		
+		stage = 0;
 		
 	}
 
