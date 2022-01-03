@@ -62,7 +62,7 @@ public class Main {
 		boolean first = true;
 
 		Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer};
-		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);
+		ai.placeShips(ourBoard);
 
 		ai.resetVals();
 
@@ -175,7 +175,7 @@ public class Main {
 					//String enemyShipId = enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getShipId();
 					enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setShipId(theShips[userinput-1]);
 					// add point to shipPoints
-					ai.setMode(true); //enter target mode
+					ai.setTargetMode(true); //enter target mode
 					//if this this also hit
 
 					if(ai.getHits().size()>=2){
@@ -201,7 +201,7 @@ public class Main {
 						} */
 						ai.resetVals();
 						System.out.println("Current direction is " + ai.getDirection());
-						ai.setMode(false);
+						ai.setTargetMode(false);
 					} 
 
 					// if ai miss
@@ -209,7 +209,7 @@ public class Main {
 					// enemyBoard.getPoint(numcoord[0],numcoord[1]).setIsTaken(true));
 					ourMisses++;
 					
-					if(ai.getMode()){ //ONLY if in hunt mode! 
+					if(ai.isTargetMode()){ //ONLY if in hunt mode! 
 						if(ai.getDirectionSet()){
 							if(ai.getDirection()>1){ 
 								ai.getHits().add(ai.getFirstHit());

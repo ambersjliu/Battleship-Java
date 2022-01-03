@@ -3,7 +3,7 @@ package battleship.Model;
 public class AttackResults {
 
 	private String shipName;
-	private String result;
+	private String result; //"hit" or "miss" or "sink"
 
 	public AttackResults() {
 	}

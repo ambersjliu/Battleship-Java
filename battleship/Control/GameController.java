@@ -1,4 +1,5 @@
 package battleship.Control;
+
 import battleship.Model.*;
 import battleship.Model.Point;
 import battleship.Attack.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 
 public class GameController {
 
-    private GameWindow gameWindow;
+	private GameWindow gameWindow;
 	private Board ourBoard;
 	private Board enemyBoard;
 	private AI ai;
@@ -18,11 +19,9 @@ public class GameController {
 	private Stats ourStats, enemyStats;
 	private StartUpParams sup;
 
-    private boolean currentGameOver = false;
+	private boolean currentGameOver = false;
 
-
-
-    void initialize() {
+	void initialize() {
 		ourBoard = new Board(Constants.boardSize);
 		enemyBoard = new Board(Constants.boardSize);
 		ourStats = new Stats(0, 0, 0);
@@ -31,15 +30,8 @@ public class GameController {
 
 		ai = new AI();
 
-		Ship carrier = new Ship("Carrier", 5);
-		Ship battleship = new Ship("Battleship", 4);
-		Ship cruiser = new Ship("Cruiser", 3);
-		Ship submarine = new Ship("Submarine", 3);
-		Ship destroyer = new Ship("Destroyer", 2);
-	
-		Ship[] shipArr = new Ship[] { carrier, battleship, cruiser, submarine, destroyer}; 
+		ai.placeShips(ourBoard);
 
-		HashMap<String, Ship> ships = ai.placeShips(shipArr, ourBoard);		
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
 		EventQueue.invokeLater(new Runnable() {
@@ -53,60 +45,78 @@ public class GameController {
 		});
 	}
 
-
-	void attack(){
+	void attack() {
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
-		String attackResult = gameWindow.getAttackResult(ourAttackString); //GUI shows a popup prompting answer from user
+		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from
+																			// user
 
-		System.out.println("Our AI attacks " + ourAttackString); //print to console
+		System.out.println("Our AI attacks " + ourAttackString); // print to console
 
-		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn()); 
-		attackPoint.setIsHit(true); //either way the attacked point is hit
+		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
+		attackPoint.setIsHit(true); // either way the attacked point is hit
 
 		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
 		if (attackResult.equals("Hit!")) {
 			attackPoint.setIsTaken(true);
-			String hitShip = gameWindow.getShipHit(); //get id of ship
-			attackPoint.setShipId(hitShip); //in BoardPanel i will add a condition where the button "mark" changes to be the ship initial :)
+			ai.setTargetMode(true);
+			ai.setEndOfCurrentDirection(false);
+
+			if (ai.getHits().size() == 0) {
+				ai.setFirstHit(ourAttack);
+				ai.getHits().add(ourAttack);
+			} else {
+				ai.setDirectionSet(true);
+				ai.getHits().add(ourAttack);
+			}
+			String hitShip = gameWindow.getShipHit(); // get id of ship
+			attackPoint.setShipId(hitShip); // in BoardPanel i will add a condition where the button "mark" changes to
+											// be the ship initial :)
 			enemyStats.incrementTotalHit();
-		}else if(attackResult.equals("Sank!")){
+		} else if (attackResult.equals("Sank!")) {
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
 			attackPoint.setShipId(hitShip);
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
-		}else{
+			ai.resetVals();
+		} else { // Missed
 			enemyStats.incrementTotalMiss();
+			if (ai.isTargetMode()) {
+				ai.setEndOfCurrentDirection(true);
+			}
 		}
-		if(enemyStats.getTotalHit()==Constants.hitsToWin){
-			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); //SHEEESH WE WIN
+		gameWindow.refreshEnemyStats(enemyStats);
+		gameWindow.refreshEnemyBoard(enemyBoard);
+
+		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
+			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); // SHEEESH WE WIN
 		}
 
 		stage = 2;
-		
 
 	}
 
-	void recordAttack(){
-		String enemyAttack = gameWindow.getEnemyAttackCoord();
-		//convert the entered string into a Coord
+	void recordAttack() {
+		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
+		System.out.println(enemyAttack);
+		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
-        int row = ((int) enemyAttack.charAt(0)) - 65;
-        Coordinate enemyAtkCoord = new Coordinate(row, col);
-
+		int row = ((int) enemyAttack.charAt(0)) - 65;
+		Coordinate enemyAtkCoord = new Coordinate(row, col);
+		System.out.println(enemyAtkCoord.toString());
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
-		if(enemyAttackResult.getResult()=="Hit"){
+		if (enemyAttackResult.getResult() == "Hit") {
 			ourStats.incrementTotalHit();
-			gameWindow.popupDialog("Ouch..." , "You hit our " + enemyAttackResult.getShipName());
-		}else if(enemyAttackResult.getResult()=="Sink"){
+			gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
+		} else if (enemyAttackResult.getResult() == "Sink") {
 			ourStats.incrementTotalHit();
 			ourStats.incrementTotalSunk();
-			gameWindow.popupDialog("Oh no!", "You sank our" + enemyAttackResult.getShipName());
-		}else{
+			gameWindow.popupDialog("Oh no!", "You sank our" + enemyAttackResult.getShipName() + "!");
+		} else {
 			ourStats.incrementTotalMiss();
 			gameWindow.popupDialog("Phew!", "Missed!");
 		}
@@ -114,43 +124,43 @@ public class GameController {
 		gameWindow.refreshOurBoard(ourBoard);
 		gameWindow.refreshOurStats(ourStats);
 
-		if(ourStats.getTotalHit()==Constants.hitsToWin){
+		if (ourStats.getTotalHit() == Constants.hitsToWin) {
 			gameWindow.popupDialog("Oh dear...", "Looks like we've lost! Press OK to restart.");
-			//gamewindow destroy?
-			currentGameOver =  true;
+			// gamewindow destroy?
+			currentGameOver = true;
 		}
-		
+
 		stage = 0;
-		
+
 	}
 
-    void updateState() {
+	void updateState() {
 		switch (stage) {
-		case 0:
-			attack(); //call attack method
-			break;
+			case 0:
+				attack(); // call attack method
+				break;
 
-		case 2:
-			//recordAttack(); //call enemy attack method
-			break;
-		default:
-			break;
+			case 2:
+				recordAttack(); // call enemy attack method
+				break;
+			default:
+				break;
 		}
 	}
 
-    public void startGame() {
+	public void startGame() {
 
-		while (true) { //loop that brings game back to initial state after game over
-			initialize(); //reset vals to 0
-			sup = gameWindow.getStartParams(); //get start up params (who goes first, etc) from gui
-			System.out.println("Start up params" + sup); //test
+		while (true) { // loop that brings game back to initial state after game over
+			initialize(); // reset vals to 0
+			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
+			System.out.println("Start up params" + sup); // test
 			if (sup.doWeGoFirst())
 				stage = 0;
 			else
 				stage = 2;
-			currentGameOver = false; 
-			while (!currentGameOver) { //while no one has won
-				updateState(); //update state will switch between two stages
+			currentGameOver = false;
+			while (!currentGameOver) { // while no one has won
+				updateState(); // update state will switch between two stages
 			}
 		}
 	}
