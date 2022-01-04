@@ -18,6 +18,11 @@ public class StartUpParams {
 		return randomAIPicked;
 	}
 
+	public void setisrandomAIPicked(boolean randomAiPicked) {
+		this.randomAIPicked = randomAiPicked;
+	}
+
+
 	@Override
 	public String toString() {
 		return "StartUpParams [weGoFirst=" + weGoFirst + ", randomAIPicked=" + randomAIPicked + "]";

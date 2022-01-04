@@ -1,7 +1,8 @@
 package battleship.Model;
 
+import java.io.Serializable;
 
-public class Stats {
+public class Stats implements Serializable{
 	private int totalHit;
 	private int totalMiss;
 	private int totalSunk;

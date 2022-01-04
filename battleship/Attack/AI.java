@@ -20,6 +20,7 @@ public class AI {
     private Coordinate firstHit = new Coordinate(-1, -1);
     private ArrayList<Coordinate> hits = new ArrayList<Coordinate>();
     private HashMap<String, Ship> shipDict;
+    private ArrayList<Ship> shipsPlaced = new ArrayList<Ship>();
     private boolean endOfCurrentDirection;
 
     public Board getEnemyBoard() {
@@ -240,7 +241,7 @@ public class AI {
     }
 
     // ship placement methods
-    public void placeShips(Board board) {
+    public void placeShips(Board board, boolean load) {
 
         Ship carrier = new Ship("Carrier", 5);
         Ship battleship = new Ship("Battleship", 4);
@@ -270,9 +271,22 @@ public class AI {
                         Constants.orientation[orientation]);
             }
 
-            Ship newShip = new Ship(board, shipArr[i].getShipName(), shipArr[i].getShipLength(),
-                    startRow, startCol, Constants.orientation[orientation]);
-            shipDict.put(shipArr[i].getShipName(), newShip);
+            if (load == false){
+                Ship newShip = new Ship(board, shipArr[i].getShipName(), shipArr[i].getShipLength(),
+                        startRow, startCol, Constants.orientation[orientation]);
+                shipDict.put(shipArr[i].getShipName(), newShip);
+
+                shipsPlaced.add(newShip);
+            }
+            else{
+                Ship newShip = new Ship(board, shipsPlaced.get(i).getShipName(), shipsPlaced.get(i).getShipLength(),
+                    shipsPlaced.get(i).getStartRow(), shipsPlaced.get(i).getStartCol(),
+                    shipsPlaced.get(i).getStartOrient());
+
+                shipDict.put(shipsPlaced.get(i).getShipName(), newShip);
+
+
+            }
         }
     }
 
@@ -365,5 +379,17 @@ public class AI {
     public ArrayList<Coordinate> getHits() {
         return hits;
     }
+
+    //methods for loading and saving
+
+    public ArrayList<Ship> getShipsPlaced(){
+        return shipsPlaced;
+    }
+
+    public void setShipsPlaced(ArrayList<Ship> shipsPlaced){
+        this.shipsPlaced = shipsPlaced;
+    }
+
+
 
 }

@@ -3,8 +3,6 @@ package battleship.UI;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
@@ -28,7 +26,6 @@ public class GameWindow implements ActionListener{
 	private JTabbedPane boardsPane;
 
 	Watch watch;
-	SaveLoad s;
 
 	/**
 	 * Create the application.
@@ -62,9 +59,7 @@ public class GameWindow implements ActionListener{
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
-		// GridBagConstraints c = new GridBagConstraints();
 
-		s = new SaveLoad();
 		saveButton = new JButton("Save");
 		loadButton = new JButton("Load");
 
@@ -80,6 +75,7 @@ public class GameWindow implements ActionListener{
 
 		//timer 
 		watch = new Watch();
+
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton);
@@ -88,9 +84,6 @@ public class GameWindow implements ActionListener{
 		// titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
 		// topPanel.add(titleLabel);
 		
-
-
-
 		return topPanel;
 	}
 
@@ -236,11 +229,12 @@ public class GameWindow implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==saveButton) {
-			s.save();
+			this.gameController.saveGame();
 
 		}
 		if(e.getSource()==loadButton) {
-			s.load();
+			this.gameController.loadGame();
+
 
 		}
 

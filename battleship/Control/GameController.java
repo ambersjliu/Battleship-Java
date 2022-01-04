@@ -2,11 +2,11 @@ package battleship.Control;
 
 import battleship.Model.*;
 import battleship.Model.Point;
+import battleship.SaveLoad;
 import battleship.Attack.*;
 import battleship.UI.*;
 
 import java.util.*;
-// import java.util.Timer;
 import javax.swing.*;
 import javax.swing.Timer;
 
@@ -19,12 +19,15 @@ public class GameController {
 	private Board enemyBoard;
 	private AI ai;
 	private int stage = 0;
-	private Coordinate ourAttackCoord, enemyAttackCoord;
+	private Coordinate ourAttackCoord, ourHitCoord, enemyAttackCoord;
+	private ArrayList<Coordinate> userHits, aiHits;
 	private Stats ourStats, enemyStats;
+	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
 	private Watch watch;
 	private Timer timer;
 
+	private boolean loadGame = false;
 	private boolean currentGameOver = false;
 
 	void initialize() {
@@ -37,10 +40,15 @@ public class GameController {
 
 		ai = new AI();
 
-		ai.placeShips(ourBoard);
+		ai.placeShips(ourBoard,loadGame);
 
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
+		ourStatsPanel = new StatsPanel();
+		enemyStatsPanel = new StatsPanel();
+
+		userHits = new ArrayList<Coordinate>();
+		aiHits = new ArrayList<Coordinate>();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -81,6 +89,8 @@ public class GameController {
 			attackPoint.setShipId(hitShip); // in BoardPanel i will add a condition where the button "mark" changes to
 											// be the ship initial :)
 			enemyStats.incrementTotalHit();
+			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
+
 		} else if (attackResult.equals("Sank!")) {
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
@@ -88,9 +98,14 @@ public class GameController {
 			attackPoint.setShipId(hitShip);
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
+			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
+			enemyStatsPanel.setMissedStats(enemyStats.getTotalSunk());
 			ai.resetVals();
+
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
+			enemyStatsPanel.setMissedStats(enemyStats.getTotalMiss());
+
 			if (ai.isTargetMode()) {
 				ai.setEndOfCurrentDirection(true);
 			}
@@ -117,15 +132,20 @@ public class GameController {
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
+		
 		if (enemyAttackResult.getResult() == "Hit") {
 			ourStats.incrementTotalHit();
+			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
 			gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
 		} else if (enemyAttackResult.getResult() == "Sink") {
 			ourStats.incrementTotalHit();
 			ourStats.incrementTotalSunk();
+			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
+			ourStatsPanel.setMissedStats(ourStats.getTotalSunk());
 			gameWindow.popupDialog("Oh no!", "You sank our" + enemyAttackResult.getShipName() + "!");
 		} else {
 			ourStats.incrementTotalMiss();
+			ourStatsPanel.setMissedStats(ourStats.getTotalMiss());
 			gameWindow.popupDialog("Phew!", "Missed!");
 		}
 
@@ -176,6 +196,42 @@ public class GameController {
 			}
 		}
 	}
+
+	SaveLoad s = new SaveLoad();
+	String saveName = "save1";
+
+	public void saveGame(){
+		s.save(saveName, stage, ourStats, enemyStats,
+        ai.getPastShots(),aiHits,userHits,
+        ai.getShipsPlaced(),
+        sup.israndomAIPicked(), ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
+        ai.getDirection(), ai.getFirstHit());
+
+		System.out.println(enemyStats.getTotalMiss());
+	}
+
+	public void loadGame(){
+
+		loadGame = true;
+		s.load();
+
+		stage = s.getStage();
+
+		ourStats = s.getOurStats();
+		enemyStats = s.getEnmeyStats();
+
+		ourBoard = new Board(Constants.boardSize); //wipes out current boards
+		enemyBoard = new Board(Constants.boardSize);
+
+		ai.setShipsPlaced(s.getShipsPlaced());
+		ai.placeShips(ourBoard, loadGame);
+
+		gameWindow.refreshOurBoard(ourBoard);
+		gameWindow.refreshOurStats(ourStats);
+
+		System.out.println(enemyStats.getTotalMiss());
+	}
+
 
 	
 
