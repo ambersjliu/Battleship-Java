@@ -3,21 +3,32 @@ package battleship.UI;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.*;
+
+import battleship.SaveLoad;
 import battleship.Attack.*;
 import battleship.Control.*;
 import battleship.Model.*;
 
-public class GameWindow {
+import java.awt.event.*;
+import java.awt.*;
+
+
+public class GameWindow implements ActionListener{
 
 	private JFrame frmBattleship;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private GameController gameController;
 	private Board ourBoard, enemyBoard;
 	private BoardPanel enemyBoardPanel, ourBoardPanel;
-	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn;
+	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
+
+ 	Watch watch;
+ 	SaveLoad s;
 
 	/**
 	 * Create the application.
@@ -51,10 +62,35 @@ public class GameWindow {
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
+		GridBagConstraints c = new GridBagConstraints();
 
+		s = new SaveLoad();
+		saveButton = new JButton("Save");
+		loadButton = new JButton("Load");
+
+		saveButton.setBounds(400,20,140,40);
+		saveButton.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
+		saveButton.setFocusable(false);
+		saveButton.addActionListener(this);
+
+		loadButton.setBounds(400,20,140,40);
+		loadButton.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
+		loadButton.setFocusable(false);
+		loadButton.addActionListener(this);
+
+		//timer 
+ 		watch = new Watch();
+		topPanel.add(watch.getTimeLabel());
+		topPanel.add(saveButton);
+		topPanel.add(loadButton); 
+/* 
 		JLabel titleLabel = new JLabel("May the Force be with you! ");
 		titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
-		topPanel.add(titleLabel);
+		topPanel.add(titleLabel); */
+		
+
+
+
 		return topPanel;
 	}
 
@@ -103,6 +139,8 @@ public class GameWindow {
 		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
+/* 		watch.start();
+ */
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
 
 	}
@@ -191,6 +229,21 @@ public class GameWindow {
 			}
 		}
 		return enemyAttackCoordStr;
+	}
+
+
+
+	@Override
+    public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==saveButton) {
+			s.save();
+
+		}
+		if(e.getSource()==loadButton) {
+			s.load();
+
+		}
+
 	}
 
 }
