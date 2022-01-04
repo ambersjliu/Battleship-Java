@@ -6,6 +6,10 @@ import battleship.Attack.*;
 import battleship.UI.*;
 
 import java.util.*;
+// import java.util.Timer;
+import javax.swing.*;
+import javax.swing.Timer;
+
 import java.awt.*;
 
 public class GameController {
@@ -18,10 +22,13 @@ public class GameController {
 	private Coordinate ourAttackCoord, enemyAttackCoord;
 	private Stats ourStats, enemyStats;
 	private StartUpParams sup;
+	private Watch watch;
+	private Timer timer;
 
 	private boolean currentGameOver = false;
 
 	void initialize() {
+
 		ourBoard = new Board(Constants.boardSize);
 		enemyBoard = new Board(Constants.boardSize);
 		ourStats = new Stats(0, 0, 0);
@@ -33,6 +40,7 @@ public class GameController {
 		ai.placeShips(ourBoard);
 
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
+
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -154,6 +162,10 @@ public class GameController {
 			initialize(); // reset vals to 0
 			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
 			System.out.println("Start up params" + sup); // test
+			
+			// timer = watch.getTimer();
+			// watch.start();
+			
 			if (sup.doWeGoFirst())
 				stage = 0;
 			else
@@ -164,4 +176,7 @@ public class GameController {
 			}
 		}
 	}
+
+	
+
 }
