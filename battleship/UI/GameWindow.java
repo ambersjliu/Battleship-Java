@@ -83,11 +83,7 @@ public class GameWindow implements ActionListener{
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton); 
-/* 
-		JLabel titleLabel = new JLabel("May the Force be with you! ");
-		titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
-		topPanel.add(titleLabel); */
-		
+
 
 
 
@@ -176,6 +172,12 @@ public class GameWindow implements ActionListener{
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Attack result", JOptionPane.DEFAULT_OPTION);
 
 		return jcShipOptions.getSelectedItem().toString();
+
+	}
+
+	public String getUsername(){
+		String user = JOptionPane.showInputDialog(frmBattleship, "Enter a username: ", "Username", JOptionPane.DEFAULT_OPTION);
+		return user;
 
 	}
 
