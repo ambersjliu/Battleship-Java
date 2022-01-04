@@ -7,7 +7,7 @@ import java.util.Random;
 import javax.lang.model.util.ElementScanner6;
 
 import battleship.Model.*;
-import javafx.scene.layout.CornerRadii;
+//import javafx.scene.layout.CornerRadii;
 
 public class AI {
     private Board enemyBoard;
