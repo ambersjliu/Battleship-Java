@@ -18,6 +18,8 @@ public class StartUpParams {
 		return randomAIPicked;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "StartUpParams [weGoFirst=" + weGoFirst + ", randomAIPicked=" + randomAIPicked + "]";

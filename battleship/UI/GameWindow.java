@@ -47,7 +47,7 @@ public class GameWindow implements ActionListener{
 		setFrmBattleship(new JFrame());
 		getFrmBattleship().setTitle("BattleShip");
 		getFrmBattleship().setResizable(false);
-		getFrmBattleship().setBounds(100, 100, 640, 480);
+		getFrmBattleship().setBounds(200, 200, 640, 480);
 		getFrmBattleship().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmBattleship().setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 		getFrmBattleship().getContentPane().setLayout(new BorderLayout(0, 0));

@@ -1,15 +1,19 @@
 package battleship.UI;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.net.*;
+import battleship.Control.*;
 
 
-public class Intro extends JFrame{
-    JFrame introFrame;
-    Image bgImg;
-    ImageIcon bg;
-    JButton startButton;
+public class Intro{
+    private JFrame introFrame;
+    private Image bgImg;
+    private ImageIcon bg;
+    private JButton startButton;
+    private boolean closeWindow;
+
 
     public void close(){
         introFrame.setVisible(false);
@@ -26,7 +30,6 @@ public class Intro extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        drawIntro();
 
     }
 
@@ -37,12 +40,12 @@ public class Intro extends JFrame{
 
         //add a listener to the button: when clicked, close the frame.
 
- 
+        closeWindow = false;
 
         introFrame = new JFrame();
         introFrame.setTitle("Battleship");
         introFrame.setResizable(false);
-        introFrame.setBounds(100, 100, 640, 480);
+        introFrame.setBounds(200, 200, 640, 480);
 		introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel bgLabel = new JLabel();
@@ -56,6 +59,14 @@ public class Intro extends JFrame{
 		startButton.setFont(new Font("Arial", Font.BOLD, 20));
         startButton.setBounds(270, 300, 100, 30);
 
+        startButton.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                close();
+                
+		    GameController gameController = new GameController();
+		    gameController.startGame();
+            } 
+          } );
 
         introFrame.getContentPane().add(startButton);
 
@@ -65,6 +76,10 @@ public class Intro extends JFrame{
 
 
 
+    }
+
+    public boolean getIntroClosed(){
+        return closeWindow;
     }
 
 }
