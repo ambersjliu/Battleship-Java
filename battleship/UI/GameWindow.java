@@ -25,7 +25,12 @@ public class GameWindow implements ActionListener{
 	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
 
+<<<<<<< HEAD
 	Watch watch;
+=======
+ 	Watch watch;
+ 	SaveLoad s;
+>>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 
 	/**
 	 * Create the application.
@@ -59,6 +64,10 @@ public class GameWindow implements ActionListener{
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
+<<<<<<< HEAD
+=======
+		GridBagConstraints c = new GridBagConstraints();
+>>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 
 		saveButton = new JButton("Save");
 		loadButton = new JButton("Load");
@@ -74,15 +83,19 @@ public class GameWindow implements ActionListener{
 		loadButton.addActionListener(this);
 
 		//timer 
+<<<<<<< HEAD
 		watch = new Watch();
 
+=======
+ 		watch = new Watch();
+>>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
-		topPanel.add(loadButton);
-
-		// JLabel titleLabel = new JLabel("May the Force be with you! ");
-		// titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
-		// topPanel.add(titleLabel);
+		topPanel.add(loadButton); 
+/* 
+		JLabel titleLabel = new JLabel("May the Force be with you! ");
+		titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
+		topPanel.add(titleLabel); */
 		
 		return topPanel;
 	}
@@ -132,8 +145,8 @@ public class GameWindow implements ActionListener{
 		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
-		watch.start();
-
+/* 		watch.start();
+ */
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
 
 	}

@@ -21,7 +21,8 @@ public class Watch implements ActionListener{
 
 
 	//does the ticking 
-	Timer timer = new Timer(1000, new ActionListener() {
+	
+	public Timer timer = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
 
@@ -39,7 +40,7 @@ public class Watch implements ActionListener{
 	});
 
 	// sets the initial timer gui
-	Watch(){
+	public Watch(){
 
 		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
 		timeLabel.setBounds(200,40,120,60);
@@ -48,7 +49,7 @@ public class Watch implements ActionListener{
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-		// start();
+		start();
 	
 	}
 
@@ -80,14 +81,14 @@ public class Watch implements ActionListener{
 	}
     
 	public JLabel getTimeLabel(){
-		// start();
+		start();
 		return timeLabel;
 	}
 
 	public Timer getTimer(){
 		return timer;
 	}
-}
+} 
 
     
 

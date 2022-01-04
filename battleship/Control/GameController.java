@@ -24,8 +24,8 @@ public class GameController {
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
-	private Watch watch;
-	private Timer timer;
+ 	private Watch watch;
+ 	private Timer timer;
 
 	private boolean loadGame = false;
 	private boolean currentGameOver = false;
@@ -183,8 +183,9 @@ public class GameController {
 			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
 			System.out.println("Start up params" + sup); // test
 			
-			// timer = watch.getTimer();
-			// watch.start();
+			watch = new Watch();
+			timer = watch.getTimer();
+			watch.start();
 			
 			if (sup.doWeGoFirst())
 				stage = 0;
