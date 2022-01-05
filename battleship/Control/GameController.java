@@ -24,8 +24,7 @@ public class GameController {
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
- 	private Watch watch;
- 	private Timer timer;
+
 
 	private boolean loadGame = false;
 	private boolean currentGameOver = false;
@@ -187,10 +186,6 @@ public class GameController {
 			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
 			System.out.println("Start up params" + sup); // test
 			
-			watch = new Watch();
-			timer = watch.getTimer();
-			watch.start();
-			
 			if (sup.doWeGoFirst())
 				stage = 0;
 			else
@@ -206,7 +201,12 @@ public class GameController {
 	String saveName = "save1";
 
 	public void saveGame(){
-		save.save(saveName, stage, ourStats, enemyStats,
+
+		//open save window
+		//save or save and exit?
+		// watch.stop();
+
+		save.save(saveName, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
         ai.getShipsPlaced(),
         sup.israndomAIPicked(), ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
@@ -218,11 +218,13 @@ public class GameController {
 	public void loadGame(){
 		loadGame = true;
 	
+		// this.gameWindow.getStartParams().destroy();
 		// gameWindow.close();
 		//close start up parms
 
 		save.load();
 
+		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime());
 		stage = save.getStage();
 
 		ourStats = save.getOurStats();
@@ -258,6 +260,11 @@ public class GameController {
 
 
 	}
+
+
+    public SaveLoad getSave() {
+        return save;
+    }
 
 
 	

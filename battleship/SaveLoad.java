@@ -13,6 +13,7 @@ public class SaveLoad {
 
     public static final boolean IsRandomPicked = false;
     String saveName;
+    int elapsedTime;
     int stage;
 
     Stats ourStats, enemyStats;
@@ -40,12 +41,11 @@ public class SaveLoad {
     Coordinate firstHit;
     
 
-    public void save(String saveName, int stage, Stats ourStats, Stats enemyStats,
+    public void save(String saveName, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
         ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
         boolean israndomAIPicked, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
         int direction, Coordinate firstHit){
-
 
         System.out.println("saving");
         
@@ -56,6 +56,7 @@ public class SaveLoad {
             FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
 
+            save.writeObject(elapsedTime);
             save.writeObject(stage);
 
             save.writeObject(enemyStats);
@@ -103,6 +104,7 @@ public class SaveLoad {
             FileInputStream saveFile = new FileInputStream("SaveFile.sav");
             ObjectInputStream save = new ObjectInputStream(saveFile);
 
+            elapsedTime = (Integer) save.readObject();
             stage = (Integer) save.readObject();
             
             enemyStats = (Stats) save.readObject();
@@ -151,6 +153,10 @@ public class SaveLoad {
 
 
     //getters to get the info back to control or ai
+
+    public int getElapsedTime(){
+        return elapsedTime;
+    }
 
     public int getStage(){
         return stage;

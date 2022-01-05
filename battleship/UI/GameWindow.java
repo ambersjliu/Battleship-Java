@@ -25,8 +25,8 @@ public class GameWindow implements ActionListener{
 	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
 
+	String username;
  	Watch watch;
- 	SaveLoad s;
 
 	/**
 	 * Create the application.
@@ -133,8 +133,8 @@ public class GameWindow implements ActionListener{
 		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
-/* 		watch.start();
- */
+ 		// watch.start();
+ 
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
 
 	}
@@ -234,14 +234,77 @@ public class GameWindow implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==saveButton) {
 			this.gameController.saveGame();
+	
+
+			// runSavePanel();
+			
+			// JFrame saveFrame = new JFrame();
+			// saveFrame = this.runSavePanel(username);
+
+			
+			// if (e.getSource()==saveExitBotton){
+			// 	this.destroy();
+			// }
+			// else if (e.getSource()==saveStay){
+			// 	this.gameController.saveGame();
+			// }
+
 
 		}
 		if(e.getSource()==loadButton) {
+			// this.destroy();
+			// watch.stop();
+
+			//get the saved time into the gui timer
+			watch.setElapsedTime(this.gameController.getSave().getElapsedTime());
+
 			this.gameController.loadGame();
 
 
 		}
 
 	}
+
+	void runSavePanel(){
+
+		JFrame saveFrame = new JFrame();
+		JButton saveStayButton = new JButton("Save");
+		JButton saveExitButton = new JButton("Save and Exit");
+		JLabel usernameLabel = new JLabel();
+
+		usernameLabel.setText(username+".sav");
+		usernameLabel.setBounds(50,10,120,40);
+		usernameLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
+		usernameLabel.setBorder(BorderFactory.createBevelBorder(1));
+		usernameLabel.setOpaque(true);
+		usernameLabel.setHorizontalAlignment(JTextField.CENTER);
+
+		saveStayButton.setBounds(20,70,70,40);
+		saveStayButton.setFont(new Font("Ink Free",Font.PLAIN,20));
+		saveStayButton.setFocusable(false);
+		saveStayButton.addActionListener(this);
+		
+		saveExitButton.setBounds(110,70,70,40);
+		saveExitButton.setFont(new Font("Ink Free",Font.PLAIN,20));
+		saveExitButton.setFocusable(false);
+		saveExitButton.addActionListener(this);
+		
+		saveFrame.add(saveStayButton);
+		saveFrame.add(saveExitButton);
+		saveFrame.add(usernameLabel);
+
+		saveFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		saveFrame.setSize(220,170);
+		saveFrame.setLayout(null);
+		saveFrame.setVisible(true);
+		
+	
+	}
+
+	public Watch getWatch() {
+		return watch;
+	}
+
+
 
 }

@@ -88,6 +88,15 @@ public class Watch implements ActionListener{
 	public Timer getTimer(){
 		return timer;
 	}
+
+	public void setElapsedTime(int elapsedTime){
+		this.elapsedTime = elapsedTime;
+
+	}
+
+	public int getElapsedTime(){
+		return elapsedTime;
+	}
 } 
 
     
