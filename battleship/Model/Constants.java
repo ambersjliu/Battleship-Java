@@ -12,6 +12,8 @@ public class Constants {
 
     public static Color bgColor = new Color(34, 45, 48);
 
+    public static Color fgColor = new Color(0, 219, 255);
+
 
 
 }
