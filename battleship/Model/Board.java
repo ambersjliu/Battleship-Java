@@ -1,6 +1,9 @@
 package battleship.Model;
 
-public class Board {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Board implements Serializable{
     Point[][] points;
 
 
@@ -57,5 +60,29 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+    public void loadBoard(Board Board, ArrayList<Coordinate> pastShots,
+    ArrayList<Coordinate> pastHits){
+
+        for (int rows = 0; rows < Constants.boardSize; rows++) {
+            for (int j = 0; j < 10; j++) {
+
+                Coordinate coord = new Coordinate(rows, j);
+
+                if (pastShots.contains(coord)) {
+                    Board.getPoint(rows, j).setIsHit(true);
+
+                    if (pastHits.contains(coord)) {
+                        Board.getPoint(rows, j).setIsTaken(true);
+                    }
+                }
+
+            }
+        }
+
+        
+
+
     }
 }

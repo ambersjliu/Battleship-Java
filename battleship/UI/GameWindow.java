@@ -3,8 +3,6 @@ package battleship.UI;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.*;
 
@@ -27,8 +25,8 @@ public class GameWindow implements ActionListener{
 	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
 
+	String username;
  	Watch watch;
- 	SaveLoad s;
 
 	/**
 	 * Create the application.
@@ -68,7 +66,6 @@ public class GameWindow implements ActionListener{
 		topPanel.setBackground(Constants.bgColor);
 		GridBagConstraints c = new GridBagConstraints();
 
-		s = new SaveLoad();
 		saveButton = new JButton("Save");
 		loadButton = new JButton("Load");
 
@@ -140,8 +137,8 @@ public class GameWindow implements ActionListener{
 		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
-/* 		watch.start();
- */
+ 		// watch.start();
+ 
 		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
 
 	}
@@ -235,22 +232,36 @@ public class GameWindow implements ActionListener{
 			} catch (Exception e) {
 			}
 		}
+
 		return enemyAttackCoordStr;
+		
 	}
+	
 
 
 
 	@Override
     public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==saveButton) {
-			s.save();
-
+			this.gameController.saveGame();
+	
 		}
 		if(e.getSource()==loadButton) {
-			s.load();
+
+			//get the saved time into the gui timer
+			watch.setElapsedTime(this.gameController.getSave().getElapsedTime());
+
+			this.gameController.loadGame();
+
 
 		}
 
 	}
+
+	public Watch getWatch() {
+		return watch;
+	}
+
+
 
 }

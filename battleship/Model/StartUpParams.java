@@ -18,6 +18,9 @@ public class StartUpParams {
 		return randomAIPicked;
 	}
 
+	public void setisrandomAIPicked(boolean randomAiPicked) {
+		this.randomAIPicked = randomAiPicked;
+	}
 
 
 	@Override
