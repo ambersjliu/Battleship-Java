@@ -160,7 +160,7 @@ public class AI {
                     }
                     break;
                 case 1:
-                    if (!(lastHit.getColumn() == Constants.boardSize - 1) || endOfCurrentDirection) {
+                    if (!(lastHit.getColumn() == Constants.boardSize - 1 || endOfCurrentDirection)) {
                         returnCoord.setRow(lastHit.getRow());
                         returnCoord.setColumn(lastHit.getColumn() + 1);
                     }

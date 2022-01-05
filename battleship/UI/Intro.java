@@ -34,11 +34,6 @@ public class Intro{
     }
 
     public void drawIntro() {
-        //need to create imageIcon showing our intro img
-        //display it etc
-        //also take in a username to use in our save file
-
-        //add a listener to the button: when clicked, close the frame.
 
         closeWindow = false;
 
@@ -53,18 +48,19 @@ public class Intro{
 		introFrame.setContentPane(bgLabel);
         introFrame.getContentPane().setLayout(null);
 
-        startButton = new JButton("Start!");
+        startButton = new JButton("START!");
         startButton.setBackground(new Color(165, 42, 42));
 		startButton.setForeground(Color.WHITE);
-		startButton.setFont(new Font("Arial", Font.BOLD, 20));
-        startButton.setBounds(270, 300, 100, 30);
+        startButton.setFocusable(false);
+		startButton.setFont(new Font("Bahnschrift", Font.BOLD, 23));
+        startButton.setBounds(260, 300, 120, 32);
 
         startButton.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 close();
                 
-		    GameController gameController = new GameController();
-		    gameController.startGame();
+		        GameController gameController = new GameController();
+		        gameController.startGame();
             } 
           } );
 

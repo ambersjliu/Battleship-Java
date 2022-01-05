@@ -32,7 +32,7 @@ public class Board {
 		points[row][column] = point;
 	}
 
-    public void drawBoard(Board board){
+    public void drawBoard(Board board){ //used only for console
         System.out.print(" ");
         for(int col=1; col<=Constants.boardSize; col++){
             System.out.print(" " +col);

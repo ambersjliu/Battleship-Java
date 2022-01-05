@@ -52,6 +52,9 @@ public class GameWindow implements ActionListener{
 		getFrmBattleship().setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 		getFrmBattleship().getContentPane().setLayout(new BorderLayout(0, 0));
 
+		
+		getFrmBattleship().getContentPane().setBackground(Constants.bgColor);
+
 		JPanel topPanel = initializeTopPanel();
 		getFrmBattleship().getContentPane().add(topPanel, BorderLayout.NORTH);
 
@@ -62,6 +65,7 @@ public class GameWindow implements ActionListener{
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
+		topPanel.setBackground(Constants.bgColor);
 		GridBagConstraints c = new GridBagConstraints();
 
 		s = new SaveLoad();
@@ -94,6 +98,7 @@ public class GameWindow implements ActionListener{
 		JTabbedPane boardsPane = new JTabbedPane(JTabbedPane.TOP);
 
 		JPanel ourPanel = new JPanel();
+		ourPanel.setForeground(Constants.bgColor);
         boardsPane.addTab("Our board", null, ourPanel, null);
         ourPanel.setLayout(new BorderLayout(0, 0));
 
