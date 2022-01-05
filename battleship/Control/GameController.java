@@ -20,7 +20,7 @@ public class GameController {
 	private AI ai;
 	private int stage = 0;
 	private Coordinate ourAttackCoord, ourHitCoord, enemyAttackCoord;
-	private ArrayList<Coordinate> userHits, aiHits;
+	private ArrayList<Coordinate> userHits,userShots, aiHits;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
@@ -48,6 +48,7 @@ public class GameController {
 		enemyStatsPanel = new StatsPanel();
 
 		userHits = new ArrayList<Coordinate>();
+		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
 
 		EventQueue.invokeLater(new Runnable() {
@@ -77,6 +78,7 @@ public class GameController {
 			attackPoint.setIsTaken(true);
 			ai.setTargetMode(true);
 			ai.setEndOfCurrentDirection(false);
+			aiHits.add(ourAttack);
 
 			if (ai.getHits().size() == 0) {
 				ai.setFirstHit(ourAttack);
@@ -132,10 +134,12 @@ public class GameController {
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
+		userShots.add(enemyAtkCoord);
 		
 		if (enemyAttackResult.getResult() == "Hit") {
 			ourStats.incrementTotalHit();
 			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
+			userHits.add(enemyAtkCoord);
 			gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
 		} else if (enemyAttackResult.getResult() == "Sink") {
 			ourStats.incrementTotalHit();
@@ -198,12 +202,12 @@ public class GameController {
 		}
 	}
 
-	SaveLoad s = new SaveLoad();
+	SaveLoad save = new SaveLoad();
 	String saveName = "save1";
 
 	public void saveGame(){
-		s.save(saveName, stage, ourStats, enemyStats,
-        ai.getPastShots(),aiHits,userHits,
+		save.save(saveName, stage, ourStats, enemyStats,
+        ai.getPastShots(),aiHits,userShots,userHits,
         ai.getShipsPlaced(),
         sup.israndomAIPicked(), ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit());
@@ -212,25 +216,47 @@ public class GameController {
 	}
 
 	public void loadGame(){
-
 		loadGame = true;
-		s.load();
+	
+		// gameWindow.close();
+		//close start up parms
 
-		stage = s.getStage();
+		save.load();
 
-		ourStats = s.getOurStats();
-		enemyStats = s.getEnmeyStats();
+		stage = save.getStage();
+
+		ourStats = save.getOurStats();
+		enemyStats = save.getEnmeyStats();
+
+		ai.setPastShots(save.getPastShots());
+		aiHits = save.getAiHits();
+		userShots = save.getUserShots();
+		userHits = save.getUserHits();
 
 		ourBoard = new Board(Constants.boardSize); //wipes out current boards
 		enemyBoard = new Board(Constants.boardSize);
 
-		ai.setShipsPlaced(s.getShipsPlaced());
+		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
 		ai.placeShips(ourBoard, loadGame);
+
+		ourBoard.loadBoard(ourBoard, userShots, userHits);
+		enemyBoard.loadBoard(enemyBoard, ai.getPastShots(), aiHits);
 
 		gameWindow.refreshOurBoard(ourBoard);
 		gameWindow.refreshOurStats(ourStats);
+		gameWindow.refreshEnemyBoard(enemyBoard);
+		gameWindow.refreshEnemyStats(enemyStats);
 
-		System.out.println(enemyStats.getTotalMiss());
+		sup.setisrandomAIPicked(save.israndomAIPicked());
+		ai.setHits(save.getHits());
+		ai.setTargetMode(save.getTargetMode());
+		ai.setDirectionSet(save.getDirectionSet());
+		ai.setDirection(save.getDirection());
+		ai.setFirstHit(save.getFirstHit());
+
+		System.out.println(ai.isTargetMode());
+
+
 	}
 
 

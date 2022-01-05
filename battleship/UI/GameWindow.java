@@ -25,12 +25,8 @@ public class GameWindow implements ActionListener{
 	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
 
-<<<<<<< HEAD
-	Watch watch;
-=======
  	Watch watch;
  	SaveLoad s;
->>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 
 	/**
 	 * Create the application.
@@ -64,10 +60,7 @@ public class GameWindow implements ActionListener{
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
-<<<<<<< HEAD
-=======
 		GridBagConstraints c = new GridBagConstraints();
->>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 
 		saveButton = new JButton("Save");
 		loadButton = new JButton("Load");
@@ -83,12 +76,7 @@ public class GameWindow implements ActionListener{
 		loadButton.addActionListener(this);
 
 		//timer 
-<<<<<<< HEAD
-		watch = new Watch();
-
-=======
  		watch = new Watch();
->>>>>>> 30cb3ac0b3f99bb99c62990f36a5a1ec66d4355f
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton); 
@@ -234,8 +222,11 @@ public class GameWindow implements ActionListener{
 			} catch (Exception e) {
 			}
 		}
+
 		return enemyAttackCoordStr;
+		
 	}
+	
 
 
 

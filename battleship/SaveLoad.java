@@ -11,12 +11,14 @@ import battleship.Model.*;
 
 public class SaveLoad {
 
+    public static final boolean IsRandomPicked = false;
     String saveName;
     int stage;
 
     Stats ourStats, enemyStats;
 
-    ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();       
+    ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();  
+    ArrayList<Coordinate> userShots = new ArrayList<Coordinate>();     
     ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();
     ArrayList<Coordinate> aiHits = new ArrayList<Coordinate>();
 
@@ -39,8 +41,8 @@ public class SaveLoad {
     
 
     public void save(String saveName, int stage, Stats ourStats, Stats enemyStats,
-        ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userHits,
-        ArrayList<Ship> shipsPlaced,
+        ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
+        ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
         boolean israndomAIPicked, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
         int direction, Coordinate firstHit){
 
@@ -60,6 +62,7 @@ public class SaveLoad {
             save.writeObject(ourStats);
 
             save.writeObject(pastShots);
+            save.writeObject(userShots);
             save.writeObject(userHits);
             save.writeObject(aiHits);
 
@@ -106,6 +109,7 @@ public class SaveLoad {
             ourStats = (Stats) save.readObject();
 
             pastShots = (ArrayList<Coordinate>) save.readObject();
+            userShots = (ArrayList<Coordinate>) save.readObject();
             userHits = (ArrayList<Coordinate>) save.readObject();
             aiHits = (ArrayList<Coordinate>) save.readObject();
 
@@ -163,6 +167,15 @@ public class SaveLoad {
     public ArrayList<Ship> getShipsPlaced(){
 
         return shipsPlaced;
+    }
+
+    public ArrayList<Coordinate> getPastShots() {
+
+        return pastShots;
+    }
+
+    public ArrayList<Coordinate> getUserShots() {
+        return userShots;
     }
 
     public ArrayList<Coordinate> getUserHits() {
