@@ -27,9 +27,13 @@ public class GameController {
 
 
 	private boolean loadGame = false;
+	private String username;
+ 	private Watch watch;
+ 	private Timer timer;
+	private Intro intro;
 	private boolean currentGameOver = false;
 
-	void initialize() {
+	void initialize() { //called at the start of every game
 
 		ourBoard = new Board(Constants.boardSize);
 		enemyBoard = new Board(Constants.boardSize);
@@ -50,6 +54,7 @@ public class GameController {
 		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
 
+		//create the window
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -87,8 +92,7 @@ public class GameController {
 				ai.getHits().add(ourAttack);
 			}
 			String hitShip = gameWindow.getShipHit(); // get id of ship
-			attackPoint.setShipId(hitShip); // in BoardPanel i will add a condition where the button "mark" changes to
-											// be the ship initial :)
+			attackPoint.setShipId(hitShip); 
 			enemyStats.incrementTotalHit();
 			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
 
@@ -183,6 +187,7 @@ public class GameController {
 
 		while (true) { // loop that brings game back to initial state after game over
 			initialize(); // reset vals to 0
+			username = gameWindow.getUsername();
 			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
 			System.out.println("Start up params" + sup); // test
 			

@@ -45,10 +45,13 @@ public class GameWindow implements ActionListener{
 		setFrmBattleship(new JFrame());
 		getFrmBattleship().setTitle("BattleShip");
 		getFrmBattleship().setResizable(false);
-		getFrmBattleship().setBounds(100, 100, 640, 480);
+		getFrmBattleship().setBounds(200, 200, 640, 480);
 		getFrmBattleship().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmBattleship().setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 		getFrmBattleship().getContentPane().setLayout(new BorderLayout(0, 0));
+
+		
+		getFrmBattleship().getContentPane().setBackground(Constants.bgColor);
 
 		JPanel topPanel = initializeTopPanel();
 		getFrmBattleship().getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -60,6 +63,7 @@ public class GameWindow implements ActionListener{
 
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
+		topPanel.setBackground(Constants.bgColor);
 		GridBagConstraints c = new GridBagConstraints();
 
 		saveButton = new JButton("Save");
@@ -80,11 +84,10 @@ public class GameWindow implements ActionListener{
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton); 
-/* 
-		JLabel titleLabel = new JLabel("May the Force be with you! ");
-		titleLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD | Font.ITALIC, 14));
-		topPanel.add(titleLabel); */
-		
+
+
+
+
 		return topPanel;
 	}
 
@@ -92,6 +95,7 @@ public class GameWindow implements ActionListener{
 		JTabbedPane boardsPane = new JTabbedPane(JTabbedPane.TOP);
 
 		JPanel ourPanel = new JPanel();
+		ourPanel.setForeground(Constants.bgColor);
         boardsPane.addTab("Our board", null, ourPanel, null);
         ourPanel.setLayout(new BorderLayout(0, 0));
 
@@ -173,6 +177,12 @@ public class GameWindow implements ActionListener{
 
 	}
 
+	public String getUsername(){
+		String user = JOptionPane.showInputDialog(frmBattleship, "Enter a username: ", "Username", JOptionPane.DEFAULT_OPTION);
+		return user;
+
+	}
+
 	public void refreshEnemyBoard(Board enemyBoard) {
 		enemyBoardPanel.updateBoard(enemyBoard);
 	}
@@ -235,25 +245,8 @@ public class GameWindow implements ActionListener{
 		if(e.getSource()==saveButton) {
 			this.gameController.saveGame();
 	
-
-			// runSavePanel();
-			
-			// JFrame saveFrame = new JFrame();
-			// saveFrame = this.runSavePanel(username);
-
-			
-			// if (e.getSource()==saveExitBotton){
-			// 	this.destroy();
-			// }
-			// else if (e.getSource()==saveStay){
-			// 	this.gameController.saveGame();
-			// }
-
-
 		}
 		if(e.getSource()==loadButton) {
-			// this.destroy();
-			// watch.stop();
 
 			//get the saved time into the gui timer
 			watch.setElapsedTime(this.gameController.getSave().getElapsedTime());
@@ -263,42 +256,6 @@ public class GameWindow implements ActionListener{
 
 		}
 
-	}
-
-	void runSavePanel(){
-
-		JFrame saveFrame = new JFrame();
-		JButton saveStayButton = new JButton("Save");
-		JButton saveExitButton = new JButton("Save and Exit");
-		JLabel usernameLabel = new JLabel();
-
-		usernameLabel.setText(username+".sav");
-		usernameLabel.setBounds(50,10,120,40);
-		usernameLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
-		usernameLabel.setBorder(BorderFactory.createBevelBorder(1));
-		usernameLabel.setOpaque(true);
-		usernameLabel.setHorizontalAlignment(JTextField.CENTER);
-
-		saveStayButton.setBounds(20,70,70,40);
-		saveStayButton.setFont(new Font("Ink Free",Font.PLAIN,20));
-		saveStayButton.setFocusable(false);
-		saveStayButton.addActionListener(this);
-		
-		saveExitButton.setBounds(110,70,70,40);
-		saveExitButton.setFont(new Font("Ink Free",Font.PLAIN,20));
-		saveExitButton.setFocusable(false);
-		saveExitButton.addActionListener(this);
-		
-		saveFrame.add(saveStayButton);
-		saveFrame.add(saveExitButton);
-		saveFrame.add(usernameLabel);
-
-		saveFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		saveFrame.setSize(220,170);
-		saveFrame.setLayout(null);
-		saveFrame.setVisible(true);
-		
-	
 	}
 
 	public Watch getWatch() {

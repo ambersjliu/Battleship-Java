@@ -1,27 +1,81 @@
 package battleship.UI;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.net.*;
+import battleship.Control.*;
 
 
-public class Intro {
-    JFrame introFrame;
-    
+public class Intro{
+    private JFrame introFrame;
+    private Image bgImg;
+    private ImageIcon bg;
+    private JButton startButton;
+    private boolean closeWindow;
+
+
     public void close(){
         introFrame.setVisible(false);
     }
 
-    public void drawIntro(){
-        //need to create imageIcon showing our intro img
-        //display it etc
-        //also take in a username to use in our save file
+    public Intro(){
 
-        //add a listener to the button: when clicked, close the frame.
-        
+        URL url;
+		try {
+			url = new File("resources/introimg.png").toURI().toURL();
+			bg = new ImageIcon(url);
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 
-    //do i need to define methods to get username?
-    
+    public void drawIntro() {
 
+        closeWindow = false;
+
+        introFrame = new JFrame();
+        introFrame.setTitle("Battleship");
+        introFrame.setResizable(false);
+        introFrame.setBounds(200, 200, 640, 480);
+		introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel bgLabel = new JLabel();
+		bgLabel.setIcon(bg);
+		introFrame.setContentPane(bgLabel);
+        introFrame.getContentPane().setLayout(null);
+
+        startButton = new JButton("START!");
+        startButton.setBackground(new Color(165, 42, 42));
+		startButton.setForeground(Color.WHITE);
+        startButton.setFocusable(false);
+		startButton.setFont(new Font("Bahnschrift", Font.BOLD, 23));
+        startButton.setBounds(260, 300, 120, 32);
+
+        startButton.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                close();
+                
+		        GameController gameController = new GameController();
+		        gameController.startGame();
+            } 
+          } );
+
+        introFrame.getContentPane().add(startButton);
+
+        introFrame.setVisible(true);
+        introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
+
+    }
+
+    public boolean getIntroClosed(){
+        return closeWindow;
+    }
 
 }
