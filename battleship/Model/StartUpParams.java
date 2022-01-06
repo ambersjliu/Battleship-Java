@@ -1,3 +1,20 @@
+/*
+PROGRAM NAME - Battle-Ship/StartUpParams
+
+PROGRAMMERS - 
+
+USAGE - initialize who attacks first and which AI is picked, 
+		tying them togehter as needed information before game starts
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Model;
 
 import java.io.Serializable;

@@ -1,3 +1,19 @@
+/*
+PROGRAM NAME - Battle-Ship/AI
+
+PROGRAMMERS - Amber Liu
+
+USAGE - Creating an attack coordinate denpending game states and previous hits
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Attack;
 
 import java.util.ArrayList;

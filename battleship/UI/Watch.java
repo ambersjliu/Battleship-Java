@@ -1,14 +1,32 @@
+
+/*
+PROGRAM NAME - Battle-Ship/Watch
+
+PROGRAMMERS - Elaine Yang
+
+USAGE - Keep track of and controls the time the game has played 
+		(after StartUpParams to When ai/user wins)
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - Input: n/a
+			  Ouput: The time eplapsed in hours, minutes, secounds
+
+*/
+
 package battleship.UI;
 
-
 import java.awt.*;
-
 import java.awt.event.*;
 import javax.swing.*;
 
 
 public class Watch implements ActionListener{
     
+	//initialze timer varaibles 
 	JLabel timeLabel = new JLabel();
     int elapsedTime = 0;
 	int seconds =0;
@@ -21,15 +39,15 @@ public class Watch implements ActionListener{
 
 
 	//does the ticking 
-	
 	public Timer timer = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
 
-			elapsedTime=elapsedTime+1000;
-			hours = (elapsedTime/3600000);
+			elapsedTime=elapsedTime+1000; 
+			hours = (elapsedTime/3600000); //converts number into hour/minutes/secounds form
 			minutes = (elapsedTime/60000) % 60;
 			seconds = (elapsedTime/1000) % 60;
+
 			seconds_string = String.format("%02d", seconds);
 			minutes_string = String.format("%02d", minutes);
 			hours_string = String.format("%02d", hours);
@@ -39,7 +57,7 @@ public class Watch implements ActionListener{
 		
 	});
 
-	// sets the initial timer gui
+	// sets the initial timerLable for gui
 	public Watch(){
 
 		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
@@ -49,8 +67,6 @@ public class Watch implements ActionListener{
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-		start();
-	
 	}
 
 
@@ -81,7 +97,6 @@ public class Watch implements ActionListener{
 	}
     
 	public JLabel getTimeLabel(){
-		start();
 		return timeLabel;
 	}
 

@@ -1,3 +1,20 @@
+/*
+PROGRAM NAME - 
+
+PROGRAMMERS - 
+
+USAGE - Initailzing enemyBoards and ourBoards
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - Input: Board size, Points
+              Output: Updated board with point statuses for console 
+
+*/
+
 package battleship.Model;
 
 import java.io.Serializable;

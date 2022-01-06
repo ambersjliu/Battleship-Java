@@ -1,3 +1,25 @@
+/*
+PROGRAM NAME - Battle-Ship/SaveLoad
+
+PROGRAMMERS - Elaine Yang
+
+USAGE - Saving the current game state and well as objects made, 
+        Loading saved game state and objects
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - Loading a save during another game will cause user/ai to have an extra move
+
+DESCRIPTION - Inputs several varaibles and objects through save() parameters
+              when called in GameController, creates save file and writes 
+              objects into it.
+              Ouputs varaibles and objects from reading said save file, having 
+              getters for each object for GameController, Ai, and GameWindow
+              to access them
+
+*/
+
 package battleship;
 
 import java.io.*;
@@ -11,7 +33,7 @@ import battleship.Model.*;
 
 public class SaveLoad {
 
-    public static final boolean IsRandomPicked = false;
+    //inizialize objects for load() to load into
     String username;
     int elapsedTime;
     int stage;
@@ -22,13 +44,6 @@ public class SaveLoad {
     ArrayList<Coordinate> userShots = new ArrayList<Coordinate>();     
     ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();
     ArrayList<Coordinate> aiHits = new ArrayList<Coordinate>();
-
-
-    Ship carrier = new Ship("Carrier", 5);
-    Ship battleship = new Ship("Battleship", 4);
-    Ship cruiser = new Ship("Cruiser", 3);
-    Ship submarine = new Ship("Submarine", 3);
-    Ship destroyer = new Ship("Destroyer", 2);
 
     ArrayList<Ship> shipsPlaced;
 
@@ -41,7 +56,7 @@ public class SaveLoad {
     Coordinate firstHit;
     boolean endOfCurrentDirection;
     
-
+    
     public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
         ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
@@ -51,29 +66,28 @@ public class SaveLoad {
         System.out.println("saving");
         
         try{
-
+            
+            //Creats a save file named after the username
             FileOutputStream saveFile = new FileOutputStream(username);
             // FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
-
-            save.writeObject(elapsedTime);
+            
+            save.writeObject(elapsedTime);//saves gamestate
             save.writeObject(stage);
 
-            save.writeObject(enemyStats);
+            save.writeObject(enemyStats);//saves stats 
             save.writeObject(ourStats);
 
-            save.writeObject(pastShots);
-            save.writeObject(userShots);
+            save.writeObject(pastShots);//saves shots fired, for looding the board
+            save.writeObject(userShots);    //as well for ai not repeating shots
             save.writeObject(userHits);
             save.writeObject(aiHits);
 
-            save.writeObject(shipsPlaced);
+            save.writeObject(shipsPlaced); //saves all ship objects
 
-            save.writeObject(sup);
+            save.writeObject(sup); //saves start up parameters 
 
-            System.out.println("in save Start up params" + sup); // test
-
-            save.writeObject(hits);
+            save.writeObject(hits); //Saves smart ai's hit statuses
             save.writeObject(targetMode);
             save.writeObject(directionSet);
             save.writeObject(direction);
@@ -87,12 +101,9 @@ public class SaveLoad {
         }
 
 
-        
-
-
     }
 
-    public void load(){
+    public boolean load(boolean isfileFound){
         System.out.println("loading");
 
         try{
@@ -116,9 +127,6 @@ public class SaveLoad {
 
             sup = (StartUpParams) save.readObject();
 
-            System.out.println("in load Start up params" + sup); // test
-
-
             hits = (ArrayList<Coordinate>) save.readObject();
             targetMode = (boolean) save.readObject();
             directionSet =(boolean) save.readObject();
@@ -126,13 +134,13 @@ public class SaveLoad {
             firstHit = (Coordinate) save.readObject();
             endOfCurrentDirection = (boolean) save.readObject();
 
-            // for (Coordinate pastShot : hits) {
-			// 	System.out.println(pastShot);
-			// }
             save.close();
+            return isfileFound = true;
         }
         catch(Exception exc){
-            exc.printStackTrace();
+            //exc.printStackTrace();
+            System.out.println(username+ " file not found");
+            return isfileFound = false;
         }
 
 
