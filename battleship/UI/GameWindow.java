@@ -88,6 +88,7 @@ public class GameWindow implements ActionListener {
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton); 
+		watch.stop();
 
 
 
@@ -141,7 +142,6 @@ public class GameWindow implements ActionListener {
 		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
- 		// watch.start();
 		
 		if (loadGame == false){
 			sup = new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
@@ -159,7 +159,7 @@ public class GameWindow implements ActionListener {
 		return sup;
 	}
 
-	public void setSup(StartUpParams sup){ //get sup with out making a new one
+	public void setSup(StartUpParams sup){ 
 		this.sup = sup;
 	}
 
@@ -321,7 +321,7 @@ public class GameWindow implements ActionListener {
 		}
 
 	}
-
+	//for game controller to access the watch
 	public Watch getWatch() {
 		return watch;
 	}

@@ -48,8 +48,7 @@ public class Watch implements ActionListener{
 		timeLabel.setBorder(BorderFactory.createBevelBorder(1));
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(JTextField.CENTER);
-
-		start();
+		// start();
 	
 	}
 

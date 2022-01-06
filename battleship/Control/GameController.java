@@ -28,8 +28,6 @@ public class GameController {
 
 	private boolean isLoadGame = false;
 	private String username;
- 	private Watch watch;
- 	private Timer timer;
 	private Intro intro;
 	private boolean currentGameOver = false;
 
@@ -42,7 +40,6 @@ public class GameController {
 		stage = 0;
 
 		ai = new AI();
-		System.out.println(ai.getPastShots().size());
 
 		ai.placeShips(ourBoard,isLoadGame);
 
@@ -125,6 +122,7 @@ public class GameController {
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
+			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("We won");
 			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); // SHEEESH WE WIN
 			gameWindow.destroy();
@@ -138,13 +136,13 @@ public class GameController {
 
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
-		System.out.println(enemyAttack);
+		System.out.println("enemy attack:" +enemyAttack);
 		//gameWindow.playGameSound("Shoot");
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
-		System.out.println(enemyAtkCoord.toString());
+		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
@@ -174,6 +172,7 @@ public class GameController {
 		gameWindow.refreshOurStats(ourStats);
 
 		if (ourStats.getTotalHit() == Constants.hitsToWin) {
+			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("They won");
 			gameWindow.popupDialog("Oh dear...", "Looks like we've lost! Press OK to restart.");
 			gameWindow.destroy();
@@ -204,8 +203,8 @@ public class GameController {
 			initialize(); // reset vals to 0
 			username = gameWindow.getUsername();
 			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
-			// System.out.println("Start up params" + sup); // test
-			
+
+			gameWindow.getWatch().start();
 			if (sup.doWeGoFirst())
 				stage = 0;
 			else
@@ -221,32 +220,26 @@ public class GameController {
 
 	public void saveGame(){
 
-		//open save window
-		//save or save and exit?
-		// watch.stop();
-
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
         ai.getShipsPlaced(), gameWindow.getSup(),
         ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
 
-		System.out.println("in saveGame (control) Start up params" + sup); // test
-
-
-		System.out.println(enemyStats.getTotalMiss());
 	}
 
 	public void loadGame(){
 		isLoadGame = true;
-	
-		// this.gameWindow.getStartParams().destroy();
-		// gameWindow.close();
-		//close start up parms
-		username = gameWindow.getUsername();
-		save.setSaveName(username);
 
-		save.load();
+		boolean fileFound=false;
+
+		while (fileFound==false){
+
+				username = gameWindow.getUsername();
+				save.setSaveName(username);
+				fileFound=save.load(fileFound);
+
+		}
 
 		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime());
 		stage = save.getStage();
@@ -276,8 +269,6 @@ public class GameController {
 		sup = save.getSup();
 		gameWindow.setSup(sup);
 
-	
-		// ai.resetVals();
 		ai.setHits(save.getHits());
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
@@ -286,7 +277,6 @@ public class GameController {
 		ai.setEndOfCurrentDirection(save.getEndOfCurrentDirection());
 
 
-		System.out.println(ai.isTargetMode());
 
 	}
 
