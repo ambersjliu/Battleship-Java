@@ -26,7 +26,7 @@ public class GameController {
 	private StartUpParams sup;
 
 
-	private boolean loadGame = false;
+	private boolean isLoadGame = false;
 	private String username;
  	private Watch watch;
  	private Timer timer;
@@ -44,7 +44,7 @@ public class GameController {
 		ai = new AI();
 		System.out.println(ai.getPastShots().size());
 
-		ai.placeShips(ourBoard,loadGame);
+		ai.placeShips(ourBoard,isLoadGame);
 
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
@@ -131,6 +131,7 @@ public class GameController {
 			currentGameOver = true;
 		}
 
+		ai.getPastShots().add(ourAttack);
 		stage = 2;
 
 	}
@@ -202,8 +203,8 @@ public class GameController {
 		while (true) { // loop that brings game back to initial state after game over
 			initialize(); // reset vals to 0
 			username = gameWindow.getUsername();
-			sup = gameWindow.getStartParams(); // get start up params (who goes first, etc) from gui
-			System.out.println("Start up params" + sup); // test
+			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
+			// System.out.println("Start up params" + sup); // test
 			
 			if (sup.doWeGoFirst())
 				stage = 0;
@@ -217,7 +218,6 @@ public class GameController {
 	}
 
 	SaveLoad save = new SaveLoad();
-	String saveName = "save1";
 
 	public void saveGame(){
 
@@ -225,21 +225,26 @@ public class GameController {
 		//save or save and exit?
 		// watch.stop();
 
-		save.save(saveName, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
+		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
-        ai.getShipsPlaced(),
-        sup.israndomAIPicked(), ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
-        ai.getDirection(), ai.getFirstHit());
+        ai.getShipsPlaced(), gameWindow.getSup(),
+        ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
+        ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
+
+		System.out.println("in saveGame (control) Start up params" + sup); // test
+
 
 		System.out.println(enemyStats.getTotalMiss());
 	}
 
 	public void loadGame(){
-		loadGame = true;
+		isLoadGame = true;
 	
 		// this.gameWindow.getStartParams().destroy();
 		// gameWindow.close();
 		//close start up parms
+		username = gameWindow.getUsername();
+		save.setSaveName(username);
 
 		save.load();
 
@@ -258,7 +263,7 @@ public class GameController {
 		enemyBoard = new Board(Constants.boardSize);
 
 		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
-		ai.placeShips(ourBoard, loadGame);
+		ai.placeShips(ourBoard, isLoadGame);
 
 		ourBoard.loadBoard(ourBoard, userShots, userHits);
 		enemyBoard.loadBoard(enemyBoard, ai.getPastShots(), aiHits);
@@ -268,22 +273,31 @@ public class GameController {
 		gameWindow.refreshEnemyBoard(enemyBoard);
 		gameWindow.refreshEnemyStats(enemyStats);
 
-		sup.setisrandomAIPicked(save.israndomAIPicked());
+		sup = save.getSup();
+		gameWindow.setSup(sup);
+
+	
+		// ai.resetVals();
 		ai.setHits(save.getHits());
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
 		ai.setDirection(save.getDirection());
 		ai.setFirstHit(save.getFirstHit());
+		ai.setEndOfCurrentDirection(save.getEndOfCurrentDirection());
+
 
 		System.out.println(ai.isTargetMode());
 
-
 	}
 
-
+	//getter for gameWindow 
     public SaveLoad getSave() {
         return save;
     }
+
+	public void setIsLoadGame(boolean isLoadGame){
+		this.isLoadGame = isLoadGame;
+	}
 
 
 	

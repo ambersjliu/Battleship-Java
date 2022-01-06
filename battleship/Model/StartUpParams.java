@@ -1,6 +1,8 @@
 package battleship.Model;
 
-public class StartUpParams {
+import java.io.Serializable;
+
+public class StartUpParams implements Serializable{
 	private boolean weGoFirst;
 	private boolean randomAIPicked;
 
