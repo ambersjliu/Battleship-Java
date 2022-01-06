@@ -12,7 +12,7 @@ import battleship.Model.*;
 public class SaveLoad {
 
     public static final boolean IsRandomPicked = false;
-    String saveName;
+    String username;
     int elapsedTime;
     int stage;
 
@@ -33,27 +33,27 @@ public class SaveLoad {
     ArrayList<Ship> shipsPlaced;
 
     //for smart ai
-    boolean israndomAIPicked;
+    StartUpParams sup;
     ArrayList<Coordinate> hits = new ArrayList<Coordinate>();  
     boolean targetMode = false;
     boolean directionSet = false;
     int direction = 0;
     Coordinate firstHit;
+    boolean endOfCurrentDirection;
     
 
-    public void save(String saveName, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
+    public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
         ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
-        boolean israndomAIPicked, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
-        int direction, Coordinate firstHit){
+        StartUpParams sup, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
+        int direction, Coordinate firstHit, boolean EndOfCurrentDirection){
 
         System.out.println("saving");
         
         try{
 
-            //FileOutputStream saveFile = new FileOutputStream(saveName);
-
-            FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
+            FileOutputStream saveFile = new FileOutputStream(username);
+            // FileOutputStream saveFile = new FileOutputStream("SaveFile.sav");
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
 
             save.writeObject(elapsedTime);
@@ -69,18 +69,16 @@ public class SaveLoad {
 
             save.writeObject(shipsPlaced);
 
-            save.writeObject(israndomAIPicked);
+            save.writeObject(sup);
+
+            System.out.println("in save Start up params" + sup); // test
+
             save.writeObject(hits);
             save.writeObject(targetMode);
             save.writeObject(directionSet);
             save.writeObject(direction);
             save.writeObject(firstHit);
-
-            System.out.println(firstHit.toString());
-
-
-
-            //save time
+            save.writeObject(EndOfCurrentDirection);
 
             save.close();
         
@@ -99,9 +97,8 @@ public class SaveLoad {
 
         try{
 
-            //FileInputStream saveFile = new FileInputStream(saveName);
-
-            FileInputStream saveFile = new FileInputStream("SaveFile.sav");
+            FileInputStream saveFile = new FileInputStream(username);
+            // FileInputStream saveFile = new FileInputStream("SaveFile.sav");
             ObjectInputStream save = new ObjectInputStream(saveFile);
 
             elapsedTime = (Integer) save.readObject();
@@ -117,17 +114,17 @@ public class SaveLoad {
 
             shipsPlaced = (ArrayList<Ship>) save.readObject();
 
-            israndomAIPicked = (Boolean) save.readObject();
+            sup = (StartUpParams) save.readObject();
+
+            System.out.println("in load Start up params" + sup); // test
+
+
             hits = (ArrayList<Coordinate>) save.readObject();
             targetMode = (boolean) save.readObject();
             directionSet =(boolean) save.readObject();
             direction = (Integer) save.readObject();
             firstHit = (Coordinate) save.readObject();
-
-            System.out.println(firstHit.toString());
-
-
-            //load timer
+            endOfCurrentDirection = (boolean) save.readObject();
 
             // for (Coordinate pastShot : hits) {
 			// 	System.out.println(pastShot);
@@ -144,13 +141,12 @@ public class SaveLoad {
 
     public String getSaveName(){
 
-        return saveName;
+        return username;
     }
 
-    public void setSaveName(String saveName){
-        this.saveName = saveName;
+    public void setSaveName(String username){
+        this.username = username;
     }
-
 
     //getters to get the info back to control or ai
 
@@ -192,8 +188,8 @@ public class SaveLoad {
         return aiHits;
     }
 
-	public boolean israndomAIPicked() {
-		return israndomAIPicked;
+	public StartUpParams getSup() {
+		return sup;
 	}
 
     public ArrayList<Coordinate> getHits(){
@@ -214,5 +210,9 @@ public class SaveLoad {
 
     public Coordinate getFirstHit() {
         return firstHit;
+    }
+
+    public boolean getEndOfCurrentDirection() {
+        return endOfCurrentDirection;
     }
 }

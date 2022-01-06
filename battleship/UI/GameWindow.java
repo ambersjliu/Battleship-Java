@@ -15,7 +15,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 
-public class GameWindow implements ActionListener{
+public class GameWindow implements ActionListener {
 
 	private JFrame frmBattleship;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
@@ -24,6 +24,7 @@ public class GameWindow implements ActionListener{
 	private BoardPanel enemyBoardPanel, ourBoardPanel;
 	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
 	private JTabbedPane boardsPane;
+	private StartUpParams sup;
 
 	String username;
  	Watch watch;
@@ -127,7 +128,7 @@ public class GameWindow implements ActionListener{
 		return ourBoardPanel;
 	}
 
-	public StartUpParams getStartParams() {
+	public StartUpParams getStartParams(boolean loadGame) {
 
 		String[] whoMovesFirst = { "Our AI", "Your AI" };
 		String[] AIlevel = { "Random", "Advanced" };
@@ -138,10 +139,27 @@ public class GameWindow implements ActionListener{
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
 
  		// watch.start();
- 
-		return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
+		
+		if (loadGame == false){
+			sup = new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
+			return new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
+		}
+
+		else{
+			return sup;
+		}
 
 	}
+
+	//for save and load
+	public StartUpParams getSup(){ //get sup with out making a new one
+		return sup;
+	}
+
+	public void setSup(StartUpParams sup){ //get sup with out making a new one
+		this.sup = sup;
+	}
+
 
 	public void popupDialog(String title, String message) {
 		JOptionPane.showConfirmDialog(frmBattleship, message, title, JOptionPane.DEFAULT_OPTION);

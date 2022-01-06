@@ -70,7 +70,7 @@ public class AI {
             coord.setRow(rand.nextInt(Constants.boardSize));
             coord.setColumn(rand.nextInt(Constants.boardSize));
         }
-        pastShots.add(coord);
+        // pastShots.add(coord);
         return coord;
     }
 
@@ -86,7 +86,7 @@ public class AI {
             returnCoord = targetWithDirection();
         }
         //to prevent future repeated hits
-        pastShots.add(returnCoord);
+        // pastShots.add(returnCoord);
         return returnCoord;
     }
 
