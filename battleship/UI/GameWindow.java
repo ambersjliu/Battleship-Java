@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
+
+import java.io.*;
 
 import battleship.SaveLoad;
 import battleship.Attack.*;
@@ -211,7 +214,7 @@ public class GameWindow implements ActionListener{
 	public String getEnemyAttackCoord() { 
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
-		JLabel lbl = new JLabel("Incoming attack coordinate");
+		JLabel lbl = new JLabel("Enter your attack coordinate: ");
 		JTextField enemyAttackCoord = new JTextField(3);
 		panel.add(lbl);
 		panel.add(enemyAttackCoord);
@@ -238,6 +241,49 @@ public class GameWindow implements ActionListener{
 	}
 	
 
+	public void playGameSound(String mode){
+		String SHOOTAUDIOFILE = "resources/shoot.wav";
+		String HITAUDIOFILE = "resources/explode.wav";
+		String MISSEDAUDIOFILE = "resources/splash.wav";
+		String YOUWINFILE = "resources/youwin.wav";
+		String YOULOSTFILE = "resources/youlost.wav";
+		String audioFile;
+		Clip clip;
+		AudioInputStream audioInputStream;
+
+		if(mode.equals("Shoot")){
+			audioFile = SHOOTAUDIOFILE;
+		}else if(mode.equals("Hit")){
+			audioFile = HITAUDIOFILE;
+		}else if(mode.equals("They won")){
+			audioFile = YOUWINFILE;
+		}else if(mode.equals("We won")){
+			audioFile = YOULOSTFILE;	
+		}else{
+			audioFile = MISSEDAUDIOFILE;
+		}
+
+		try {
+			// create AudioInputStream object
+			audioInputStream = AudioSystem.getAudioInputStream(new File(audioFile).getAbsoluteFile());
+			// create clip reference
+			clip = AudioSystem.getClip();
+			// open audioInputStream to the clip
+			clip.open(audioInputStream);
+			clip.start();
+			System.out.println("Playing audio");
+			if(mode.equals("They won")||mode.equals("We won")){ //since end sounds are much longer
+				Thread.sleep(5000); //longer time before thread put to sleep
+			}else{
+				Thread.sleep(2100); //unfortunately playing sounds halt the program until the thread is put to sleep
+				//this could be solved by playing the sound on another thread but I have no idea how to do that
+			}
+			clip.close();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 
 	@Override

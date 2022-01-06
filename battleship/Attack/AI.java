@@ -64,14 +64,27 @@ public class AI {
     // random attack
     //used by randomAI constantly and as hunt mode for smartAI
     public Coordinate randAttack() { 
-        System.out.println("Rand attack is running.");
+
+        int row, col;
         Coordinate coord = new Coordinate(1, 2);
-        while ((coord.getRow() + coord.getColumn()) % 2 == 1 && !pastShots.contains(coord)) {
-            coord.setRow(rand.nextInt(Constants.boardSize));
-            coord.setColumn(rand.nextInt(Constants.boardSize));
+        while(true){
+            row = rand.nextInt(Constants.boardSize);
+            col = rand.nextInt(Constants.boardSize);
+            coord.setRow(row);
+            coord.setColumn(col);
+            if(!pastShots.contains(coord)&&verifyParity(coord)){
+                break;
+            }
         }
         pastShots.add(coord);
         return coord;
+    }
+
+
+    //just because it confused me to have it in the while condition before
+    public Boolean verifyParity(Coordinate c){
+        int sum = c.getColumn()+c.getRow();
+        return(sum%2 == 1); 
     }
 
     //two stages when targeting a ship:
@@ -133,8 +146,8 @@ public class AI {
                     break;
             }
 
-            if ((returnCoord.getColumn() == -1) || (returnCoord.getRow() == -1))
-            //change direction if hitting one point away from firstHit would exceed bounds
+            if ((returnCoord.getColumn() == -1) || (returnCoord.getRow() == -1) || pastShots.contains(returnCoord))
+            //change direction if hitting one point away from firstHit would exceed bounds, or if we know it's already been hit
                 direction++;
             else {
                 return returnCoord;
@@ -187,12 +200,14 @@ public class AI {
                 default:
                     break;
             }
-            if ((returnCoord.getColumn() == -1) || (returnCoord.getRow() == -1)) {
+            if ((returnCoord.getColumn() == -1) || (returnCoord.getRow() == -1)|| pastShots.contains(returnCoord)) {
+                //if we're on the edge, the end of current direction, or already hit the point
                 if (direction < 2) { 
+                    //if going up/right, switch to down/left
                     direction += 2;
                     switchDirection = true;
-                } else {// We are going either left or down, and on edge or missed last shot
-                        // should go back to random mode
+                } else {//not possible to go from down/left to up/right
+                    //ship has to be sunk already
                     resetVals();
                     return randAttack();
                 }

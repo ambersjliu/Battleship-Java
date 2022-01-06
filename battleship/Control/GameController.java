@@ -42,6 +42,7 @@ public class GameController {
 		stage = 0;
 
 		ai = new AI();
+		System.out.println(ai.getPastShots().size());
 
 		ai.placeShips(ourBoard,loadGame);
 
@@ -71,6 +72,7 @@ public class GameController {
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from
 																			// user
+		//gameWindow.playGameSound("Shoot");
 
 		System.out.println("Our AI attacks " + ourAttackString); // print to console
 
@@ -92,6 +94,8 @@ public class GameController {
 				ai.getHits().add(ourAttack);
 			}
 			String hitShip = gameWindow.getShipHit(); // get id of ship
+			gameWindow.playGameSound("Hit");
+
 			attackPoint.setShipId(hitShip); 
 			enemyStats.incrementTotalHit();
 			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
@@ -101,6 +105,7 @@ public class GameController {
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
 			attackPoint.setShipId(hitShip);
+			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
 			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
@@ -110,7 +115,7 @@ public class GameController {
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
 			enemyStatsPanel.setMissedStats(enemyStats.getTotalMiss());
-
+			gameWindow.playGameSound("Missed");
 			if (ai.isTargetMode()) {
 				ai.setEndOfCurrentDirection(true);
 			}
@@ -118,8 +123,12 @@ public class GameController {
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
+
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
+			gameWindow.playGameSound("We won");
 			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); // SHEEESH WE WIN
+			gameWindow.destroy();
+			currentGameOver = true;
 		}
 
 		stage = 2;
@@ -129,6 +138,7 @@ public class GameController {
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
 		System.out.println(enemyAttack);
+		//gameWindow.playGameSound("Shoot");
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
@@ -143,16 +153,19 @@ public class GameController {
 			ourStats.incrementTotalHit();
 			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
 			userHits.add(enemyAtkCoord);
+			gameWindow.playGameSound("Hit");
 			gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
 		} else if (enemyAttackResult.getResult() == "Sink") {
 			ourStats.incrementTotalHit();
 			ourStats.incrementTotalSunk();
 			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
 			ourStatsPanel.setMissedStats(ourStats.getTotalSunk());
-			gameWindow.popupDialog("Oh no!", "You sank our" + enemyAttackResult.getShipName() + "!");
+			gameWindow.playGameSound("Hit");
+			gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 		} else {
 			ourStats.incrementTotalMiss();
 			ourStatsPanel.setMissedStats(ourStats.getTotalMiss());
+			gameWindow.playGameSound("Missed");
 			gameWindow.popupDialog("Phew!", "Missed!");
 		}
 
@@ -160,8 +173,9 @@ public class GameController {
 		gameWindow.refreshOurStats(ourStats);
 
 		if (ourStats.getTotalHit() == Constants.hitsToWin) {
+			gameWindow.playGameSound("They won");
 			gameWindow.popupDialog("Oh dear...", "Looks like we've lost! Press OK to restart.");
-			// gamewindow destroy?
+			gameWindow.destroy();
 			currentGameOver = true;
 		}
 
