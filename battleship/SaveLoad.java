@@ -1,3 +1,25 @@
+/*
+PROGRAM NAME - Battle-Ship/SaveLoad
+
+PROGRAMMERS - Elaine Yang
+
+USAGE - Saving the current game state and well as objects made, 
+        Loading saved game state and objects
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - Loading a save during another game will cause user/ai to have an extra move
+
+DESCRIPTION - Inputs several varaibles and objects through save() parameters
+              when called in GameController, creates save file and writes 
+              objects into it.
+              Ouputs varaibles and objects from reading said save file, having 
+              getters for each object for GameController, Ai, and GameWindow
+              to access them
+
+*/
+
 package battleship;
 
 import java.io.*;

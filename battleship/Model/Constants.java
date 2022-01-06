@@ -1,3 +1,19 @@
+/*
+PROGRAM NAME - Battle-Ship/Constants
+
+PROGRAMMERS - Amber Liu, Elaine Yang
+
+USAGE - Keeping things final varibles consistent across the whole program
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Model;
 import java.awt.Color;
 

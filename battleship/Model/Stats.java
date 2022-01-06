@@ -1,3 +1,20 @@
+
+/*
+PROGRAM NAME - 
+
+PROGRAMMERS - 
+
+USAGE - Has useful methods for keeping track of both User and AI hits/misses/and sunks,
+		tying hits/misses/sunks together as a Stats object
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
 package battleship.Model;
 
 import java.io.Serializable;

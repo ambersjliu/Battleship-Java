@@ -1,3 +1,19 @@
+/*
+PROGRAM NAME - Battle-Ship/GameController
+
+PROGRAMMERS - Amber Liu, Elaine Yang
+
+USAGE - Controlling the GUI version of the program (GameWindow)
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Control;
 
 import battleship.Model.*;

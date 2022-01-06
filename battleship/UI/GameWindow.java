@@ -1,3 +1,20 @@
+
+/*
+PROGRAM NAME - 
+
+PROGRAMMERS - 
+
+USAGE - The main GUI, diplays all GUI elements in it other than intro
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.UI;
 
 import java.awt.BorderLayout;
@@ -88,9 +105,6 @@ public class GameWindow implements ActionListener {
 		topPanel.add(watch.getTimeLabel());
 		topPanel.add(saveButton);
 		topPanel.add(loadButton); 
-		watch.stop();
-
-
 
 
 		return topPanel;

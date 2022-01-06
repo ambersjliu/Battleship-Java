@@ -1,3 +1,19 @@
+/*
+PROGRAM NAME - Battle-Ship/Coordinate
+
+PROGRAMMERS - 
+
+USAGE - 
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Model;
 
 import java.io.Serializable;

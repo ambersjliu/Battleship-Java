@@ -1,3 +1,19 @@
+/*
+PROGRAM NAME - Battle-Ship/AttackResults
+
+PROGRAMMERS - 
+
+USAGE - Tying an attack to its result
+
+DATE - Started 12/08/2021
+	   Completed 01/06/2022	
+
+BUGS - 
+
+DESCRIPTION - 
+
+*/
+
 package battleship.Model;
 
 public class AttackResults {
