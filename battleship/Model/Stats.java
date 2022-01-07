@@ -1,21 +1,18 @@
 
-/*
-PROGRAM NAME - 
 
-PROGRAMMERS - 
-
-USAGE - Has useful methods for keeping track of both User and AI hits/misses/and sunks,
-		tying hits/misses/sunks together as a Stats object
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 package battleship.Model;
+
+/**
+ * File: Board.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Defines the Board objects used in the game and their methods.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ */
 
 import java.io.Serializable;
 

@@ -1,19 +1,3 @@
-/*
-PROGRAM NAME - 
-
-PROGRAMMERS - 
-
-USAGE - Initailzing enemyBoards and ourBoards
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - Input: Board size, Points
-              Output: Updated board with point statuses for GUI
-
-*/
 
 package battleship.UI;
 import java.awt.*;
@@ -23,20 +7,37 @@ import battleship.Control.*;
 import battleship.Model.*;
 import battleship.Model.Point;
 
+/**
+ * File: BoardPanel.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Describes and creates the Board panel displayed in the GameWindow before and during the game.
+ * 
+ * @author Amber Liu
+ */
+
+
 public class BoardPanel extends JPanel{
-    Board board;
+    Board board; 
 	GameController controller;
 	String name;
 	JButton[][] shipButtons = new JButton[Constants.boardSize][Constants.boardSize];
 
 	public BoardPanel(Board board, GameController controller, String name) {
-		this.board = board;
-		this.controller = controller;
-		this.name = name;
-		setLayout(new GridLayout(0, Constants.boardSize + 1));
+		this.board = board; //the board to display
+		this.controller = controller; 
+		this.name = name; //name of displayed board
+		setLayout(new GridLayout(0, Constants.boardSize + 1)); //grid layout with 1	more column than grid size to fit letters
 		showInitialBoard(board);
 	}
 
+	/**
+	 * Displays the board at the beginning of the game.
+	 * @param board the board to draw
+	 */
 	public void showInitialBoard(Board board) {
 		Point[][] points = board.getPoints();
 		// show first line
@@ -56,11 +57,6 @@ public class BoardPanel extends JPanel{
 				Point p = points[row][col];
 				JButton markBtn = new JButton();
 				markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
-/* 				if (p.getIsHit())
-				else if (p.getIsTaken())
-					mark = "o";
-				else
-					mark = " "; */
 				markBtn.setMargin(new Insets(0, 0, 0, 0));
 				markBtn.setFocusPainted(false);
 				markBtn.setEnabled(false);
@@ -70,6 +66,10 @@ public class BoardPanel extends JPanel{
 		}
 	}
 
+	/** 
+	* Updates the board to reflect hits, misses, ship locations, etc.
+	* @param board board to draw 
+	*/
 	public void updateBoard(Board board) {
 		Point[][] points = board.getPoints();
 

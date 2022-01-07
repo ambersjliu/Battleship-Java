@@ -1,19 +1,5 @@
 
-/*
-PROGRAM NAME - 
 
-PROGRAMMERS - 
-
-USAGE - The main GUI, diplays all GUI elements in it other than intro
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.UI;
 
@@ -34,6 +20,18 @@ import battleship.Model.*;
 import java.awt.event.*;
 import java.awt.*;
 
+/**
+ * File: GameWindow.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: GUI methods called by GameController to display the game, ask for user input, and play sound.
+ * 
+ * @author Amber Liu
+ * <p> Contributions by Elaine Yang
+ */
 
 public class GameWindow implements ActionListener {
 

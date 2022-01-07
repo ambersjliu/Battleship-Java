@@ -3,16 +3,14 @@ PROGRAM NAME - Battle-Ship/ConsoleGame
 
 PROGRAMMERS - Amber Liu, Elaine Yang
 
-USAGE - Testing, maping out the struction of code using 
+USAGE - Testing, mapping out the struction of code using 
 		object oriented programing before adding to GUI
 
 DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
+	   Completed 12/13/2021
 
 DESCRIPTION - Inputs: board, ships, ai, user inputs
-			  Outputs: turn based system, console printed version of boards, 
+			  Outputs: turn based system, console printed version of boards, winner of game at end
 
 */
 

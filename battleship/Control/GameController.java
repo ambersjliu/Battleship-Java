@@ -1,18 +1,3 @@
-/*
-PROGRAM NAME - Battle-Ship/GameController
-
-PROGRAMMERS - Amber Liu, Elaine Yang
-
-USAGE - Controlling the GUI version of the program (GameWindow)
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.Control;
 
@@ -23,10 +8,20 @@ import battleship.Attack.*;
 import battleship.UI.*;
 
 import java.util.*;
-import javax.swing.*;
-import javax.swing.Timer;
-
 import java.awt.*;
+
+/**
+ * File: GameController.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Handles input, calls AI when needed and acts as the "hub" of the program.
+ * Facilitates the flow of gameplay.
+ * @author Amber Liu
+ * @author Elaine Yang
+ */
 
 public class GameController {
 
@@ -35,7 +30,6 @@ public class GameController {
 	private Board enemyBoard;
 	private AI ai;
 	private int stage = 0;
-	private Coordinate ourAttackCoord, ourHitCoord, enemyAttackCoord;
 	private ArrayList<Coordinate> userHits,userShots, aiHits;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
@@ -44,7 +38,6 @@ public class GameController {
 
 	private boolean isLoadGame = false;
 	private String username;
-	private Intro intro;
 	private boolean currentGameOver = false;
 
 	void initialize() { //called at the start of every game

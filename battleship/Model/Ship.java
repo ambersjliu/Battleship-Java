@@ -1,24 +1,22 @@
-/*
-PROGRAM NAME - Battle-Ship/Ship
 
-PROGRAMMERS - 
-
-USAGE - has useful methods needed for ship objects
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 
 package battleship.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * File: Ship.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Defines the ship objects. The second, extended constructor will also place the ships on the board passed as a parameter.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ */
 
 
 public class Ship implements Serializable{
@@ -28,13 +26,27 @@ public class Ship implements Serializable{
     private int startRow;
     private int startCol;
     private String orientation;
-    private ArrayList<Coordinate> shipPoints = new ArrayList<Coordinate>();
+    private ArrayList<Coordinate> shipPoints = new ArrayList<Coordinate>(); //an array of what points the ship takes up
 
+    /**
+     * The basic constructor to create a ship. Used to initialize ship names/lengths before placing.
+     * @param shipName name of ship
+     * @param shipLength how long the ship is
+     */
     public Ship(String shipName, int shipLength){
         this.shipLength = shipLength;
         this.shipName = shipName;
     }
 
+    /**
+     * The extended
+     * @param board which board to place on
+     * @param shipName name of ship
+     * @param shipLength how long the ship is
+     * @param startRow //the row its starting point is on
+     * @param startCol //the column its starting point is on
+     * @param orientation //which direction the ship will go: right or down
+     */
 	public Ship(Board board, String shipName, int shipLength, int startRow, int startCol, String orientation) {
         this.shipLength = shipLength;
 		this.board = board;
@@ -43,14 +55,15 @@ public class Ship implements Serializable{
         this.startCol = startCol;
         this.orientation = orientation;
 
+        //Only two directions, since using up/left is functionally the same
         if(orientation.equals("DOWN")){
 			for (int i = 0; i < shipLength; i++) {
-				int row = startRow + i;
+				int row = startRow + i; //since going down, only increase the row
 				Coordinate coord = new Coordinate(row, startCol);
 
                 shipPoints.add(coord);                 
                 
-				board.getPoint(row, startCol).setShipId(shipName);
+				board.getPoint(row, startCol).setShipId(shipName); 
 				board.getPoint(row, startCol).setIsTaken(true);
             }
         }
