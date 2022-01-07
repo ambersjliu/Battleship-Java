@@ -1,23 +1,21 @@
 
-/*
-PROGRAM NAME - Battle-Ship/Point
-
-PROGRAMMERS - 
-
-USAGE - 
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.Model;
 
 import java.io.Serializable;
+
+/**
+ * File: Point.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Defines the Point objects. Each point can be hit, taken, or sunk. Usage: Boards are 2D arrays of Points.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ * @author Elaine Yang
+ */
 
 public class Point implements Serializable{
     private boolean isTaken;

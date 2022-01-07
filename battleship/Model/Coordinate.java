@@ -1,26 +1,24 @@
-/*
-PROGRAM NAME - Battle-Ship/Coordinate
-
-PROGRAMMERS - 
-
-USAGE - 
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.Model;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * File: Coordinate.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Used to refer to x,y coordinates without being bound to a specific Point or Board.
+ * Was also preferable to constantly having to create int arrays of size 2.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ */
+
 public class Coordinate implements Serializable{
-private int row;
+private int row; 
 private int column;
 
 
@@ -57,7 +55,6 @@ private int column;
             ", column='" + getColumn() + "'" +
             "}";
     }
-
 
     @Override
     public boolean equals(Object o) {

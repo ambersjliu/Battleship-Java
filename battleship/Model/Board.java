@@ -1,26 +1,25 @@
-/*
-PROGRAM NAME - 
 
-PROGRAMMERS - 
-
-USAGE - Initailzing enemyBoards and ourBoards
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - Input: Board size, Points
-              Output: Updated board with point statuses for console 
-
-*/
 
 package battleship.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board implements Serializable{
+/**
+ * File: Board.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Defines the Board objects used in the game and their methods.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ * @author Elaine Yang
+ */
+
+
+public class Board implements Serializable{ //so that the board can be saved and loaded
     Point[][] points;
 
 
@@ -48,9 +47,6 @@ public class Board implements Serializable{
 		return points[row][column];
 	}
 
-	public void setPoint(Point point, int row, int column) {
-		points[row][column] = point;
-	}
 
     public void drawBoard(Board board){ //used only for console
         System.out.print(" ");

@@ -1,23 +1,20 @@
-/*
-PROGRAM NAME - Battle-Ship/StartUpParams
 
-PROGRAMMERS - 
-
-USAGE - initialize who attacks first and which AI is picked, 
-		tying them togehter as needed information before game starts
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.Model;
 
 import java.io.Serializable;
+
+/**
+ * File: StartUpParams.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Bundles together the two player-selected options at the beginning of the game: AI level, and who goes first.
+ * <p>Part of the Model package, describing the data and objects used in the game.
+ * @author Amber Liu
+ */
 
 public class StartUpParams implements Serializable{
 	private boolean weGoFirst;
@@ -28,6 +25,8 @@ public class StartUpParams implements Serializable{
 		this.weGoFirst = weGoFirst;
 		this.randomAIPicked = randomAIPicked;
 	}
+
+	//setters and getters
 
 	public boolean doWeGoFirst() {
 		return weGoFirst;
@@ -40,8 +39,7 @@ public class StartUpParams implements Serializable{
 	public void setisrandomAIPicked(boolean randomAiPicked) {
 		this.randomAIPicked = randomAiPicked;
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "StartUpParams [weGoFirst=" + weGoFirst + ", randomAIPicked=" + randomAIPicked + "]";
