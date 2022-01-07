@@ -20,7 +20,7 @@ package battleship.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board implements Serializable{
+public class Board {
     Point[][] points;
 
 

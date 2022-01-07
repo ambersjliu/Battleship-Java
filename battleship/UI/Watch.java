@@ -38,7 +38,7 @@ public class Watch implements ActionListener{
 	String hours_string = String.format("%02d", hours);
 
 
-	//does the ticking 
+	//Tics the timer, adds one secound to elapsedTime
 	public Timer timer = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -76,6 +76,7 @@ public class Watch implements ActionListener{
 		
 	}
 
+	//methods for timer functions 
     public void start() {
 		timer.start();
 	}
@@ -95,6 +96,9 @@ public class Watch implements ActionListener{
 		hours_string = String.format("%02d", hours);
 		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
 	}
+
+	
+	//methods for GUI to access the timer
     
 	public JLabel getTimeLabel(){
 		return timeLabel;

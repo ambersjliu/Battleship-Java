@@ -57,6 +57,7 @@ public class SaveLoad {
     boolean endOfCurrentDirection;
     
     
+
     public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
         ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
@@ -96,12 +97,19 @@ public class SaveLoad {
 
             save.close();
         
-        }catch (Exception exc){
+        }catch (Exception exc){ 
             exc.printStackTrace();
         }
 
 
     }
+
+
+    /**
+     * 
+     * @param isfileFound boolean 
+     * @return if file is found or not
+     */
 
     public boolean load(boolean isfileFound){
         System.out.println("loading");

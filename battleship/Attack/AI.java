@@ -235,7 +235,7 @@ public class AI {
     }
 
     // ship placement methods
-    public void placeShips(Board board, boolean load) {
+    public void placeShips(Board board, boolean isLoadGame) {
 
         Ship carrier = new Ship("Carrier", 5);
         Ship battleship = new Ship("Battleship", 4);
@@ -266,14 +266,14 @@ public class AI {
                         Constants.orientation[orientation]);
             }
 
-            if (load == false){
+            if (isLoadGame == false){ //if this is a new game, use the new created ship params above to place ships
                 Ship newShip = new Ship(board, shipArr[i].getShipName(), shipArr[i].getShipLength(),
                         startRow, startCol, Constants.orientation[orientation]);
                 shipDict.put(shipArr[i].getShipName(), newShip);
 
                 shipsPlaced.add(newShip);
             }
-            else{
+            else{ //if this isn't a new game, get ship params from ArrayList<Ship> to place saved ships
                 Ship newShip = new Ship(board, shipsPlaced.get(i).getShipName(), shipsPlaced.get(i).getShipLength(),
                     shipsPlaced.get(i).getStartRow(), shipsPlaced.get(i).getStartCol(),
                     shipsPlaced.get(i).getStartOrient());
@@ -388,8 +388,6 @@ public class AI {
     public void setShipsPlaced(ArrayList<Ship> shipsPlaced){
         this.shipsPlaced = shipsPlaced;
     }
-
-
 
     public ArrayList<Coordinate> getPastShots() {
         return this.pastShots;

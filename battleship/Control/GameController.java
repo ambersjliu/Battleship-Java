@@ -219,8 +219,8 @@ public class GameController {
 			initialize(); // reset vals to 0
 			username = gameWindow.getUsername();
 			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
+			gameWindow.getWatch().start(); //start gameWindow watch
 
-			gameWindow.getWatch().start();
 			if (sup.doWeGoFirst())
 				stage = 0;
 			else
@@ -234,6 +234,11 @@ public class GameController {
 
 	SaveLoad save = new SaveLoad();
 
+	/**
+	 * Calls SaveLoad class and gets all the needed params 
+	 * to save the current state, board, status of player and AI
+	 * 
+	 */
 	public void saveGame(){
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
@@ -244,21 +249,25 @@ public class GameController {
 
 	}
 
+	/**
+	 * loadGame will prompt for the username of the saved game
+	 * Using getters from SaveLoad class, loadGame() puts the saved params
+	 * back into their original needed places
+	 * 
+	 */
 	public void loadGame(){
 		isLoadGame = true;
-
 		boolean fileFound=false;
 
-		while (fileFound==false){
-
+		while (fileFound == false){ //while file is not found contine to ask user for username
 				username = gameWindow.getUsername();
 				save.setSaveName(username);
 				fileFound=save.load(fileFound);
 
 		}
 
-		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime());
-		stage = save.getStage();
+		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime()); 
+		stage = save.getStage(); 
 
 		ourStats = save.getOurStats();
 		enemyStats = save.getEnmeyStats();
@@ -268,10 +277,10 @@ public class GameController {
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
 
-		ourBoard = new Board(Constants.boardSize); //wipes out current boards
+		ourBoard = new Board(Constants.boardSize); 
 		enemyBoard = new Board(Constants.boardSize);
 
-		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
+		ai.setShipsPlaced(save.getShipsPlaced()); 
 		ai.placeShips(ourBoard, isLoadGame);
 
 		ourBoard.loadBoard(ourBoard, userShots, userHits);
@@ -292,9 +301,8 @@ public class GameController {
 		ai.setFirstHit(save.getFirstHit());
 		ai.setEndOfCurrentDirection(save.getEndOfCurrentDirection());
 
-
-
 	}
+
 
 	//getter for gameWindow 
     public SaveLoad getSave() {

@@ -94,9 +94,8 @@ public class Main {
 			if (firstMove == 1 || first==false) {
 				first = false;
 
-				System.out.println("Our board:");
+				System.out.println("Our board:"); //printing boards in console
 				ourBoard.drawBoard(ourBoard);
-
 				System.out.println("Your board: ");
 				enemyBoard.drawBoard(enemyBoard);
 
@@ -106,7 +105,7 @@ public class Main {
 				String enter = input.nextLine(); //catch enter, had issues with input earlier
 				String coord = input.nextLine().toUpperCase();
 
-				int col = Integer.parseInt(coord.substring(1)) - 1;
+				int col = Integer.parseInt(coord.substring(1)) - 1; //covert letter-number into number-number
 				int row = ((int) coord.charAt(0)) - 65;
 
 				Coordinate numcoord = new Coordinate(row,col);
@@ -129,14 +128,15 @@ public class Main {
 					System.out.println(hitShipId + " has " + ai.getShipDict().get(hitShipId).getShipSurvivingPoints() + " points left.");
 					enemyHits++;
 
-					// if sunk
+					// if player sunk
 					if (ai.getShipDict().get(hitShipId).getShipSurvivingPoints() < 0){
-						System.out.println("You sunk our " + hitShipId); 						 //u sunk my ship id
+						System.out.println("You sunk our " + hitShipId); 	 //u sunk my ship id
 	
 					   }
 		
 				} 
 
+				//if player miss
 				else {
 					System.out.println("Missed ;)");
 					enemyMisses++;
@@ -146,23 +146,20 @@ public class Main {
 			}
 			// prompt user to save, or save and exit
 
-			// ai turn
+			// Ai turn
 			if(firstMove == 2 || first == false){
 
 				System.out.println("Our board:");
 				ourBoard.drawBoard(ourBoard);
-
 				System.out.println("Your board: ");
 				enemyBoard.drawBoard(enemyBoard);
 
 				first = false;
-				Coordinate numcoord = ai.getNextMove(gameMode);
+				Coordinate numcoord = ai.getNextMove(gameMode); //call ai to get next move
 
 				System.out.println("Ai's turn!");
-
-				System.out.println("Ai attacks "+ numcoord.coordFormat(numcoord));
+				System.out.println("Ai attacks "+ numcoord.coordFormat(numcoord)); 
 				
-
 				System.out.println("hit(1) or miss(2)?");
 				int userinput = input.nextInt();
 
@@ -243,9 +240,7 @@ public class Main {
 
 				}
 				System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
-
 				enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
-
 
 
 			}
