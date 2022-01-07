@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 
-public class Board implements Serializable{ //so that the board can be saved and loaded
+public class Board implements Serializable{ //so board board can be saved and loaded
     Point[][] points;
 
 
@@ -75,15 +75,25 @@ public class Board implements Serializable{ //so that the board can be saved and
         }
     }
 
+    /**
+     * 
+     * @param Board Takes in enemyBoard/ourBoard to load changes to 
+     * @param pastShots Takes in the pastShots of aiPastShots/userPastShots 
+     * to set point statuses to be isHit
+     * @param pastHits Takes in the pastHits of aiPastHits/userPastHits 
+     * to set point statuses to be isTaken
+     * @return n/a
+     */
+
     public void loadBoard(Board Board, ArrayList<Coordinate> pastShots,
     ArrayList<Coordinate> pastHits){
 
-        for (int rows = 0; rows < Constants.boardSize; rows++) {
+        for (int rows = 0; rows < Constants.boardSize; rows++) { //loops through all points of the board
             for (int j = 0; j < 10; j++) {
 
                 Coordinate coord = new Coordinate(rows, j);
 
-                if (pastShots.contains(coord)) {
+                if (pastShots.contains(coord)) { 
                     Board.getPoint(rows, j).setIsHit(true);
 
                     if (pastHits.contains(coord)) {

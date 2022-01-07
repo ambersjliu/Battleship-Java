@@ -156,6 +156,12 @@ public class GameWindow implements ActionListener {
 	}
 
 
+	/**
+	 * @param loadGame is load game button selected
+	 * @return if load game is false, returns user selected StartUpParams of current game
+	 * if load game is true, returns StartUpParams that is saved
+	 */
+
 	public StartUpParams getStartParams(boolean loadGame) {
 
 		String[] whoMovesFirst = { "Our AI", "Your AI" };

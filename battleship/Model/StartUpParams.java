@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author Amber Liu
  */
 
-public class StartUpParams implements Serializable{
+public class StartUpParams implements Serializable{ //so StartUpParmas objects can be saved and loaded
 	private boolean weGoFirst;
 	private boolean randomAIPicked;
 

@@ -23,13 +23,22 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import battleship.Model.Constants;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.net.*;
+
+/**
+ * File: StatsPanel.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Creates and describes a panel with game stats, displays in GameWindow
+ * @author Amber Liu
+ */
 
 
 public class StatsPanel extends JPanel {

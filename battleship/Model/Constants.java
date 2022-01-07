@@ -1,5 +1,5 @@
 /**
- * File: Board.java
+ * File: Constants.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
  * <p>06 January, 2021

@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Amber Liu
  */
 
-public class Coordinate implements Serializable{
+public class Coordinate implements Serializable{ //so Coordinate objects can be saved and loaded
 private int row; 
 private int column;
 

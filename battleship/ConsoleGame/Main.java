@@ -1,18 +1,3 @@
-/*
-PROGRAM NAME - Battle-Ship/ConsoleGame
-
-PROGRAMMERS - Amber Liu, Elaine Yang
-
-USAGE - Testing, mapping out the struction of code using 
-		object oriented programing before adding to GUI
-
-DATE - Started 12/08/2021
-	   Completed 12/13/2021
-
-DESCRIPTION - Inputs: board, ships, ai, user inputs
-			  Outputs: turn based system, console printed version of boards, winner of game at end
-
-*/
 
 package battleship.ConsoleGame;
 
@@ -24,6 +9,20 @@ import battleship.Model.Board;
 import battleship.Model.Constants;
 import battleship.Model.Coordinate;
 import battleship.Model.Ship;
+
+
+/**
+ * File: Main.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: The Modole version of the program. Handles input, calls AI when needed 
+ * and acts as the "hub" of the program. Facilitates the flow of gameplay.
+ * @author Amber Liu
+ * @author Elaine Yang
+ */
 
 public class Main {
 	AI ai;
@@ -92,9 +91,8 @@ public class Main {
 			if (firstMove == 1 || first==false) {
 				first = false;
 
-				System.out.println("Our board:");
+				System.out.println("Our board:"); //printing boards in console
 				ourBoard.drawBoard(ourBoard);
-
 				System.out.println("Your board: ");
 				enemyBoard.drawBoard(enemyBoard);
 
@@ -104,7 +102,7 @@ public class Main {
 				String enter = input.nextLine(); //catch enter, had issues with input earlier
 				String coord = input.nextLine().toUpperCase();
 
-				int col = Integer.parseInt(coord.substring(1)) - 1;
+				int col = Integer.parseInt(coord.substring(1)) - 1; //covert letter-number into number-number
 				int row = ((int) coord.charAt(0)) - 65;
 
 				Coordinate numcoord = new Coordinate(row,col);
@@ -127,14 +125,15 @@ public class Main {
 					System.out.println(hitShipId + " has " + ai.getShipDict().get(hitShipId).getShipSurvivingPoints() + " points left.");
 					enemyHits++;
 
-					// if sunk
+					// if player sunk
 					if (ai.getShipDict().get(hitShipId).getShipSurvivingPoints() < 0){
-						System.out.println("You sunk our " + hitShipId); 						 //u sunk my ship id
+						System.out.println("You sunk our " + hitShipId); 	 //u sunk my ship id
 	
 					   }
 		
 				} 
 
+				//if player miss
 				else {
 					System.out.println("Missed ;)");
 					enemyMisses++;
@@ -144,23 +143,20 @@ public class Main {
 			}
 			// prompt user to save, or save and exit
 
-			// ai turn
+			// Ai turn
 			if(firstMove == 2 || first == false){
 
 				System.out.println("Our board:");
 				ourBoard.drawBoard(ourBoard);
-
 				System.out.println("Your board: ");
 				enemyBoard.drawBoard(enemyBoard);
 
 				first = false;
-				Coordinate numcoord = ai.getNextMove(gameMode);
+				Coordinate numcoord = ai.getNextMove(gameMode); //call ai to get next move
 
 				System.out.println("Ai's turn!");
-
-				System.out.println("Ai attacks "+ numcoord.coordFormat(numcoord));
+				System.out.println("Ai attacks "+ numcoord.coordFormat(numcoord)); 
 				
-
 				System.out.println("hit(1) or miss(2)?");
 				int userinput = input.nextInt();
 
@@ -241,9 +237,7 @@ public class Main {
 
 				}
 				System.out.println(enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).getIsTaken());
-
 				enemyBoard.getPoint(numcoord.getRow(), numcoord.getColumn()).setIsHit(true);
-
 
 
 			}

@@ -1,34 +1,22 @@
-/*
-PROGRAM NAME - Battle-Ship/SaveLoad
-
-PROGRAMMERS - Elaine Yang
-
-USAGE - Saving the current game state and well as objects made, 
-        Loading saved game state and objects
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - Loading a save during another game will cause user/ai to have an extra move
-
-DESCRIPTION - Inputs several varaibles and objects through save() parameters
-              when called in GameController, creates save file and writes 
-              objects into it.
-              Ouputs varaibles and objects from reading said save file, having 
-              getters for each object for GameController, Ai, and GameWindow
-              to access them
-
-*/
 
 package battleship;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import battleship.Attack.*;
 import battleship.Model.*;
+
+
+/**
+ * File: SaveLoad.Java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Saving the current game state and well as objects made, 
+ * <p>Loading saved game state and objects
+ * @author Elaine Yang
+ */
 
 
 public class SaveLoad {
@@ -57,6 +45,13 @@ public class SaveLoad {
     boolean endOfCurrentDirection;
     
     
+
+    /**
+     * 
+     * Inputs several varaibles and objects through save() parameters
+     * when called in GameController, creates save file and writes 
+     * objects into it. 
+     */
     public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
         ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
@@ -96,12 +91,23 @@ public class SaveLoad {
 
             save.close();
         
-        }catch (Exception exc){
+        }catch (Exception exc){ 
             exc.printStackTrace();
         }
 
 
     }
+
+
+    /**
+     * 
+     * @param isfileFound boolean 
+     * @return if file is found or not
+     * 
+     * Reads form save file, having and puts them in temporarily objects,  
+     * has getters for each object for GameController, Ai, and GameWindow
+     * to access them
+     */
 
     public boolean load(boolean isfileFound){
         System.out.println("loading");

@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author Elaine Yang
  */
 
-public class Point implements Serializable{
+public class Point implements Serializable{ //so Point objects can be saved and loaded
     private boolean isTaken;
     private boolean isHit;
     private String shipId;
