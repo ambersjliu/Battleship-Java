@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 
 
-public class Ship implements Serializable{
+public class Ship implements Serializable{ //so Ship objects can be saved and loaded
     private int shipLength;
     private String shipName;
     private Board board;

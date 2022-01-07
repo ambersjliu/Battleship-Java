@@ -1,18 +1,3 @@
-/*
-PROGRAM NAME - Battle-Ship/ConsoleGame
-
-PROGRAMMERS - Amber Liu, Elaine Yang
-
-USAGE - Testing, mapping out the struction of code using 
-		object oriented programing before adding to GUI
-
-DATE - Started 12/08/2021
-	   Completed 12/13/2021
-
-DESCRIPTION - Inputs: board, ships, ai, user inputs
-			  Outputs: turn based system, console printed version of boards, winner of game at end
-
-*/
 
 package battleship.ConsoleGame;
 
@@ -24,6 +9,20 @@ import battleship.Model.Board;
 import battleship.Model.Constants;
 import battleship.Model.Coordinate;
 import battleship.Model.Ship;
+
+
+/**
+ * File: Main.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: The Modole version of the program. Handles input, calls AI when needed 
+ * and acts as the "hub" of the program. Facilitates the flow of gameplay.
+ * @author Amber Liu
+ * @author Elaine Yang
+ */
 
 public class Main {
 	AI ai;

@@ -1,27 +1,20 @@
 
-/*
-PROGRAM NAME - Battle-Ship/Watch
-
-PROGRAMMERS - Elaine Yang
-
-USAGE - Keep track of and controls the time the game has played 
-		(after StartUpParams to When ai/user wins)
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - Input: n/a
-			  Ouput: The time eplapsed in hours, minutes, secounds
-
-*/
-
 package battleship.UI;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+/**
+ * File: Watch.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Keep track of and creates the GUI timer 
+ * @author Elaine Yang
+ */
 
 
 public class Watch implements ActionListener{
@@ -38,7 +31,7 @@ public class Watch implements ActionListener{
 	String hours_string = String.format("%02d", hours);
 
 
-	//Tics the timer, adds one secound to elapsedTime
+	//Tics the timer, adds one secound to elapsedTime, updates timer
 	public Timer timer = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -48,7 +41,7 @@ public class Watch implements ActionListener{
 			minutes = (elapsedTime/60000) % 60;
 			seconds = (elapsedTime/1000) % 60;
 
-			seconds_string = String.format("%02d", seconds);
+			seconds_string = String.format("%02d", seconds); //formats number as two digits (8 -> 08)
 			minutes_string = String.format("%02d", minutes);
 			hours_string = String.format("%02d", hours);
 			timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
@@ -84,18 +77,7 @@ public class Watch implements ActionListener{
 	public void stop() {
 		timer.stop();
 	}
-	
-	public void reset() {
-		timer.stop();
-		elapsedTime=0;
-		seconds =0;
-		minutes=0;
-		hours=0;
-		seconds_string = String.format("%02d", seconds);
-		minutes_string = String.format("%02d", minutes);
-		hours_string = String.format("%02d", hours);
-		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
-	}
+
 
 	
 	//methods for GUI to access the timer

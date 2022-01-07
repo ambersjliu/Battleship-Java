@@ -229,8 +229,7 @@ public class GameController {
 
 	/**
 	 * Calls SaveLoad class and gets all the needed params 
-	 * to save the current state, board, status of player and AI
-	 * 
+	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
 
@@ -246,7 +245,6 @@ public class GameController {
 	 * loadGame will prompt for the username of the saved game
 	 * Using getters from SaveLoad class, loadGame() puts the saved params
 	 * back into their original needed places
-	 * 
 	 */
 	public void loadGame(){
 		isLoadGame = true;

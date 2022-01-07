@@ -1,18 +1,4 @@
-/*
-PROGRAM NAME - Battle-Ship/AI
 
-PROGRAMMERS - Amber Liu
-
-USAGE - Creating an attack coordinate denpending game states and previous hits
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.Attack;
 
@@ -20,8 +6,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-
 import battleship.Model.*;
+
+/**
+ * File: GameController.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Generates the AI attack coodinates based on presivous attacks.
+ * <p>Generates ship and ship placements.
+ * @author Amber Liu
+ *  <p> Contributions by Elaine Yang
+ */
 
 public class AI {
     private ArrayList<Coordinate> pastShots = new ArrayList<Coordinate>();

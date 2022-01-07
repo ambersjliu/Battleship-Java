@@ -3,20 +3,20 @@
 package battleship.Model;
 
 /**
- * File: Board.java
+ * File: Stats.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
  * <p>06 January, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
- * <p>Description: Defines the Board objects used in the game and their methods.
+ * <p>Description: Defines the Stats object used in methods, ties together hits, misses and sunks
  * <p>Part of the Model package, describing the data and objects used in the game.
  * @author Amber Liu
  */
 
 import java.io.Serializable;
 
-public class Stats implements Serializable{
+public class Stats implements Serializable{ //so stat objects can be saved and loaded
 	private int totalHit;
 	private int totalMiss;
 	private int totalSunk;
