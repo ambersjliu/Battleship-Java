@@ -1,18 +1,4 @@
-/*
-PROGRAM NAME - 
 
-PROGRAMMERS - 
-
-USAGE - 
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 
 package battleship.UI;
@@ -23,19 +9,35 @@ import java.io.File;
 import java.net.*;
 import battleship.Control.*;
 
+/**
+ * File: Intro.java
+ * <p>Mr. Anadarajan
+ * <p>ICS4U1
+ * <p>06 January, 2021
+ * 
+ * <p>Final Evaluation: Battleship Tournament
+ * <p>Description: Intro window displayed before game start. 
+ * 
+ * @author Amber Liu
+ */
 
 public class Intro{
     private JFrame introFrame;
     private Image bgImg;
     private ImageIcon bg;
     private JButton startButton;
-    private boolean closeWindow;
 
-
+    /**
+     * Closes the window.
+     */
     public void close(){
         introFrame.setVisible(false);
     }
 
+    /**
+     * Intro constructor. Loads the intro image from resources, and draws the window.
+     * @throws MalformedURLException
+     */
     public Intro(){
 
         URL url;
@@ -47,12 +49,15 @@ public class Intro{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        drawIntro();
 
     }
 
+    /**
+     * Method that creates the intro window. Calls game controller to begin game once START is clicked.
+     */
     public void drawIntro() {
 
-        closeWindow = false;
 
         introFrame = new JFrame();
         introFrame.setTitle("Battleship");
@@ -91,8 +96,5 @@ public class Intro{
 
     }
 
-    public boolean getIntroClosed(){
-        return closeWindow;
-    }
 
 }
