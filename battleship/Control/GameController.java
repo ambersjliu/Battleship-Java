@@ -210,8 +210,11 @@ public class GameController {
 
 		while (true) { // loop that brings game back to initial state after game over
 			initialize(); // reset vals to 0
-			username = gameWindow.getUsername();
-			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
+
+			if (isLoadGame == false){
+				username = gameWindow.getUsername();
+				sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
+			}
 			gameWindow.getWatch().start(); //start gameWindow watch
 
 			if (sup.doWeGoFirst())
@@ -220,6 +223,7 @@ public class GameController {
 				stage = 2;
 			currentGameOver = false;
 			while (!currentGameOver) { // while no one has won
+				gameWindow.getLoadButton().setEnabled(false);
 				updateState(); // update state will switch between two stages
 			}
 		}
@@ -250,7 +254,7 @@ public class GameController {
 		isLoadGame = true;
 		boolean fileFound=false;
 
-		while (fileFound == false){ //while file is not found contine to ask user for username
+		while (fileFound == false){ //while file is not found contine to ask user for a username
 				username = gameWindow.getUsername();
 				save.setSaveName(username);
 				fileFound=save.load(fileFound);
@@ -285,7 +289,7 @@ public class GameController {
 		sup = save.getSup();
 		gameWindow.setSup(sup);
 
-		ai.setHits(save.getHits());
+		ai.setHits(save.getHits()); //sets advance ai
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
 		ai.setDirection(save.getDirection());
