@@ -344,6 +344,10 @@ public class GameWindow implements ActionListener {
 		return watch;
 	}
 
+	public JButton getLoadButton(){
+		return loadButton;
+	}
+
 
 
 }
