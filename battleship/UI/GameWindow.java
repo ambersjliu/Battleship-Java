@@ -30,7 +30,7 @@ import java.awt.*;
  * <p>Description: GUI methods called by GameController to display the game, ask for user input, and play sound.
  * 
  * @author Amber Liu
- * <p> Contributions by Elaine Yang
+ * @author Contributions by Elaine Yang
  */
 
 public class GameWindow implements ActionListener {
@@ -58,7 +58,8 @@ public class GameWindow implements ActionListener {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Creates the game window by calling the initializing methods for the other 
+	 * components and arranging them inside frmBattleship.
 	 */
 	private void initialize() {
 		setFrmBattleship(new JFrame());
@@ -80,11 +81,16 @@ public class GameWindow implements ActionListener {
 
 	}
 
+	/**
+	 * Draws the top panel with the save/load buttons and timer.
+	 * @return the top panel
+	 */
 	private JPanel initializeTopPanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Constants.bgColor);
 		GridBagConstraints c = new GridBagConstraints();
 
+		//save, load buttons
 		saveButton = new JButton("Save");
 		loadButton = new JButton("Load");
 
@@ -108,6 +114,11 @@ public class GameWindow implements ActionListener {
 		return topPanel;
 	}
 
+	/**
+	 * Creates a tabbed pane so that the player can switch their between the two board views.
+	 * Also draws a statsPanel on the side displaying the number of hits/misses/sunk ships each board has accrued.
+	 * @return the tabbed pane with the boards and their respective stats panels
+	 */
 	JTabbedPane initializeBoardsPane() {
 		JTabbedPane boardsPane = new JTabbedPane(JTabbedPane.TOP);
 
@@ -116,7 +127,7 @@ public class GameWindow implements ActionListener {
         boardsPane.addTab("Our board", null, ourPanel, null);
         ourPanel.setLayout(new BorderLayout(0, 0));
 
-		ourBoardPanel = new BoardPanel(this.ourBoard, this.gameController, "Light");
+		ourBoardPanel = new BoardPanel(this.ourBoard, this.gameController, "Ours");
 		ourPanel.add(ourBoardPanel, BorderLayout.CENTER);
 
 		ourStatsPanel = new StatsPanel();
@@ -129,7 +140,7 @@ public class GameWindow implements ActionListener {
 		enemyStatsPanel = new StatsPanel();
 		enemyPanel.add(enemyStatsPanel, BorderLayout.EAST);
 
-		enemyBoardPanel = new BoardPanel(this.enemyBoard, this.gameController, "Dark");
+		enemyBoardPanel = new BoardPanel(this.enemyBoard, this.gameController, "Theirs");
 		enemyPanel.add(enemyBoardPanel, BorderLayout.CENTER);
 
 		boardsPane.setSelectedComponent(enemyPanel);
@@ -144,6 +155,7 @@ public class GameWindow implements ActionListener {
 		return ourBoardPanel;
 	}
 
+
 	/**
 	 * @param loadGame is load game button selected
 	 * @return if load game is false, returns user selected StartUpParams of current game
@@ -157,9 +169,8 @@ public class GameWindow implements ActionListener {
 		JComboBox jcFirstMover = new JComboBox(whoMovesFirst);
 		JComboBox jcAILevel = new JComboBox(AIlevel);
 
-		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level", jcAILevel };
+		Object[] objects = new Object[] { "Who moves first?", jcFirstMover, "Choose your AI level:", jcAILevel };
 		JOptionPane.showConfirmDialog(frmBattleship, objects, "Start up parameters", JOptionPane.DEFAULT_OPTION);
-
 		
 		if (loadGame == false){
 			sup = new StartUpParams(jcFirstMover.getSelectedIndex() == 0, jcAILevel.getSelectedIndex() == 0);
@@ -181,7 +192,11 @@ public class GameWindow implements ActionListener {
 		this.sup = sup;
 	}
 
-
+	/**
+	 * A method for quickly creating a popup with an OK button
+	 * @param title The title in the dialog frame
+	 * @param message The message inside the popup
+	 */
 	public void popupDialog(String title, String message) {
 		JOptionPane.showConfirmDialog(frmBattleship, message, title, JOptionPane.DEFAULT_OPTION);
 	}
@@ -194,6 +209,11 @@ public class GameWindow implements ActionListener {
 		this.frmBattleship = frmBattleship;
 	}
 
+	/**
+	 * Prompts the user to choose the result of our AI's attack from a dropdown menu.
+	 * @param ourAttackCoordStr the coordinate we're attacking
+	 * @return the result chosen by the user
+	 */
 	public String getAttackResult(String ourAttackCoordStr) {
 		String[] attackResults = { "Missed!", "Hit!", "Sank!" };
 
@@ -206,6 +226,10 @@ public class GameWindow implements ActionListener {
 		return jcAttackResults.getSelectedItem().toString();
 	}
 
+	/**
+	 * Asks user to select which ship was hit from a dropdown menu.
+	 * @return result chosen by the user
+	 */
 	public String getShipHit(){
 		String[] ships = {"Carrier","Battleship", "Cruiser", "Submarine", "Destroyer"};
 		JComboBox jcShipOptions = new JComboBox(ships);
@@ -216,6 +240,10 @@ public class GameWindow implements ActionListener {
 
 	}
 
+	/**
+	 * Asks user for their username. Used when identifying which file should be loaded.
+	 * @return Entered username
+	 */
 	public String getUsername(){
 		String user = JOptionPane.showInputDialog(frmBattleship, "Enter a username: ", "Username", JOptionPane.DEFAULT_OPTION);
 		return user;
@@ -230,6 +258,9 @@ public class GameWindow implements ActionListener {
 		ourBoardPanel.updateBoard(ourBoard);
 	}
 
+	/**
+	 * Destroys the current game window. Used to clear everything at the end of the game.
+	 */
 	public void destroy() {
 		getFrmBattleship().setVisible(false);
 		getFrmBattleship().dispose(); // Destroy the JFrame object;
@@ -309,9 +340,9 @@ public class GameWindow implements ActionListener {
 			clip.start();
 			System.out.println("Playing audio");
 			if(mode.equals("They won")||mode.equals("We won")){ //since end sounds are much longer
-				Thread.sleep(5000); //longer time before thread put to sleep
+				Thread.sleep(5000); //longer time where thread is put to sleep
 			}else{
-				Thread.sleep(2100); //unfortunately playing sounds halt the program until the thread is put to sleep
+				Thread.sleep(2100); //unfortunately playing sounds needs you to put the thread to sleep which means everything else stops 
 				//this could be solved by playing the sound on another thread but I have no idea how to do that
 			}
 			clip.close();
