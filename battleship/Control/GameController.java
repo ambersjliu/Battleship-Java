@@ -223,7 +223,6 @@ public class GameController {
 				stage = 2;
 			currentGameOver = false;
 			while (!currentGameOver) { // while no one has won
-				gameWindow.getLoadButton().setEnabled(false);
 				updateState(); // update state will switch between two stages
 			}
 		}
