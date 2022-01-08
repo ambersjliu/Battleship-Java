@@ -278,6 +278,9 @@ public class GameWindow implements ActionListener {
 		enemyStatsPanel.setSunkStats(enemyStats.getTotalSunk());
 	}
 
+	/**
+	 * 
+	 */
 	public String getEnemyAttackCoord() { 
 		String[] options = { "OK" };
 		JPanel panel = new JPanel();
@@ -287,11 +290,11 @@ public class GameWindow implements ActionListener {
 		panel.add(enemyAttackCoord);
 		String enemyAttackCoordStr = "";
 
-		while (true) {
+		while (true) { //continuously create the window if the attack isn't valid/if the user closes thw indow
 			int selectedOption = JOptionPane.showOptionDialog(frmBattleship, panel, "Incoming attack!", JOptionPane.NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-			try {
+			try { //make sure the attack is a valid coordinate
 				if (selectedOption == 0) {
 					enemyAttackCoordStr = enemyAttackCoord.getText();
 					char row = enemyAttackCoordStr.toLowerCase().charAt(0);

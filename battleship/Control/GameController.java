@@ -76,7 +76,8 @@ public class GameController {
 	}
 
 	/**
-	 * 
+	 * Generates an attack from AI, communicates it to the user, and changes the game window to
+	 * reflect the results of the attack.
 	 */
 	void attack() {
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
@@ -149,6 +150,10 @@ public class GameController {
 
 	}
 
+	/**
+	 * Asks the user for their move, checks the result, and communicates it to the user.
+	 * Updates the board to reflect the attack's success.
+	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
 		System.out.println("enemy attack:" +enemyAttack);
