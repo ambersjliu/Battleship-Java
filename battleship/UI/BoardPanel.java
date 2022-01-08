@@ -84,6 +84,11 @@ public class BoardPanel extends JPanel{
 				if (p.getIsHit()){ //if point is hit
 					currentBtn.setBackground(p.getIsTaken() ? Color.RED : Color.WHITE); //if ship hit, make it red. otherwise, make it white
 					mark = "X";
+
+					if (!p.getShipId().equals("default")){ //if point hit contains a ship
+						mark = addShipInitials(p);
+					}
+
             //Adjust later so that if isTaken, "mark" should be a letter based on which ship is there (for clarity's sake...)
 				}else{ //nothing was hit
 					currentBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY); //only for viewing ships on our end...
@@ -92,5 +97,33 @@ public class BoardPanel extends JPanel{
 				currentBtn.setText(mark);
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param p Takes in a point on board
+	 * @return String with first 2 letters of Ship name
+	 */
+	public String addShipInitials (Point p){
+		String mark = null;
+	
+			if (p.getShipId().equals("Carrier")){ //checks which ship is at point  
+				mark = "CA";				//and assigns the corresponding letters 
+			}
+			else if (p.getShipId().equals("Battleship")){
+				mark = "BA";
+			}	
+			else if (p.getShipId().equals("Cruiser")){
+				mark = "CR";
+			}
+			else if (p.getShipId().equals("Submarine")){
+				mark = "SU";
+			}
+			else {
+				mark = "DE";
+			}
+		
+		return mark;
+
 	}
 }
