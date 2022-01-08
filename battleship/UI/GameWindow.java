@@ -306,6 +306,10 @@ public class GameWindow implements ActionListener {
 		return enemyAttackCoordStr;
 		
 	}
+
+	public JButton getLoadButton(){
+		return loadButton;
+	}
 	
 
 	public void playGameSound(String mode){

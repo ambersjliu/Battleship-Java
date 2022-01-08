@@ -42,6 +42,7 @@ public class GameController {
 
 	void initialize() { //called at the start of every game
 
+		//set all the values to zero, create new boards, ai, etc.
 		ourBoard = new Board(Constants.boardSize);
 		enemyBoard = new Board(Constants.boardSize);
 		ourStats = new Stats(0, 0, 0);
@@ -62,6 +63,7 @@ public class GameController {
 		aiHits = new ArrayList<Coordinate>();
 
 		//create the window
+		//not too sure what this is, eclipse made this on its own...
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -73,6 +75,9 @@ public class GameController {
 		});
 	}
 
+	/**
+	 * 
+	 */
 	void attack() {
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
@@ -86,9 +91,9 @@ public class GameController {
 		attackPoint.setIsHit(true); // either way the attacked point is hit
 
 		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
-		if (attackResult.equals("Hit!")) {
-			attackPoint.setIsTaken(true);
-			ai.setTargetMode(true);
+		if (attackResult.equals("Hit!")) { //if we hit
+			attackPoint.setIsTaken(true); 
+			ai.setTargetMode(true); //switch to target mode
 			ai.setEndOfCurrentDirection(false);
 			aiHits.add(ourAttack);
 
@@ -122,8 +127,8 @@ public class GameController {
 			enemyStats.incrementTotalMiss();
 			enemyStatsPanel.setMissedStats(enemyStats.getTotalMiss());
 			gameWindow.playGameSound("Missed");
-			if (ai.isTargetMode()) {
-				ai.setEndOfCurrentDirection(true);
+			if (ai.isTargetMode()) { //if we were trying to hit a ship and missed
+				ai.setEndOfCurrentDirection(true); //let AI know we need to change directions
 			}
 		}
 		gameWindow.refreshEnemyStats(enemyStats);
@@ -134,6 +139,7 @@ public class GameController {
 			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("We won");
 			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); // SHEEESH WE WIN
+			//destroy the old game window
 			gameWindow.destroy();
 			currentGameOver = true;
 		}
@@ -206,16 +212,22 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Starts the game and loops through the two possible states (us shooting vs. enemy shooting).
+	 * Since it's a while(true) loop, it will run constantly. After the current game is over, the loop goes
+	 * back to the beginning, and everything is reset.
+	 */
 	public void startGame() {
 
 		while (true) { // loop that brings game back to initial state after game over
 			initialize(); // reset vals to 0
-
-			if (isLoadGame == false){
-				username = gameWindow.getUsername();
-				sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
-			}
+			gameWindow.getLoadButton().setEnabled(true);
+			username = gameWindow.getUsername();
+			gameWindow.popupDialog("A friendly reminder...", "If you saved a game earlier, please load it now!");
+			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
+			gameWindow.getLoadButton().setEnabled(false);
 			gameWindow.getWatch().start(); //start gameWindow watch
+			
 
 			if (sup.doWeGoFirst())
 				stage = 0;
