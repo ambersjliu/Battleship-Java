@@ -96,11 +96,11 @@ public class GameController {
 			ai.setEndOfCurrentDirection(false);
 			aiHits.add(ourAttack);
 
-			if (ai.getHits().size() == 0) {
-				ai.setFirstHit(ourAttack);
+			if (ai.getHits().size() == 0) { //if we haven't hit anything before
+				ai.setFirstHit(ourAttack); //set our new first hit
 				ai.getHits().add(ourAttack);
 			} else {
-				ai.setDirectionSet(true);
+				ai.setDirectionSet(true); //since we've had at least one successful hit since first
 				ai.getHits().add(ourAttack);
 			}
 			String hitShip = gameWindow.getShipHit(); // get id of ship
@@ -137,6 +137,7 @@ public class GameController {
 			ai.resetVals();
 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
+				ai.getHits().add(nextFirstHit);
 				ai.setTargetMode(true);
 			}
 
