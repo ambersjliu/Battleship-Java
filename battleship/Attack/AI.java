@@ -33,9 +33,18 @@ public class AI {
     private ArrayList<Ship> shipsPlaced = new ArrayList<Ship>();// used for storing ships
     private HashMap<String, Ship> shipDict; //used for ship placement
     private boolean endOfCurrentDirection;
+    private Board enemyBoard;
   
 
     Random rand = new Random();
+
+    public AI(Board enemyBoard){
+        this.enemyBoard = enemyBoard;
+    }
+
+    public AI(){
+
+    }
 
     public void resetVals() { //clears all values used in targeting a ship after sinking
         targetMode = false;
@@ -90,7 +99,7 @@ public class AI {
             col = rand.nextInt(Constants.boardSize);
             coord.setRow(row);
             coord.setColumn(col);
-            if(!pastShots.contains(coord)&&verifyParity(coord)){
+            if((!enemyBoard.getPoint(row, col).getIsHit())&&verifyParity(coord)){
                 break;
             }
         }

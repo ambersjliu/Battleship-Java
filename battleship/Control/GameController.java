@@ -49,7 +49,7 @@ public class GameController {
 		enemyStats = new Stats(0, 0, 0);
 		stage = 0;
 
-		ai = new AI();
+		ai = new AI(enemyBoard);
 
 		ai.placeShips(ourBoard,isLoadGame);
 
