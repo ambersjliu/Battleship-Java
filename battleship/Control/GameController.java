@@ -123,7 +123,7 @@ public class GameController {
 
 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
-					if(enemyBoard.getPoint(i, j).getIsTaken()&&!enemyBoard.getPoint(i, j).getIsSunk()){
+					if(enemyBoard.getPoint(i, j).getIsTaken()&& enemyBoard.getPoint(i, j).getShipId() !=hitShip){
 						//if there's a hit but not sunk ship
 						noShipsLeft = false;
 						nextFirstHit.setRow(i);
