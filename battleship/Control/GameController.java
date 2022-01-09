@@ -270,7 +270,7 @@ public class GameController {
 		isLoadGame = true;
 		boolean fileFound=false;
 
-		while (fileFound == false){ //while file is not found contine to ask user for username
+		while (fileFound == false){ //while file is not found contine to ask user for a username
 				username = gameWindow.getUsername();
 				save.setSaveName(username);
 				fileFound=save.load(fileFound);
@@ -305,7 +305,7 @@ public class GameController {
 		sup = save.getSup();
 		gameWindow.setSup(sup);
 
-		ai.setHits(save.getHits());
+		ai.setHits(save.getHits()); //sets advance ai
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
 		ai.setDirection(save.getDirection());

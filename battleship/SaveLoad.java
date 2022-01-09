@@ -104,7 +104,7 @@ public class SaveLoad {
      * @param isfileFound boolean 
      * @return if file is found or not
      * 
-     * Reads form save file, having and puts them in temporarily objects,  
+     * Reads from save file, having and puts them in temporarily objects,  
      * has getters for each object for GameController, Ai, and GameWindow
      * to access them
      */
