@@ -180,15 +180,14 @@ public class GameController {
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
 		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
+		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
-		userShots.add(enemyAtkCoord);
-		
+
 		if (enemyAttackResult.getResult() == "Hit") {
 
-			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
+			if(userShots.contains(enemyAtkCoord)){ //in case the player accidentally repeats themselves
 				repeatResponse();
 			}else{
-				attackedPoint.setIsHit(true);
 
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
@@ -197,28 +196,26 @@ public class GameController {
 			}
 		} else if (enemyAttackResult.getResult() == "Sink") {
 
-			if(attackedPoint.getIsHit()){ 
+			if(userShots.contains(enemyAtkCoord)){ 
 				repeatResponse();
 			}
 			else{
-				attackedPoint.setIsHit(true);
-
 				ourStats.incrementTotalHit();
 				ourStats.incrementTotalSunk();
 				gameWindow.playGameSound("Hit");
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else {
-			if(attackedPoint.getIsHit()){ 
+			if(userShots.contains(enemyAtkCoord)){ 
 				repeatResponse();
 			}else{
-				attackedPoint.setIsHit(true);
 
 				ourStats.incrementTotalMiss();
 				gameWindow.playGameSound("Missed");
 				gameWindow.popupDialog("Phew!", "Missed!");
 			}
 		}
+		userShots.add(enemyAtkCoord);
 
 
 		gameWindow.refreshOurBoard(ourBoard);
