@@ -123,7 +123,8 @@ public class GameController {
 
 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
-					if(enemyBoard.getPoint(i, j).getIsTaken()){
+					if(enemyBoard.getPoint(i, j).getIsTaken()&&!enemyBoard.getPoint(i, j).getIsSunk()){
+						//if there's a hit but not sunk ship
 						noShipsLeft = false;
 						nextFirstHit.setRow(i);
 						nextFirstHit.setColumn(j);
@@ -161,7 +162,6 @@ public class GameController {
 			currentGameOver = true;
 		}
 
-		ai.getPastShots().add(ourAttack);
 		stage = 2;
 
 	}

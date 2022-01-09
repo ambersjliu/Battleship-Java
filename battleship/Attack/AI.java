@@ -58,13 +58,17 @@ public class AI {
     }
 
     public Coordinate getNextMove(boolean gameMode) { // for GUI
+        Coordinate nextMove;
         if (!gameMode) {
             // System.out.println("You picked complex.");
-            return attack();
+            nextMove= attack();
         } else {
             // System.out.println("You picked simple.");
-            return randAttack();
+            nextMove= randAttack();
         }
+
+        pastShots.add(nextMove);
+        return nextMove;
     }
 
     public Coordinate attack() { //returns a different attack based on mode chosen
@@ -90,7 +94,6 @@ public class AI {
                 break;
             }
         }
-        pastShots.add(coord);
         return coord;
     }
 
