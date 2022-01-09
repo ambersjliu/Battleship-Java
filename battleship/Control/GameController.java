@@ -186,9 +186,7 @@ public class GameController {
 		if (enemyAttackResult.getResult() == "Hit") {
 
 			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
-				ourStats.incrementTotalMiss();
-				gameWindow.playGameSound("Missed");
-				gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
+				repeatResponse();
 			}else{
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
@@ -197,10 +195,8 @@ public class GameController {
 			}
 		} else if (enemyAttackResult.getResult() == "Sink") {
 
-			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
-				ourStats.incrementTotalMiss();
-				gameWindow.playGameSound("Missed");
-				gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
+			if(attackedPoint.getIsHit()){ 
+				repeatResponse();
 			}
 			else{
 				ourStats.incrementTotalHit();
@@ -209,9 +205,13 @@ public class GameController {
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else {
-			ourStats.incrementTotalMiss();
-			gameWindow.playGameSound("Missed");
-			gameWindow.popupDialog("Phew!", "Missed!");
+			if(attackedPoint.getIsHit()){ 
+				repeatResponse();
+			}else{
+				ourStats.incrementTotalMiss();
+				gameWindow.playGameSound("Missed");
+				gameWindow.popupDialog("Phew!", "Missed!");
+			}
 		}
 		attackedPoint.setIsHit(true);
 
@@ -230,6 +230,12 @@ public class GameController {
 
 		stage = 0;
 
+	}
+
+	void repeatResponse(){
+		ourStats.incrementTotalMiss();
+		gameWindow.playGameSound("Missed");
+		gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
 	}
 
 	void updateState() {
