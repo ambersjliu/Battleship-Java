@@ -188,6 +188,8 @@ public class GameController {
 			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
 				repeatResponse();
 			}else{
+				attackedPoint.setIsHit(true);
+
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
@@ -199,6 +201,8 @@ public class GameController {
 				repeatResponse();
 			}
 			else{
+				attackedPoint.setIsHit(true);
+
 				ourStats.incrementTotalHit();
 				ourStats.incrementTotalSunk();
 				gameWindow.playGameSound("Hit");
@@ -208,12 +212,13 @@ public class GameController {
 			if(attackedPoint.getIsHit()){ 
 				repeatResponse();
 			}else{
+				attackedPoint.setIsHit(true);
+
 				ourStats.incrementTotalMiss();
 				gameWindow.playGameSound("Missed");
 				gameWindow.popupDialog("Phew!", "Missed!");
 			}
 		}
-		attackedPoint.setIsHit(true);
 
 
 		gameWindow.refreshOurBoard(ourBoard);

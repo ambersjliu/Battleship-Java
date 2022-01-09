@@ -335,6 +335,7 @@ public class AI {
         if (hitShip.checkIfSunk(hitShipName, shipDict))
             return new AttackResults(hitShipName, "Sink");
         else
+            System.out.println(hitShipName + " has " + shipDict.get(hitShipName).getShipSurvivingPoints() + " points");
             return new AttackResults(hitShipName, "Hit");
     }
 
