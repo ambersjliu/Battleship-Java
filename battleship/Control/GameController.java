@@ -82,9 +82,7 @@ public class GameController {
 	void attack() {
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
-		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from
-																			// user
-		//gameWindow.playGameSound("Shoot");
+		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
 
 		System.out.println("Our AI attacks " + ourAttackString); // print to console
 
@@ -110,9 +108,11 @@ public class GameController {
 
 			attackPoint.setShipId(hitShip); 
 			enemyStats.incrementTotalHit();
-			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
 
 		} else if (attackResult.equals("Sank!")) {
+			boolean noShipsLeft = true;
+			Coordinate nextFirstHit = new Coordinate(0,0);
+
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
@@ -120,13 +120,28 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
-			enemyStatsPanel.setMissedStats(enemyStats.getTotalHit());
-			enemyStatsPanel.setMissedStats(enemyStats.getTotalSunk());
+
+			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
+				for(int j = 0; j<Constants.boardSize; j++){
+					if(enemyBoard.getPoint(i, j).getIsTaken()){
+						noShipsLeft = false;
+						nextFirstHit.setRow(i);
+						nextFirstHit.setColumn(j);
+						break;
+					}
+				} //try to break out as early as possible
+				if(!noShipsLeft){
+					break;
+				}
+			}
 			ai.resetVals();
+			if(!noShipsLeft){ //if there is another ship we hit
+				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
+				ai.setTargetMode(true);
+			}
 
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
-			enemyStatsPanel.setMissedStats(enemyStats.getTotalMiss());
 			gameWindow.playGameSound("Missed");
 			if (ai.isTargetMode()) { //if we were trying to hit a ship and missed
 				ai.setEndOfCurrentDirection(true); //let AI know we need to change directions
@@ -139,7 +154,7 @@ public class GameController {
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
 			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("We won");
-			gameWindow.popupDialog("We won!", "Good game! Press OK to restart."); // SHEEESH WE WIN
+			gameWindow.popupDialog("You lost!", "Better luck next time! Press OK to restart."); // SHEEESH WE WIN
 			//destroy the old game window
 			gameWindow.destroy();
 			currentGameOver = true;
@@ -164,29 +179,41 @@ public class GameController {
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
 		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
-		attackedPoint.setIsHit(true);
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
 		userShots.add(enemyAtkCoord);
 		
 		if (enemyAttackResult.getResult() == "Hit") {
-			ourStats.incrementTotalHit();
-			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
-			userHits.add(enemyAtkCoord);
-			gameWindow.playGameSound("Hit");
-			gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
+
+			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
+				ourStats.incrementTotalMiss();
+				gameWindow.playGameSound("Missed");
+				gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
+			}else{
+				ourStats.incrementTotalHit();
+				userHits.add(enemyAtkCoord);
+				gameWindow.playGameSound("Hit");
+				gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
+			}
 		} else if (enemyAttackResult.getResult() == "Sink") {
-			ourStats.incrementTotalHit();
-			ourStats.incrementTotalSunk();
-			ourStatsPanel.setMissedStats(ourStats.getTotalHit());
-			ourStatsPanel.setMissedStats(ourStats.getTotalSunk());
-			gameWindow.playGameSound("Hit");
-			gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
+
+			if(attackedPoint.getIsHit()){ //in case the player accidentally repeats themselves
+				ourStats.incrementTotalMiss();
+				gameWindow.playGameSound("Missed");
+				gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
+			}
+			else{
+				ourStats.incrementTotalHit();
+				ourStats.incrementTotalSunk();
+				gameWindow.playGameSound("Hit");
+				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
+			}
 		} else {
 			ourStats.incrementTotalMiss();
-			ourStatsPanel.setMissedStats(ourStats.getTotalMiss());
 			gameWindow.playGameSound("Missed");
 			gameWindow.popupDialog("Phew!", "Missed!");
 		}
+		attackedPoint.setIsHit(true);
+
 
 		gameWindow.refreshOurBoard(ourBoard);
 		gameWindow.refreshOurStats(ourStats);
@@ -194,10 +221,11 @@ public class GameController {
 		if (ourStats.getTotalHit() == Constants.hitsToWin) {
 			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("They won");
-			gameWindow.popupDialog("Oh dear...", "Looks like we've lost! Press OK to restart.");
+			gameWindow.popupDialog("Congrats!", "Looks like you've outsmarted our strategists! Press OK to restart.");
 			gameWindow.destroy();
 			currentGameOver = true;
 		}
+		
 
 		stage = 0;
 
@@ -270,7 +298,7 @@ public class GameController {
 		isLoadGame = true;
 		boolean fileFound=false;
 
-		while (fileFound == false){ //while file is not found contine to ask user for a username
+		while (fileFound == false){ //while file is not found contine to ask user for username
 				username = gameWindow.getUsername();
 				save.setSaveName(username);
 				fileFound=save.load(fileFound);
@@ -305,7 +333,7 @@ public class GameController {
 		sup = save.getSup();
 		gameWindow.setSup(sup);
 
-		ai.setHits(save.getHits()); //sets advance ai
+		ai.setHits(save.getHits());
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
 		ai.setDirection(save.getDirection());

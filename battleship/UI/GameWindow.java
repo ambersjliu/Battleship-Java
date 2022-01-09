@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.io.*;
 
 import battleship.SaveLoad;
-import battleship.Attack.*;
 import battleship.Control.*;
 import battleship.Model.*;
 
@@ -40,7 +39,7 @@ public class GameWindow implements ActionListener {
 	private GameController gameController;
 	private Board ourBoard, enemyBoard;
 	private BoardPanel enemyBoardPanel, ourBoardPanel;
-	private JButton recordHitButton, attackedBtn, exitBtn, newGameBtn, saveButton, loadButton;
+	private JButton saveButton, loadButton;
 	private JTabbedPane boardsPane;
 	private StartUpParams sup;
 

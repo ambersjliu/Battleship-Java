@@ -1,6 +1,5 @@
 
 package battleship;
-import battleship.Control.*;
 import battleship.UI.Intro;
 
 /**

@@ -90,7 +90,7 @@ public class AI {
                 break;
             }
         }
-        // pastShots.add(coord);
+        pastShots.add(coord);
         return coord;
     }
 

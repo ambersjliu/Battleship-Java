@@ -23,7 +23,6 @@ import battleship.Control.*;
 
 public class Intro{
     private JFrame introFrame;
-    private Image bgImg;
     private ImageIcon bg;
     private JButton startButton;
 
@@ -46,7 +45,6 @@ public class Intro{
 			bg = new ImageIcon(url);
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         drawIntro();

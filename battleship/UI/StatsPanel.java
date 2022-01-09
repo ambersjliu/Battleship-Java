@@ -24,8 +24,7 @@ import javax.swing.JPanel;
 
 import battleship.Model.Constants;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+
 import java.io.File;
 import java.net.*;
 
@@ -59,7 +58,6 @@ public class StatsPanel extends JPanel {
 			hitsIcon = new ImageIcon(url);
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -69,7 +67,6 @@ public class StatsPanel extends JPanel {
 			missesIcon = new ImageIcon(url2);
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -79,7 +76,6 @@ public class StatsPanel extends JPanel {
 			sunkIcon = new ImageIcon(url3);
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -22,7 +22,7 @@ public class Constants {
     public static String[] orientation = {"DOWN", "RIGHT"};
 
     //names of the ships
-    public static String[] theShips= {"Carrier","BattleShip","Cruiser","Submarine","Destroyer"};
+    public static String[] theShips= {"Carrier","Battleship","Cruiser","Submarine","Destroyer"};
 
     //how many hits are needed to win
     public static int hitsToWin = 17;
