@@ -5,11 +5,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import battleship.Model.Constants;
+
 /**
  * File: Watch.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>02 January, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Keep track of and creates the GUI timer 
@@ -37,7 +39,7 @@ public class Watch implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 
 			elapsedTime=elapsedTime+1000; 
-			hours = (elapsedTime/3600000); //converts number into hour/minutes/secounds form
+			hours = (elapsedTime/3600000); //converts number into hour/minutes/seconds form
 			minutes = (elapsedTime/60000) % 60;
 			seconds = (elapsedTime/1000) % 60;
 
@@ -50,12 +52,14 @@ public class Watch implements ActionListener{
 		
 	});
 
-	// sets the initial timerLable for gui
+	// sets the initial timerLabel for gui
 	public Watch(){
 
 		timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
 		timeLabel.setBounds(200,40,120,60);
-		timeLabel.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 18));
+		timeLabel.setFont(new Font("Courier", Font.BOLD, 18));
+		timeLabel.setBackground(Constants.bgColor);
+		timeLabel.setForeground(Constants.fgColor);
 		timeLabel.setBorder(BorderFactory.createBevelBorder(1));
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(JTextField.CENTER);

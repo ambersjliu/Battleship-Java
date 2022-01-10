@@ -6,6 +6,8 @@ import javax.swing.*;
 import battleship.Control.*;
 import battleship.Model.*;
 import battleship.Model.Point;
+import java.net.*;
+import java.io.*;
 
 /**
  * File: BoardPanel.java
@@ -26,8 +28,19 @@ public class BoardPanel extends JPanel{
 	GameController controller;
 	String name;
 	JButton[][] shipButtons = new JButton[Constants.boardSize][Constants.boardSize];
+	ImageIcon btnTile;
+	
 
 	public BoardPanel(Board board, GameController controller, String name) {
+		URL url;
+		try {
+			url = new File("resources/watersquare.jpg").toURI().toURL();
+			btnTile = new ImageIcon(url);
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
 		this.board = board; //the board to display
 		this.controller = controller; 
 		this.name = name; //name of displayed board
@@ -43,7 +56,7 @@ public class BoardPanel extends JPanel{
 		Point[][] points = board.getPoints();
 		// show first line
 		add(new JLabel(" "));
-
+		//display numbers along top
 		for (int col = 1; col <= Constants.boardSize; col++) {
 			JLabel letterLbl = new JLabel(String.valueOf(col));
 			letterLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -51,14 +64,18 @@ public class BoardPanel extends JPanel{
 		}
 		char letter = 'A';
 		for (int row = 0; row < Constants.boardSize; row++, letter++) {
-			JLabel letterLbl = new JLabel(String.valueOf(letter));
+			JLabel letterLbl = new JLabel(String.valueOf(letter)); //add the row letter labels
 			letterLbl.setHorizontalAlignment(SwingConstants.CENTER);
 			add(letterLbl);
 			for (int col = 0; col < Constants.boardSize; col++) {
 				Point p = points[row][col];
 				JButton markBtn = new JButton();
 				markBtn.setBackground(Color.LIGHT_GRAY);
-				markBtn.setMargin(new Insets(0, 0, 0, 0));
+				markBtn.setIcon(btnTile);
+				markBtn.setDisabledIcon(btnTile);
+
+
+				markBtn.setMargin(new Insets(0, 0, 0, 0)); //since no insets would make the button display "..."
 				markBtn.setFocusPainted(false);
 				markBtn.setEnabled(false);
 				add(markBtn);
@@ -83,6 +100,7 @@ public class BoardPanel extends JPanel{
                 //if p is taken (?), set to one colour. else (:) set to another colour
 
 				if (p.getIsHit()){ //if point is hit
+					currentBtn.setIcon(null);
 					currentBtn.setBackground(p.getIsTaken() ? Color.RED : Color.WHITE); //if ship hit, make it red. otherwise, make it white
 					mark = "X";
 
@@ -90,9 +108,11 @@ public class BoardPanel extends JPanel{
 						mark = addShipInitials(p);
 					}
 
-            //Adjust later so that if isTaken, "mark" should be a letter based on which ship is there (for clarity's sake...)
 				}else{ //nothing was hit
-					currentBtn.setBackground(Color.LIGHT_GRAY); //only for viewing ships on our end...
+					//currentBtn.setBackground(Color.LIGHT_GRAY); 
+					currentBtn.setIcon(btnTile);
+					currentBtn.setDisabledIcon(btnTile);
+
 					mark = " ";
                 }
 				currentBtn.setText(mark);

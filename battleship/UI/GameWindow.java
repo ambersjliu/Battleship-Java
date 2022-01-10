@@ -11,6 +11,7 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 
 import java.io.*;
+import java.net.*;
 
 import battleship.SaveLoad;
 import battleship.Control.*;
@@ -23,13 +24,13 @@ import java.awt.*;
  * File: GameWindow.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>27 December, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: GUI methods called by GameController to display the game, ask for user input, and play sound.
  * 
  * @author Amber Liu
- * @author Contributions by Elaine Yang
+ * @author Elaine Yang
  */
 
 public class GameWindow implements ActionListener {
@@ -42,14 +43,45 @@ public class GameWindow implements ActionListener {
 	private JButton saveButton, loadButton;
 	private JTabbedPane boardsPane;
 	private StartUpParams sup;
+	private ImageIcon loadIcon, saveIcon, disabledLoad;
+	private Dimension buttonSize;
 
 	String username;
  	Watch watch;
 
 	/**
-	 * Create the application.
+	 * Create the application, and loads in the images used for the save, load buttons.
+	 * @throws MalformedURLException
 	 */
 	public GameWindow(GameController gameController, Board ourBoard, Board enemyBoard) {
+		URL url;
+		URL url2;
+		URL url3;
+		try {
+			url = new File("resources/save button.png").toURI().toURL();
+			saveIcon = new ImageIcon(url);
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			url2 = new File("resources/load button.png").toURI().toURL();
+			loadIcon = new ImageIcon(url2);
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		
+		try {
+			url3 = new File("resources/load disabled.png").toURI().toURL();
+			disabledLoad = new ImageIcon(url3);
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
 		this.gameController = gameController;
 		this.ourBoard = ourBoard;
 		this.enemyBoard = enemyBoard;
@@ -85,21 +117,26 @@ public class GameWindow implements ActionListener {
 	 * @return the top panel
 	 */
 	private JPanel initializeTopPanel() {
+		buttonSize = new Dimension(140, 40);
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Constants.bgColor);
 		GridBagConstraints c = new GridBagConstraints();
 
 		//save, load buttons
-		saveButton = new JButton("Save");
-		loadButton = new JButton("Load");
+		saveButton = new JButton();
+		loadButton = new JButton();
 
 		saveButton.setBounds(400,20,140,40);
-		saveButton.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
+		saveButton.setPreferredSize(buttonSize);
+		saveButton.setIcon(saveIcon);
 		saveButton.setFocusable(false);
 		saveButton.addActionListener(this);
 
 		loadButton.setBounds(400,20,140,40);
-		loadButton.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 14));
+		loadButton.setPreferredSize(buttonSize);
+
+		loadButton.setIcon(loadIcon);
+		loadButton.setDisabledIcon(disabledLoad); //because the default disabled look is too greyed out
 		loadButton.setFocusable(false);
 		loadButton.addActionListener(this);
 
@@ -265,6 +302,10 @@ public class GameWindow implements ActionListener {
 		getFrmBattleship().dispose(); // Destroy the JFrame object;
 	}
 
+	/**
+	 * Updates the stats panel for our board to reflect its current state.
+	 * @param ourStats our stats
+	 */
 	public void refreshOurStats(Stats ourStats) {
 		ourStatsPanel.setHitStats(ourStats.getTotalHit());
 		ourStatsPanel.setMissedStats(ourStats.getTotalMiss());
@@ -278,7 +319,7 @@ public class GameWindow implements ActionListener {
 	}
 
 	/**
-	 * 
+	 * Prompts user to enter their attack as a String.
 	 */
 	public String getEnemyAttackCoord() { 
 		String[] options = { "OK" };
@@ -314,6 +355,10 @@ public class GameWindow implements ActionListener {
 	}
 	
 
+	/**
+	 * Plays a different .wav clip depending on the mode given.
+	 * @param mode the context(shoot, hit, miss, game over)
+	 */
 	public void playGameSound(String mode){
 		String SHOOTAUDIOFILE = "resources/shoot.wav";
 		String HITAUDIOFILE = "resources/explode.wav";
@@ -352,7 +397,7 @@ public class GameWindow implements ActionListener {
 				//this could be solved by playing the sound on another thread but I have no idea how to do that
 			}
 			clip.close();
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) { 
 			e.printStackTrace();
 		}
 		
@@ -380,6 +425,7 @@ public class GameWindow implements ActionListener {
 	public Watch getWatch() {
 		return watch;
 	}
+
 
 
 

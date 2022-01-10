@@ -13,7 +13,7 @@ import battleship.Control.*;
  * File: Intro.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>04 January, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Intro window displayed before game start. 
@@ -75,10 +75,11 @@ public class Intro{
 		startButton.setFont(new Font("Bahnschrift", Font.BOLD, 23));
         startButton.setBounds(260, 300, 120, 32);
 
+        //listener for the start button
         startButton.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
-                close();
-                
+                close(); //close the window
+                //create gamecontroller and start game
 		        GameController gameController = new GameController();
 		        gameController.startGame();
             } 

@@ -1,19 +1,4 @@
 
-/*
-PROGRAM NAME - 
-
-PROGRAMMERS - 
-
-USAGE - 
-
-DATE - Started 12/08/2021
-	   Completed 01/06/2022	
-
-BUGS - 
-
-DESCRIPTION - 
-
-*/
 
 package battleship.UI;
 
@@ -32,7 +17,7 @@ import java.net.*;
  * File: StatsPanel.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>28 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Creates and describes a panel with game stats, displays in GameWindow
@@ -49,6 +34,11 @@ public class StatsPanel extends JPanel {
 	ImageIcon missesIcon;
 	ImageIcon sunkIcon;
 
+	/**
+	 * Constructor for the stats panel.
+	 * Loads the images from resources, and places the components in a grid layout with 
+	 * 2 columns.
+	 */
 	public StatsPanel() {
 		setLayout(new GridLayout(0, 2));
 
