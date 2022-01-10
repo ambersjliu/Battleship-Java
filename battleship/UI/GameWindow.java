@@ -120,9 +120,8 @@ public class GameWindow implements ActionListener {
 		buttonSize = new Dimension(140, 40);
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Constants.bgColor);
-		GridBagConstraints c = new GridBagConstraints();
 
-		//save, load buttons
+		//creation of save and load buttons
 		saveButton = new JButton();
 		loadButton = new JButton();
 

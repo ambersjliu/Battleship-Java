@@ -325,38 +325,38 @@ public class GameController {
 
 		}
 
-		//save time
+		//load time
 		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime()); 
-		stage = save.getStage();  //save current stages
+		stage = save.getStage();  //load current stages
 
-		//save stats
+		//load stats
 		ourStats = save.getOurStats();
 		enemyStats = save.getEnmeyStats();
 
-		//save past shots
+		//load past shots
 		ai.setPastShots(save.getPastShots());
 		aiHits = save.getAiHits();
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
 
-		ourBoard = new Board(Constants.boardSize); 
+		ourBoard = new Board(Constants.boardSize);  //wipes out current board
 		enemyBoard = new Board(Constants.boardSize);
 
-		ai.setShipsPlaced(save.getShipsPlaced()); 
-		ai.placeShips(ourBoard, isLoadGame);
+		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
+		ai.placeShips(ourBoard, isLoadGame); //replace ships
 
-		ourBoard.loadBoard(ourBoard, userShots, userHits);
+		ourBoard.loadBoard(ourBoard, userShots, userHits); //load board
 		enemyBoard.loadBoard(enemyBoard, ai.getPastShots(), aiHits);
 
-		gameWindow.refreshOurBoard(ourBoard);
+		gameWindow.refreshOurBoard(ourBoard); //load stats panel
 		gameWindow.refreshOurStats(ourStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 		gameWindow.refreshEnemyStats(enemyStats);
 
-		sup = save.getSup();
+		sup = save.getSup(); //load Start Up Params
 		gameWindow.setSup(sup);
 
-		ai.setHits(save.getHits());
+		ai.setHits(save.getHits()); //load ai target mode statuses
 		ai.setTargetMode(save.getTargetMode());
 		ai.setDirectionSet(save.getDirectionSet());
 		ai.setDirection(save.getDirection());
