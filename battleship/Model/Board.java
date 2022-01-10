@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * File: Board.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>09 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Defines the Board objects used in the game and their methods.
@@ -22,7 +22,10 @@ import java.util.ArrayList;
 public class Board implements Serializable{ //so board board can be saved and loaded
     Point[][] points;
 
-
+    /**
+     * Constructor for board 
+     * @param boardSize the width and height of the board
+     */
     public Board(int boardSize){
         points = new Point[boardSize][boardSize];
 
@@ -35,6 +38,10 @@ public class Board implements Serializable{ //so board board can be saved and lo
         }
     }
 
+    /**
+     * 
+     * @return the point 2d array of the board
+     */
     public Point[][] getPoints() {
 		return points;
 	}

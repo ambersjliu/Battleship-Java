@@ -12,13 +12,13 @@ import battleship.Model.*;
  * File: GameController.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>09 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Generates the AI attack coodinates based on presivous attacks.
  * <p>Generates ship and ship placements.
  * @author Amber Liu
- *  <p> Contributions by Elaine Yang
+ * @author Contributions by Elaine Yang
  */
 
 public class AI {
@@ -32,21 +32,26 @@ public class AI {
     private ArrayList<Coordinate> hits = new ArrayList<Coordinate>(); //stores successful ship hits, cleared after sunk
     private ArrayList<Ship> shipsPlaced = new ArrayList<Ship>();// used for storing ships
     private HashMap<String, Ship> shipDict; //used for ship placement
-    private boolean endOfCurrentDirection;
-    private Board enemyBoard;
+    private boolean endOfCurrentDirection; //whether we can continue shooting in the current direction
+    private Board enemyBoard; 
   
 
     Random rand = new Random();
 
+    //constructor used in gamecontroller
     public AI(Board enemyBoard){
         this.enemyBoard = enemyBoard;
     }
 
+    //just for console game
     public AI(){
 
     }
 
-    public void resetVals() { //clears all values used in targeting a ship after sinking
+    /**
+     * Clears all values used by complex AI in targeting a ship.
+     */
+    public void resetVals() { 
         targetMode = false;
         directionSet = false;
         direction = 0;
@@ -66,13 +71,16 @@ public class AI {
         }
     }
 
+    /**
+     * Returns the next attack depending on the AI mode chosen.
+     * @param gameMode complex AI or simple AI
+     * @return a random attack, or a hunting/targeting attack
+     */
     public Coordinate getNextMove(boolean gameMode) { // for GUI
         Coordinate nextMove;
         if (!gameMode) {
-            // System.out.println("You picked complex.");
-            nextMove= attack();
+            nextMove= attack(); 
         } else {
-            // System.out.println("You picked simple.");
             nextMove= randAttack();
         }
 
@@ -80,25 +88,31 @@ public class AI {
         return nextMove;
     }
 
-    public Coordinate attack() { //returns a different attack based on mode chosen
-        if (!targetMode) {
-            return randAttack();
+    /**
+     * Returns either a random or targeted attack depending on which mode the AI is in.
+     */
+    public Coordinate attack() { 
+        if (!targetMode) { //if we're hunting for a ship
+            return randAttack(); //return a random
         } else {
-            return target();
+            return target(); //otherwise proceed to a targeted hit
         }
     }
 
-    // random attack
-    //used by randomAI constantly and as hunt mode for smartAI
+    /**
+     * Returns a random attack WITH parity (will only hit every other point to cut down number of hits).
+     * @return a random Coordinate that has not been hit before 
+     */
     public Coordinate randAttack() { 
 
         int row, col;
-        Coordinate coord = new Coordinate(1, 2);
+        Coordinate coord = new Coordinate(1, 2); //had to initialize with values otherwise java said it wasn't initialized
         while(true){
             row = rand.nextInt(Constants.boardSize);
             col = rand.nextInt(Constants.boardSize);
             coord.setRow(row);
             coord.setColumn(col);
+            //if the point isn't hit on the board, and it passes the parity check
             if((!enemyBoard.getPoint(row, col).getIsHit())&&verifyParity(coord)){
                 break;
             }
@@ -116,10 +130,17 @@ public class AI {
     //two stages when targeting a ship:
     //1. the first hit has been made, look for the direction the ship is aligned in
     //2. the direction has been found, keep shooting in that direction
+
+    /**
+     * Returns an attack depending on which stage of targeting we're in.
+     * </br>1. The first hit has been made, we look for the direction the ship is aligned in
+     * </br>2. The direction has been found, keep shooting in that direction
+     * @return an attack to find direction or an attack in the current direction.
+     */
     public Coordinate target() {
         Coordinate returnCoord;
         System.out.println("Directionset: " + directionSet + " firstHit: " + firstHit);
-        if (!directionSet) { // havent found the ship's next point, go around
+        if (!directionSet) { // haven't found the ship's next point, go around
             returnCoord = targetUnknownDirection();
         } else { //found the next point and direction, keep firing
             returnCoord = targetWithDirection();
@@ -129,7 +150,11 @@ public class AI {
         return returnCoord;
     }
 
-    //direction not found, shooting around
+    /**
+     * Used to find which direction the hit ship is facing. Direction is incremented based on a few factors 
+     * (whether last hit missed, whether we're going to go out of bounds, whether the shot might hit a past hit).
+     * @return a Coordinate attack
+     */
     private Coordinate targetUnknownDirection() {
         Coordinate returnCoord = new Coordinate(-1, -1);
         while (true) {
@@ -183,7 +208,11 @@ public class AI {
     }
 
 
-    //direction found
+    /**
+     * Called after the direction has been found.
+     * Shoots in the chosen direction or goes the opposite way (if last shot missed, or would go out of bounds.)
+     * @return a Coordinate attack
+     */
     private Coordinate targetWithDirection() {
         Coordinate returnCoord = new Coordinate(-1, -1);
         boolean switchDirection = false; //in case we missed but ship not sunk, go in the opposite direction from firstHit
@@ -245,8 +274,15 @@ public class AI {
     }
 
     // ship placement methods
+
+    /**
+     * Places ships on a board.
+     * @param board the board to place on
+     * @param isLoadGame whether the ships are being loaded from a save or not
+     */
     public void placeShips(Board board, boolean isLoadGame) {
 
+        //make a bunch of ships with the limited ship constructor
         Ship carrier = new Ship("Carrier", 5);
         Ship battleship = new Ship("Battleship", 4);
         Ship cruiser = new Ship("Cruiser", 3);
@@ -289,13 +325,23 @@ public class AI {
                     shipsPlaced.get(i).getStartOrient());
 
                 shipDict.put(shipsPlaced.get(i).getShipName(), newShip);
+                //used a hash map since i can't pass an array element as a ship name...
+                //so i have the key be the name, and the value be the ship
 
 
             }
         }
     }
 
-    //validates ship placement
+    /**
+     * validates ship placement
+     * @param board board to place on
+     * @param shipLength how long ship is
+     * @param startRow y-coord of ship's first point
+     * @param startCol x-coord of ship's first point
+     * @param orientation ship is vertical/horizontal
+     * @return whether the ship can be placed in its position
+     */
     public boolean validShip(Board board, int shipLength, int startRow, int startCol, String orientation) {
         
 
@@ -331,20 +377,25 @@ public class AI {
         return true;
     }
 
-    // determine whether we got hit or not
+    /**
+     * Determines whether we got hit, as well as which ship was hit, if any.
+     * @param board the board to check
+     * @param enemyAttackCoord the coordinate of the enemy attack
+     * @return an AttackResults object with the hit ship's name, and whether the attack resulted in a miss/hit/sink
+     */
     public AttackResults getEnemyAttackResult(Board board, Coordinate enemyAttackCoord) {
         Point enemyAttackPoint = board.getPoint(enemyAttackCoord.getRow(), enemyAttackCoord.getColumn());
         //if no ship at point
         if (!enemyAttackPoint.getIsTaken())
+            //no ship hit, was a miss
             return new AttackResults(null, "Miss");
-
+        //otherwise, get ship name and the ship itself
         String hitShipName = enemyAttackPoint.getShipId();
         Ship hitShip = shipDict.get(hitShipName);
 
-        if (hitShip.checkIfSunk(hitShipName, shipDict))
+        if (hitShip.checkIfSunk(hitShipName, shipDict)) //if ship sunk
             return new AttackResults(hitShipName, "Sink");
-        else
-            System.out.println(hitShipName + " has " + shipDict.get(hitShipName).getShipSurvivingPoints() + " points");
+        else //ship was hit
             return new AttackResults(hitShipName, "Hit");
     }
 

@@ -6,7 +6,7 @@ package battleship.Model;
  * File: AttackResults.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>27 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Bundles together the result of an attack and which ship was hit, if any. Used in GameController.

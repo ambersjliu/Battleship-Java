@@ -8,10 +8,10 @@ import java.io.Serializable;
  * File: Point.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>08 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
- * <p>Description: Defines the Point objects. Each point can be hit, taken, or sunk. Usage: Boards are 2D arrays of Points.
+ * <p>Description: Defines the Point objects, which make up the game board. Each point can be hit, taken, or sunk. 
  * <p>Part of the Model package, describing the data and objects used in the game.
  * @author Amber Liu
  * @author Elaine Yang

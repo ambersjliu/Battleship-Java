@@ -6,7 +6,7 @@ package battleship.Model;
  * File: Stats.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>28 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Defines the Stats object used in methods, ties together hits, misses and sunks

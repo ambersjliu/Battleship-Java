@@ -8,7 +8,7 @@ import java.io.Serializable;
  * File: StartUpParams.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>27 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Bundles together the two player-selected options at the beginning of the game: AI level, and who goes first.

@@ -14,7 +14,7 @@ import java.awt.*;
  * File: GameController.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>26 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Handles input, calls AI when needed and acts as the "hub" of the program.
@@ -173,22 +173,22 @@ public class GameController {
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
 		System.out.println("enemy attack:" +enemyAttack);
-		//gameWindow.playGameSound("Shoot");
+
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
 		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
+		//get the point itself
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
-		attackedPoint.setIsHit(true);
-		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord);
+		attackedPoint.setIsHit(true); //set hit to true
+		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
-			if(userShots.contains(enemyAtkCoord)){ //in case the player accidentally repeats themselves
+			if(userShots.contains(enemyAtkCoord)){ //if the user has made this shot before
 				repeatResponse();
 			}else{
-
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
@@ -217,7 +217,7 @@ public class GameController {
 		}
 		userShots.add(enemyAtkCoord);
 
-
+		//update board, stats
 		gameWindow.refreshOurBoard(ourBoard);
 		gameWindow.refreshOurStats(ourStats);
 
@@ -229,17 +229,25 @@ public class GameController {
 			currentGameOver = true;
 		}
 		
-
+		//proceed to next stage
 		stage = 0;
 
 	}
 
+	/**
+	 * In the case that the user fires a shot at a place they've already hit,
+	 * displays a popup and adds 1 to the missed counter.
+	 */
 	void repeatResponse(){
 		ourStats.incrementTotalMiss();
 		gameWindow.playGameSound("Missed");
 		gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
 	}
 
+	/**
+	 * Functions like the while loop in the console game: we attack or the user
+	 * attacks, depending on which stage we're in.
+	 */
 	void updateState() {
 		switch (stage) {
 			case 0:
@@ -314,12 +322,15 @@ public class GameController {
 
 		}
 
+		//save time
 		this.gameWindow.getWatch().setElapsedTime(save.getElapsedTime()); 
-		stage = save.getStage(); 
+		stage = save.getStage();  //save current stages
 
+		//save stats
 		ourStats = save.getOurStats();
 		enemyStats = save.getEnmeyStats();
 
+		//save past shots
 		ai.setPastShots(save.getPastShots());
 		aiHits = save.getAiHits();
 		userShots = save.getUserShots();

@@ -8,7 +8,7 @@ import java.util.Objects;
  * File: Coordinate.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>12 December, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Used to refer to x,y coordinates without being bound to a specific Point or Board.
@@ -56,6 +56,12 @@ private int column;
             "}";
     }
 
+    /**
+     * We had issues with .contains before (which uses .equals)
+     * since it only returned true if the references were the same.
+     * Coordinate was made to override equals and generally make referring
+     * to points in String/int form easier.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this)

@@ -15,7 +15,7 @@ import battleship.Model.Ship;
  * File: Main.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>10 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: The Modole version of the program. Handles input, calls AI when needed 

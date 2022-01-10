@@ -1,8 +1,13 @@
+
+
+package battleship.Model;
+import java.awt.Color;
+
 /**
  * File: Constants.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>10 December, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Defines the Constants used throughout the project.
@@ -11,9 +16,6 @@
  * @author Elaine Yang
  */
 
-package battleship.Model;
-import java.awt.Color;
-
 public class Constants {
     //how large the board should be
     public static int boardSize = 10;
@@ -21,8 +23,6 @@ public class Constants {
     //possible ship orientations
     public static String[] orientation = {"DOWN", "RIGHT"};
 
-    //names of the ships
-    public static String[] theShips= {"Carrier","Battleship","Cruiser","Submarine","Destroyer"};
 
     //how many hits are needed to win
     public static int hitsToWin = 17;

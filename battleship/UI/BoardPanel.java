@@ -11,12 +11,13 @@ import battleship.Model.Point;
  * File: BoardPanel.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>28 December, 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Describes and creates the Board panel displayed in the GameWindow before and during the game.
  * 
  * @author Amber Liu
+ * @author Elaine Yang
  */
 
 
@@ -56,7 +57,7 @@ public class BoardPanel extends JPanel{
 			for (int col = 0; col < Constants.boardSize; col++) {
 				Point p = points[row][col];
 				JButton markBtn = new JButton();
-				markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
+				markBtn.setBackground(Color.LIGHT_GRAY);
 				markBtn.setMargin(new Insets(0, 0, 0, 0));
 				markBtn.setFocusPainted(false);
 				markBtn.setEnabled(false);
@@ -91,7 +92,7 @@ public class BoardPanel extends JPanel{
 
             //Adjust later so that if isTaken, "mark" should be a letter based on which ship is there (for clarity's sake...)
 				}else{ //nothing was hit
-					currentBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY); //only for viewing ships on our end...
+					currentBtn.setBackground(Color.LIGHT_GRAY); //only for viewing ships on our end...
 					mark = " ";
                 }
 				currentBtn.setText(mark);

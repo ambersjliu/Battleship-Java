@@ -10,7 +10,7 @@ import java.util.HashMap;
  * File: Ship.java
  * <p>Mr. Anadarajan
  * <p>ICS4U1
- * <p>06 January, 2021
+ * <p>09 December 2021
  * 
  * <p>Final Evaluation: Battleship Tournament
  * <p>Description: Defines the ship objects. The second, extended constructor will also place the ships on the board passed as a parameter.
@@ -39,7 +39,7 @@ public class Ship implements Serializable{ //so Ship objects can be saved and lo
     }
 
     /**
-     * The extended
+     * The extended Ship constructor. Also places the ship on the specified board.
      * @param board which board to place on
      * @param shipName name of ship
      * @param shipLength how long the ship is
