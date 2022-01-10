@@ -84,12 +84,11 @@ public class Board implements Serializable{ //so board board can be saved and lo
 
     /**
      * 
-     * @param Board Takes in enemyBoard/ourBoard to load changes to 
+     * @param Board Takes in enemyBoard/ourBoard to load changes 
      * @param pastShots Takes in the pastShots of aiPastShots/userPastShots 
      * to set point statuses to be isHit
      * @param pastHits Takes in the pastHits of aiPastHits/userPastHits 
      * to set point statuses to be isTaken
-     * @return n/a
      */
 
     public void loadBoard(Board Board, ArrayList<Coordinate> pastShots,
