@@ -115,9 +115,8 @@ public class GameController {
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
-			boolean noShipsLeft = true;
-			Coordinate nextFirstHit = new Coordinate(0,0);
-			aiHits.add(ourAttack);
+/*  			boolean noShipsLeft = true;
+			Coordinate nextFirstHit = new Coordinate(0,0);  */
 
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
@@ -126,13 +125,8 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
-
-			System.out.println("In sank");
-			for (int i=0;i<aiHits.size();i++){
-				System.out.println(aiHits.get(i).toString());
-			}
-
-			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
+ 
+/* 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
 					if(checkUnsunkDest(enemyBoard.getPoint(i,j))){
 						//if we hit a different ship while firing
@@ -145,23 +139,13 @@ public class GameController {
 				if(!noShipsLeft){
 					break;
 				}
-			}
-			System.out.println("before aireset");
-			for (int i=0;i<aiHits.size();i++){
-				System.out.println(aiHits.get(i).toString());
-			}
+			}  */
 			ai.resetVals();
-
-			System.out.println("before aireset");
-			for (int i=0;i<aiHits.size();i++){
-				System.out.println(aiHits.get(i).toString());
-			}
-
-			if(!noShipsLeft){ //if there is another ship we hit
+ /* 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
 				ai.getHits().add(nextFirstHit);
 				ai.setTargetMode(true);
-			} 
+			}  */
 
 			
 
