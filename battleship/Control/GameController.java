@@ -11,6 +11,7 @@ import java.util.*;
 import javax.swing.ImageIcon;
 
 import java.awt.*;
+import java.security.DrbgParameters.NextBytes;
 
 
 /**
@@ -113,8 +114,8 @@ public class GameController {
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
-			boolean noShipsLeft = true;
-			Coordinate nextFirstHit = new Coordinate(0,0);
+ 			boolean noShipsLeft = true;
+			Coordinate nextFirstHit = new Coordinate(0,0); 
 
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
@@ -123,27 +124,27 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
-
+ 
 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
-					if(enemyBoard.getPoint(i, j).getIsTaken()&& enemyBoard.getPoint(i, j).getShipId() !=hitShip){
+					if(checkUnsunkDest(enemyBoard.getPoint(i,j))){
 						//if we hit a different ship while firing
 						noShipsLeft = false;
 						nextFirstHit.setRow(i);
 						nextFirstHit.setColumn(j);
-						break;
+
 					}
 				} //try to break out as early as possible
 				if(!noShipsLeft){
 					break;
 				}
-			}
+			} 
 			ai.resetVals();
-			if(!noShipsLeft){ //if there is another ship we hit
+ 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
 				ai.getHits().add(nextFirstHit);
 				ai.setTargetMode(true);
-			}
+			} 
 
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
@@ -167,6 +168,23 @@ public class GameController {
 
 		stage = 2;
 
+	}
+	
+	/**
+	 * Checks if a point contains a hit but unsunk Destroyer.
+	 * The AI's way of hitting random points (only every other point) means a hit but
+	 * unsunk Destroyer will be impossible to sink if we hit one of its Points by accident
+	 * while targeting another ship.
+	 * @param p the point to check
+	 * @param lastShip the last hit ship's shipid to compare to
+	 * @return whether the point is part of an unsunk ship
+	 */
+	//i initially wanted to check for any unsunk ships, but that could leave to catastrophical errors, so I limited it to the Destroyer.
+	boolean checkUnsunkDest(Point p){
+		if(p.getShipId()=="Destroyer"&&!p.getIsSunk()){ //must be unsunk
+			return true;
+		}
+		return false;
 	}
 
 	/**
