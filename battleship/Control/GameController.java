@@ -83,6 +83,7 @@ public class GameController {
 	 * reflect the results of the attack.
 	 */
 	void attack() {
+
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
@@ -115,6 +116,7 @@ public class GameController {
 		} else if (attackResult.equals("Sank!")) {
 			boolean noShipsLeft = true;
 			Coordinate nextFirstHit = new Coordinate(0,0);
+			aiHits.add(ourAttack);
 
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
@@ -123,6 +125,11 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
+
+			System.out.println("In sank");
+			for (int i=0;i<aiHits.size();i++){
+				System.out.println(aiHits.get(i).toString());
+			}
 
 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
@@ -138,12 +145,24 @@ public class GameController {
 					break;
 				}
 			}
+			System.out.println("before aireset");
+			for (int i=0;i<aiHits.size();i++){
+				System.out.println(aiHits.get(i).toString());
+			}
 			ai.resetVals();
+
+			System.out.println("before aireset");
+			for (int i=0;i<aiHits.size();i++){
+				System.out.println(aiHits.get(i).toString());
+			}
+
 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
 				ai.getHits().add(nextFirstHit);
 				ai.setTargetMode(true);
 			}
+
+			
 
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
@@ -154,6 +173,11 @@ public class GameController {
 		}
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
+
+		System.out.println("In after attack()");
+		for (int i=0;i<aiHits.size();i++){
+			System.out.println(aiHits.get(i).toString());
+		}
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
@@ -205,6 +229,7 @@ public class GameController {
 			else{
 				ourStats.incrementTotalHit();
 				ourStats.incrementTotalSunk();
+				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
@@ -295,11 +320,18 @@ public class GameController {
 
 	SaveLoad save = new SaveLoad();
 
+
 	/**
 	 * Calls SaveLoad class and gets all the needed params 
 	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
+
+		for (int i=0;i<aiHits.size();i++){
+			System.out.println("In saveGame");
+			System.out.println(aiHits.get(i).toString());
+		}
+
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
@@ -338,6 +370,7 @@ public class GameController {
 		aiHits = save.getAiHits();
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
+
 
 		ourBoard = new Board(Constants.boardSize);  //wipes out current board
 		enemyBoard = new Board(Constants.boardSize);
