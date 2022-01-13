@@ -34,7 +34,8 @@ public class GameController {
 	private Board enemyBoard;
 	private AI ai;
 	private int stage = 0;
-	private ArrayList<Coordinate> userHits,userShots, aiHits;
+	private ArrayList<Coordinate> userHits,userShots;
+	private ArrayList<Coordinate>  aiHits, aiHitsTest;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
@@ -101,8 +102,12 @@ public class GameController {
 			ai.setEndOfCurrentDirection(false);
 			aiHits.add(ourAttack);
 
+
 			if (ai.getHits().size() == 0) { //if we haven't hit anything before
-				ai.setFirstHit(ourAttack); //set our new first hit
+				//ai.getFirstHit().setFirstHit(ourAttack); //set our new first hit
+				ai.getFirstHit().setRow(ourAttack.getRow());
+				ai.getFirstHit().setColumn(ourAttack.getColumn());
+
 				ai.getHits().add(ourAttack);
 			} else {
 				ai.setDirectionSet(true); //since we've had at least one successful hit since first
@@ -125,6 +130,9 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
+
+			aiHits.add(ourAttack);
+
  
 /* 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
 				for(int j = 0; j<Constants.boardSize; j++){
@@ -140,6 +148,9 @@ public class GameController {
 					break;
 				}
 			}  */
+			//System.out.println("before reset"+aiHits.get(0).hashCode());
+
+			
 			ai.resetVals();
  /* 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
@@ -329,10 +340,10 @@ public class GameController {
 	 */
 	public void saveGame(){
 
-		for (int i=0;i<aiHits.size();i++){
-			System.out.println("In saveGame");
-			System.out.println(aiHits.get(i).toString());
-		}
+		// System.out.println("In saveGame");
+		// for (int i=0;i<aiHits.size();i++){
+		// 	System.out.println(aiHits.get(i).toString());
+		// }
 
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
