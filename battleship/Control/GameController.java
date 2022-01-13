@@ -114,8 +114,8 @@ public class GameController {
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
-/*  			boolean noShipsLeft = true;
-			Coordinate nextFirstHit = new Coordinate(0,0);  */
+
+			
 
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
@@ -125,20 +125,7 @@ public class GameController {
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
  
-/* 			for(int i = 0; i<Constants.boardSize; i++){ //check if we accidentally hit any other ships
-				for(int j = 0; j<Constants.boardSize; j++){
-					if(checkUnsunkDest(enemyBoard.getPoint(i,j))){
-						//if we hit a different ship while firing
-						noShipsLeft = false;
-						nextFirstHit.setRow(i);
-						nextFirstHit.setColumn(j);
 
-					}
-				} //try to break out as early as possible
-				if(!noShipsLeft){
-					break;
-				}
-			}  */
 			ai.resetVals();
  /* 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
