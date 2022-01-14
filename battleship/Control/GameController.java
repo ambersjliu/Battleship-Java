@@ -34,7 +34,9 @@ public class GameController {
 	private Board enemyBoard;
 	private AI ai;
 	private int stage = 0;
-	private ArrayList<Coordinate> userHits,userShots, aiHits;
+	private ArrayList<Coordinate> userHits,userShots;
+	private ArrayList<Coordinate>  aiHits;
+	private ArrayList<Point>  pointShipIds;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
@@ -65,6 +67,7 @@ public class GameController {
 		userHits = new ArrayList<Coordinate>();
 		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
+		pointShipIds = new ArrayList<Point>();
 
 		//create the window
 		//not too sure what this is, eclipse made this on its own...
@@ -84,6 +87,7 @@ public class GameController {
 	 * reflect the results of the attack.
 	 */
 	void attack() {
+
 		Coordinate ourAttack = ai.getNextMove(sup.israndomAIPicked());
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
@@ -100,8 +104,12 @@ public class GameController {
 			ai.setEndOfCurrentDirection(false);
 			aiHits.add(ourAttack);
 
+
 			if (ai.getHits().size() == 0) { //if we haven't hit anything before
-				ai.setFirstHit(ourAttack); //set our new first hit
+				//ai.getFirstHit().setFirstHit(ourAttack); //set our new first hit
+				ai.getFirstHit().setRow(ourAttack.getRow());
+				ai.getFirstHit().setColumn(ourAttack.getColumn());
+
 				ai.getHits().add(ourAttack);
 			} else {
 				ai.setDirectionSet(true); //since we've had at least one successful hit since first
@@ -111,6 +119,7 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 
 			attackPoint.setShipId(hitShip); 
+			pointShipIds.add(attackPoint);
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
@@ -124,6 +133,9 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
+
+			aiHits.add(ourAttack);
+
  
 
 			ai.resetVals();
@@ -132,6 +144,8 @@ public class GameController {
 				ai.getHits().add(nextFirstHit);
 				ai.setTargetMode(true);
 			}  */
+
+			
 
 		} else { // Missed
 			enemyStats.incrementTotalMiss();
@@ -142,6 +156,11 @@ public class GameController {
 		}
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
+
+		System.out.println("In after attack()");
+		for (int i=0;i<aiHits.size();i++){
+			System.out.println(aiHits.get(i).toString());
+		}
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
@@ -210,6 +229,7 @@ public class GameController {
 			else{
 				ourStats.incrementTotalHit();
 				ourStats.incrementTotalSunk();
+				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
@@ -300,6 +320,7 @@ public class GameController {
 
 	SaveLoad save = new SaveLoad();
 
+
 	/**
 	 * Calls SaveLoad class and gets all the needed params 
 	 * to save the current game state, board, and status of player and AI
@@ -308,7 +329,7 @@ public class GameController {
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
-        ai.getShipsPlaced(), gameWindow.getSup(),
+        ai.getShipsPlaced(),pointShipIds, gameWindow.getSup(),
         ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
 
@@ -344,13 +365,16 @@ public class GameController {
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
 
+
 		ourBoard = new Board(Constants.boardSize);  //wipes out current board
 		enemyBoard = new Board(Constants.boardSize);
 
 		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
 		ai.placeShips(ourBoard, isLoadGame); //replace ships
+		pointShipIds = save.getPointShipIds();
 
 		ourBoard.loadBoard(ourBoard, userShots, userHits); //load board
+		enemyBoard.loadEnemyShips(enemyBoard, pointShipIds);
 		enemyBoard.loadBoard(enemyBoard, ai.getPastShots(), aiHits);
 
 		gameWindow.refreshOurBoard(ourBoard); //load stats panel
