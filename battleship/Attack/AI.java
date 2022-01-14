@@ -113,7 +113,7 @@ public class AI {
             coord.setRow(row);
             coord.setColumn(col);
             //if the point isn't hit on the board, and it passes the parity check
-            if((!enemyBoard.getPoint(row, col).getIsHit())&&verifyParity(coord)){
+            if((!enemyBoard.getPoint(row, col).getIsHit())&&verifyParity(coord)&&!enemyBoard.getPoint(row, col).getIsSunk()){
                 break;
             }
         }

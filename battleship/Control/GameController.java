@@ -158,7 +158,6 @@ public class GameController {
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
-		System.out.println("In after attack()");
 		for (int i=0;i<aiHits.size();i++){
 			System.out.println(aiHits.get(i).toString());
 		}
@@ -204,7 +203,7 @@ public class GameController {
 	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
-		System.out.println("enemy attack:" +enemyAttack);
+		System.out.println("Enemy attacks: " +enemyAttack);
 
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
@@ -214,7 +213,7 @@ public class GameController {
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true); //set hit to true
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
-		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board");
+		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board\n");
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
@@ -224,7 +223,7 @@ public class GameController {
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
-				System.out.println("Enemy hit our " + enemyAttackResult.getShipName() + "!");
+				System.out.println("Enemy hit our " + enemyAttackResult.getShipName() + "!\n");
 				gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else if (enemyAttackResult.getResult() == "Sink") {
@@ -237,7 +236,7 @@ public class GameController {
 				ourStats.incrementTotalSunk();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
-				System.out.println("Enemy sank our " + enemyAttackResult.getShipName() + "!");
+				System.out.println("Enemy sank our " + enemyAttackResult.getShipName() + "!\n");
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else {

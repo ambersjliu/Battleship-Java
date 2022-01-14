@@ -388,7 +388,6 @@ public class GameWindow implements ActionListener {
 			// open audioInputStream to the clip
 			clip.open(audioInputStream);
 			clip.start();
-			System.out.println("Playing audio");
 			if(mode.equals("They won")||mode.equals("We won")){ //since end sounds are much longer
 				Thread.sleep(5000); //longer time where thread is put to sleep
 			}else{
