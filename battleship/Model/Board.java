@@ -144,9 +144,13 @@ public class Board implements Serializable{ //so board board can be saved and lo
 
             }
         }
+    }
 
+    public void loadEnemyShips (Board enemyBoard, ArrayList<Point> pointShipIds){
         
-
-
+        for (int i = 0; i<pointShipIds.size(); i++){
+            Point p = enemyBoard.getPoint(pointShipIds.get(i).getX(), pointShipIds.get(i).getY());
+            p.setShipId(pointShipIds.get(i).getShipId());
+        }
     }
 }
