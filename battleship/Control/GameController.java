@@ -328,6 +328,7 @@ public class GameController {
 	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
+		System.out.println("github being wack");
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
