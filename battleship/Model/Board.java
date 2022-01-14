@@ -66,21 +66,56 @@ public class Board implements Serializable{ //so board board can be saved and lo
 
         for(int rows = 0; rows < Constants.boardSize; rows++, letter++){
             System.out.print(letter + " ");
+            
             for (int j = 0; j < 10; j++) {
-                if (board.getPoint(rows, j).getIsHit()) {
-                    if(board.getPoint(rows, j).getIsTaken()) {
-                    System.out.print("X ");
+                if(board.getPoint(rows, j).getIsTaken()) {
+                    System.out.print(addShipInitials(board.getPoint(rows,j))+" ");
+/*                 }else if (board.getPoint(rows, j).getIsHit()) {
+                    if(board.)
+                    System.out.println("X ");
                     }else{
                         System.out.print("M ");
                     }
                 }
-                else {
+                    */ 
+                }else {
                     System.out.print("o ");
                 }
+                
             }
             System.out.println();
         }
     }
+
+
+    /**
+	 * 
+	 * @param p Takes in a point on board
+	 * @return String with first 2 letters of Ship name
+	 */
+	public String addShipInitials (Point p){
+		String mark = null;
+	
+			if (p.getShipId().equals("Carrier")){ //checks which ship is at point  
+				mark = "C";				//and assigns the corresponding letters 
+			}
+			else if (p.getShipId().equals("Battleship")){
+				mark = "B";
+			}	
+			else if (p.getShipId().equals("Cruiser")){
+				mark = "U";
+			}
+			else if (p.getShipId().equals("Submarine")){
+				mark = "S";
+			}
+			else {
+				mark = "D";
+			}
+		
+		return mark;
+
+	}
+
 
     /**
      * 
