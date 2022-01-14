@@ -35,7 +35,8 @@ public class GameController {
 	private AI ai;
 	private int stage = 0;
 	private ArrayList<Coordinate> userHits,userShots;
-	private ArrayList<Coordinate>  aiHits, aiHitsTest;
+	private ArrayList<Coordinate>  aiHits;
+	private ArrayList<Point>  pointShipIds;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
 	private StartUpParams sup;
@@ -66,6 +67,7 @@ public class GameController {
 		userHits = new ArrayList<Coordinate>();
 		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
+		pointShipIds = new ArrayList<Point>();
 
 		//create the window
 		//not too sure what this is, eclipse made this on its own...
@@ -117,6 +119,7 @@ public class GameController {
 			gameWindow.playGameSound("Hit");
 
 			attackPoint.setShipId(hitShip); 
+			pointShipIds.add(attackPoint);
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
@@ -135,18 +138,6 @@ public class GameController {
 
  
 
-<<<<<<< HEAD
-					}
-				} //try to break out as early as possible
-				if(!noShipsLeft){
-					break;
-				}
-			}  */
-			//System.out.println("before reset"+aiHits.get(0).hashCode());
-
-			
-=======
->>>>>>> 496ac7ae8b7ddf5e56382281d28f4c200244fdc7
 			ai.resetVals();
  /* 			if(!noShipsLeft){ //if there is another ship we hit
 				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
@@ -336,15 +327,9 @@ public class GameController {
 	 */
 	public void saveGame(){
 
-		// System.out.println("In saveGame");
-		// for (int i=0;i<aiHits.size();i++){
-		// 	System.out.println(aiHits.get(i).toString());
-		// }
-
-
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
-        ai.getShipsPlaced(), gameWindow.getSup(),
+        ai.getShipsPlaced(),pointShipIds, gameWindow.getSup(),
         ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
 
@@ -386,8 +371,10 @@ public class GameController {
 
 		ai.setShipsPlaced(save.getShipsPlaced()); //load ships
 		ai.placeShips(ourBoard, isLoadGame); //replace ships
+		pointShipIds = save.getPointShipIds();
 
 		ourBoard.loadBoard(ourBoard, userShots, userHits); //load board
+		enemyBoard.loadEnemyShips(enemyBoard, pointShipIds);
 		enemyBoard.loadBoard(enemyBoard, ai.getPastShots(), aiHits);
 
 		gameWindow.refreshOurBoard(ourBoard); //load stats panel

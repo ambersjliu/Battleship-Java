@@ -34,6 +34,7 @@ public class SaveLoad {
     ArrayList<Coordinate> aiHits = new ArrayList<Coordinate>();
 
     ArrayList<Ship> shipsPlaced;
+    ArrayList<Point> pointShipIds = new ArrayList<Point>();
 
     //for smart ai
     StartUpParams sup;
@@ -54,7 +55,7 @@ public class SaveLoad {
      */
     public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
         ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
-        ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced,
+        ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced, ArrayList<Point> pointShipIds,
         StartUpParams sup, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
         int direction, Coordinate firstHit, boolean EndOfCurrentDirection){
 
@@ -79,6 +80,7 @@ public class SaveLoad {
             save.writeObject(aiHits);
 
             save.writeObject(shipsPlaced); //saves all ship objects
+            save.writeObject(pointShipIds);//saves ship names of ships ai has hit
 
             save.writeObject(sup); //saves start up parameters 
 
@@ -130,6 +132,7 @@ public class SaveLoad {
             aiHits = (ArrayList<Coordinate>) save.readObject();
 
             shipsPlaced = (ArrayList<Ship>) save.readObject();
+            pointShipIds= (ArrayList<Point>) save.readObject();
 
             sup = (StartUpParams) save.readObject();
 
@@ -183,6 +186,10 @@ public class SaveLoad {
     public ArrayList<Ship> getShipsPlaced(){
 
         return shipsPlaced;
+    }
+
+    public ArrayList<Point> getPointShipIds(){
+        return pointShipIds;
     }
 
     public ArrayList<Coordinate> getPastShots() {

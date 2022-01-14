@@ -70,10 +70,11 @@ public class BoardPanel extends JPanel{
 			for (int col = 0; col < Constants.boardSize; col++) {
 				Point p = points[row][col];
 				JButton markBtn = new JButton();
-/* 				markBtn.setBackground(Color.LIGHT_GRAY);
-				markBtn.setIcon(btnTile);
-				markBtn.setDisabledIcon(btnTile); */
+ 				// markBtn.setBackground(Color.LIGHT_GRAY);
+				// markBtn.setIcon(btnTile);
+				// markBtn.setDisabledIcon(btnTile); 
 				markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
+
 
 
 
@@ -100,7 +101,6 @@ public class BoardPanel extends JPanel{
 				JButton currentBtn = shipButtons[row][col];
                 //ternary operator (?) works as such
                 //if p is taken (?), set to one colour. else (:) set to another colour
-				currentBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
 
 				if (p.getIsHit()){ //if point is hit
 					currentBtn.setIcon(null);
@@ -112,9 +112,8 @@ public class BoardPanel extends JPanel{
 					}
 
 				}else{ //nothing was hit
-					currentBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
-					/* currentBtn.setIcon(btnTile);
-					currentBtn.setDisabledIcon(btnTile); */
+					currentBtn.setIcon(btnTile);
+					currentBtn.setDisabledIcon(btnTile);
 
 					mark = " ";
                 }
