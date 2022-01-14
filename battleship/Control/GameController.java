@@ -57,6 +57,8 @@ public class GameController {
 
 		ai.placeShips(ourBoard,isLoadGame);
 
+		ourBoard.drawBoard(ourBoard);
+
 		gameWindow = new GameWindow(this, ourBoard, enemyBoard);
 
 		ourStatsPanel = new StatsPanel();
