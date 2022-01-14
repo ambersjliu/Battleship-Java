@@ -96,7 +96,7 @@ public class GameController {
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
 
-		System.out.println("Our AI attacks " + ourAttackString); // print to console
+		System.out.println("\nOur AI attacks " + ourAttackString); // print to console
 
 		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
 		attackPoint.setIsHit(true); // either way the attacked point is hit
@@ -203,7 +203,7 @@ public class GameController {
 	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
-		System.out.println("Enemy attacks: " +enemyAttack);
+		System.out.println("\nEnemy attacks: " +enemyAttack);
 
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
@@ -213,7 +213,7 @@ public class GameController {
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true); //set hit to true
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
-		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board\n");
+		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board");
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
@@ -316,6 +316,7 @@ public class GameController {
 			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
 			gameWindow.getLoadButton().setEnabled(false);
 			gameWindow.getWatch().start(); //start gameWindow watch
+			System.out.println("Startup params: " + sup);
 			
 
 			if (sup.doWeGoFirst())
