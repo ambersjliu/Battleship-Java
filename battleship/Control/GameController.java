@@ -330,6 +330,9 @@ public class GameController {
 	public void saveGame(){
 		System.out.println("github being wack");
 
+		System.out.println("github being wack part 2");
+
+
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
         ai.getShipsPlaced(),pointShipIds, gameWindow.getSup(),
