@@ -158,9 +158,7 @@ public class GameController {
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
-		for (int i=0;i<aiHits.size();i++){
-			System.out.println(aiHits.get(i).toString());
-		}
+
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
@@ -338,7 +336,6 @@ public class GameController {
 	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
-		System.out.println("github being wack");
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,
