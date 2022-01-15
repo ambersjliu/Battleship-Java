@@ -57,6 +57,7 @@ public class GameController {
 
 		ai = new AI(enemyBoard);
 
+		System.out.println("Ship placement:");
 		ai.placeShips(ourBoard,isLoadGame);
 
 		ourBoard.drawBoard(ourBoard);
@@ -70,6 +71,7 @@ public class GameController {
 		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
 		pointShipIds = new ArrayList<Point>();
+		System.out.println("Game start!");
 
 		//create the window
 		//not too sure what this is, eclipse made this on its own...
@@ -94,12 +96,12 @@ public class GameController {
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
 
-		System.out.println("Our AI attacks " + ourAttackString); // print to console
+		System.out.println("\nOur AI attacks " + ourAttackString); // print to console
 
 		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
 		attackPoint.setIsHit(true); // either way the attacked point is hit
 
-		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
+		System.out.println("We have a " + attackResult + " at " + ourAttackString);
 		if (attackResult.equals("Hit!")) { //if we hit
 			attackPoint.setIsTaken(true); 
 			ai.setTargetMode(true); //switch to target mode
@@ -118,6 +120,7 @@ public class GameController {
 				ai.getHits().add(ourAttack);
 			}
 			String hitShip = gameWindow.getShipHit(); // get id of ship
+			System.out.println("We hit enemy " + hitShip);
 			gameWindow.playGameSound("Hit");
 
 			attackPoint.setShipId(hitShip); 
@@ -132,21 +135,17 @@ public class GameController {
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
 			attackPoint.setShipId(hitShip);
+			System.out.println("We sank their " + hitShip);
+
 			gameWindow.playGameSound("Hit");
 			enemyStats.incrementTotalHit();
 			enemyStats.incrementTotalSunk();
 
 			aiHits.add(ourAttack);
 
- 
+
 
 			ai.resetVals();
- /* 			if(!noShipsLeft){ //if there is another ship we hit
-				ai.setFirstHit(nextFirstHit); //target that ship starting from our first hit
-				ai.getHits().add(nextFirstHit);
-				ai.setTargetMode(true);
-			}  */
-
 			
 
 		} else { // Missed
@@ -159,7 +158,6 @@ public class GameController {
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
-		System.out.println("In after attack()");
 		for (int i=0;i<aiHits.size();i++){
 			System.out.println(aiHits.get(i).toString());
 		}
@@ -168,6 +166,10 @@ public class GameController {
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
 			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("We won");
+			System.out.println("We won, and got " + enemyStats.getTotalHit() + " hits, " + 
+								enemyStats.getTotalMiss() + " misses, and " + enemyStats.getTotalSunk() + " sunken ships on the enemy board.");
+			System.out.println("Enemy lost and got " + ourStats.getTotalHit() + " hits, " + 
+								ourStats.getTotalMiss() + " misses, and " + ourStats.getTotalSunk() + " sunken ships on our board.");
 			gameWindow.popupDialog("You lost!", "Better luck next time! Press OK to restart."); // SHEEESH WE WIN
 			//destroy the old game window
 			gameWindow.destroy();
@@ -201,17 +203,17 @@ public class GameController {
 	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
-		System.out.println("enemy attack:" +enemyAttack);
+		System.out.println("\nEnemy attacks: " +enemyAttack);
 
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
-		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		//get the point itself
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true); //set hit to true
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
+		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board");
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
@@ -221,6 +223,7 @@ public class GameController {
 				ourStats.incrementTotalHit();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
+				System.out.println("Enemy hit our " + enemyAttackResult.getShipName() + "!\n");
 				gameWindow.popupDialog("Ouch...", "You hit our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else if (enemyAttackResult.getResult() == "Sink") {
@@ -233,6 +236,7 @@ public class GameController {
 				ourStats.incrementTotalSunk();
 				userHits.add(enemyAtkCoord);
 				gameWindow.playGameSound("Hit");
+				System.out.println("Enemy sank our " + enemyAttackResult.getShipName() + "!\n");
 				gameWindow.popupDialog("Oh no!", "You sank our " + enemyAttackResult.getShipName() + "!");
 			}
 		} else {
@@ -254,6 +258,10 @@ public class GameController {
 		if (ourStats.getTotalHit() == Constants.hitsToWin) {
 			gameWindow.getWatch().stop();
 			gameWindow.playGameSound("They won");
+			System.out.println("We lost, and got " + enemyStats.getTotalHit() + " hits, " + 
+								enemyStats.getTotalMiss() + " misses, and " + enemyStats.getTotalSunk() + " sunken ships on the enemy board.");
+			System.out.println("Enemy won and got " + ourStats.getTotalHit() + " hits, " + 
+								ourStats.getTotalMiss() + " misses, and " + ourStats.getTotalSunk() + " sunken ships on our board.");
 			gameWindow.popupDialog("Congrats!", "Looks like you've outsmarted our strategists! Press OK to restart.");
 			gameWindow.destroy();
 			currentGameOver = true;
@@ -272,6 +280,7 @@ public class GameController {
 		ourStats.incrementTotalMiss();
 		gameWindow.playGameSound("Missed");
 		gameWindow.popupDialog("Phew!", "Did you mean to repeat yourself? Miss!");
+		System.out.println("Enemy repeated themselves");
 	}
 
 	/**
@@ -307,6 +316,7 @@ public class GameController {
 			sup = gameWindow.getStartParams(isLoadGame); // get start up params (who goes first, etc) from gui
 			gameWindow.getLoadButton().setEnabled(false);
 			gameWindow.getWatch().start(); //start gameWindow watch
+			System.out.println("Startup params: " + sup);
 			
 
 			if (sup.doWeGoFirst())
