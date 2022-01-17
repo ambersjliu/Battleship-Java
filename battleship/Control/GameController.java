@@ -94,12 +94,13 @@ public class GameController {
 		String ourAttackString = ourAttack.coordFormat(ourAttack);
 		String attackResult = gameWindow.getAttackResult(ourAttackString); // GUI shows a popup prompting answer from user
 
-		System.out.println("Our AI attacks " + ourAttackString); // print to console
+		System.out.println("\nOur AI attacks " + ourAttackString); // print to console
 
 		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
 		attackPoint.setIsHit(true); // either way the attacked point is hit
-
-		System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
+		
+		System.out.println("\tattack result: "+attackResult);
+		//System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
 		if (attackResult.equals("Hit!")) { //if we hit
 			attackPoint.setIsTaken(true); 
 			ai.setTargetMode(true); //switch to target mode
@@ -125,9 +126,8 @@ public class GameController {
 			enemyStats.incrementTotalHit();
 
 		} else if (attackResult.equals("Sank!")) {
-
 			
-
+			pointShipIds.add(attackPoint);
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
@@ -159,10 +159,6 @@ public class GameController {
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
-		System.out.println("In after attack()");
-		for (int i=0;i<aiHits.size();i++){
-			System.out.println(aiHits.get(i).toString());
-		}
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
@@ -201,17 +197,20 @@ public class GameController {
 	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
-		System.out.println("enemy attack:" +enemyAttack);
+		System.out.println("Your attack: " +enemyAttack);
 
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
-		System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
+		// System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		//get the point itself
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true); //set hit to true
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
+		
+
+		System.out.println("\tattack results: "+enemyAttackResult.getResult());
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
@@ -328,10 +327,6 @@ public class GameController {
 	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
-		System.out.println("github being wack");
-
-		System.out.println("github being wack part 2");
-
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
         ai.getPastShots(),aiHits,userShots,userHits,

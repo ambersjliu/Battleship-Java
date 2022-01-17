@@ -70,10 +70,10 @@ public class BoardPanel extends JPanel{
 			for (int col = 0; col < Constants.boardSize; col++) {
 				Point p = points[row][col];
 				JButton markBtn = new JButton();
- 				// markBtn.setBackground(Color.LIGHT_GRAY);
-				// markBtn.setIcon(btnTile);
-				// markBtn.setDisabledIcon(btnTile); 
-				markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
+ 				markBtn.setBackground(Color.LIGHT_GRAY);
+				markBtn.setIcon(btnTile);
+				markBtn.setDisabledIcon(btnTile); 
+				// markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
 
 
 
