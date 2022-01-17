@@ -32,6 +32,7 @@ public class SaveLoad {
     ArrayList<Coordinate> userShots = new ArrayList<Coordinate>();     
     ArrayList<Coordinate> userHits = new ArrayList<Coordinate>();
     ArrayList<Coordinate> aiHits = new ArrayList<Coordinate>();
+    ArrayList<Coordinate> aiFirstHits = new ArrayList<Coordinate>();
 
     ArrayList<Ship> shipsPlaced;
     ArrayList<Point> pointShipIds = new ArrayList<Point>();
@@ -54,10 +55,10 @@ public class SaveLoad {
      * objects into it. 
      */
     public void save(String username, int elapsedTime, int stage, Stats ourStats, Stats enemyStats,
-        ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits, ArrayList<Coordinate> userShots, 
-        ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced, ArrayList<Point> pointShipIds,
-        StartUpParams sup, ArrayList<Coordinate> hits, boolean targetMode, boolean directionSet, 
-        int direction, Coordinate firstHit, boolean EndOfCurrentDirection){
+        ArrayList<Coordinate> pastShots, ArrayList<Coordinate> aiHits,ArrayList<Coordinate> aiFirstHits, 
+        ArrayList<Coordinate> userShots, ArrayList<Coordinate> userHits, ArrayList<Ship> shipsPlaced, 
+        ArrayList<Point> pointShipIds,StartUpParams sup, ArrayList<Coordinate> hits, boolean targetMode, 
+        boolean directionSet, int direction, Coordinate firstHit, boolean EndOfCurrentDirection){
 
         System.out.println("saving");
         
@@ -78,6 +79,8 @@ public class SaveLoad {
             save.writeObject(userShots);    //as well for ai not repeating shots
             save.writeObject(userHits);
             save.writeObject(aiHits);
+            save.writeObject(aiFirstHits);
+
 
             save.writeObject(shipsPlaced); //saves all ship objects
             save.writeObject(pointShipIds);//saves ship names of ships ai has hit
@@ -130,6 +133,7 @@ public class SaveLoad {
             userShots = (ArrayList<Coordinate>) save.readObject();
             userHits = (ArrayList<Coordinate>) save.readObject();
             aiHits = (ArrayList<Coordinate>) save.readObject();
+            aiFirtsHits = (ArrayList<Coordinate>) save.readObject();
 
             shipsPlaced = (ArrayList<Ship>) save.readObject();
             pointShipIds= (ArrayList<Point>) save.readObject();
@@ -231,6 +235,10 @@ public class SaveLoad {
 
     public Coordinate getFirstHit() {
         return firstHit;
+    }
+
+    public ArrayList<Coordinate> getAiFirstHit() {
+        return aiFirstHits;
     }
 
     public boolean getEndOfCurrentDirection() {

@@ -381,7 +381,7 @@ public class GameController {
 	public void saveGame(){
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
-        ai.getPastShots(),aiHits,userShots,userHits,
+        ai.getPastShots(),aiHits,aiFirstHits,userShots,userHits,
         ai.getShipsPlaced(),pointShipIds, gameWindow.getSup(),
         ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
@@ -415,6 +415,7 @@ public class GameController {
 		//load past shots
 		ai.setPastShots(save.getPastShots());
 		aiHits = save.getAiHits();
+		aiFirstHits = save.getAiFirstHit();
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
 
