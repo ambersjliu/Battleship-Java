@@ -73,11 +73,7 @@ public class BoardPanel extends JPanel{
  				markBtn.setBackground(Color.LIGHT_GRAY);
 				markBtn.setIcon(btnTile);
 				markBtn.setDisabledIcon(btnTile); 
-				// markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY);
-
-
-
-
+				//markBtn.setBackground(p.getIsTaken() ? Color.GRAY : Color.LIGHT_GRAY)
 				markBtn.setMargin(new Insets(0, 0, 0, 0)); //since no insets would make the button display "..."
 				markBtn.setFocusPainted(false);
 				markBtn.setEnabled(false);
