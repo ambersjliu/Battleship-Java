@@ -125,6 +125,7 @@ public class Ship implements Serializable{ //so Ship objects can be saved and lo
         }
 
     }
+
     public int getStartRow(){
         return startRow;
     }

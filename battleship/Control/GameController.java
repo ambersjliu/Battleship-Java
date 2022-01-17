@@ -36,6 +36,7 @@ public class GameController {
 	private int stage = 0;
 	private ArrayList<Coordinate> userHits,userShots;
 	private ArrayList<Coordinate>  aiHits;
+	private ArrayList<Coordinate> aiFirstHits;
 	private ArrayList<Point>  pointShipIds;
 	private Stats ourStats, enemyStats;
 	private StatsPanel ourStatsPanel, enemyStatsPanel;
@@ -70,6 +71,7 @@ public class GameController {
 		userHits = new ArrayList<Coordinate>();
 		userShots = new ArrayList<Coordinate>();
 		aiHits = new ArrayList<Coordinate>();
+		aiFirstHits = new ArrayList<Coordinate>();
 		pointShipIds = new ArrayList<Point>();
 		System.out.println("Game start!");
 
@@ -110,16 +112,24 @@ public class GameController {
 
 
 			if (ai.getHits().size() == 0) { //if we haven't hit anything before
-				//ai.getFirstHit().setFirstHit(ourAttack); //set our new first hit
 				ai.getFirstHit().setRow(ourAttack.getRow());
 				ai.getFirstHit().setColumn(ourAttack.getColumn());
+				aiFirstHits.add(ourAttack); //add first hit to ai first hits
+				System.out.println(aiFirstHits.size());
 
 				ai.getHits().add(ourAttack);
 			} else {
 				ai.setDirectionSet(true); //since we've had at least one successful hit since first
 				ai.getHits().add(ourAttack);
 			}
+
+
 			String hitShip = gameWindow.getShipHit(); // get id of ship
+
+			//shipId of firstHit
+			Point firstHitPoint = enemyBoard.getPoint(ai.getFirstHit().getRow(), ai.getFirstHit().getColumn());
+			System.out.println("first hit id: " + firstHitPoint.getShipId());
+
 			System.out.println("We hit enemy " + hitShip);
 			gameWindow.playGameSound("Hit");
 
@@ -127,14 +137,24 @@ public class GameController {
 			pointShipIds.add(attackPoint);
 			enemyStats.incrementTotalHit();
 
+			//if we managed to hit a different ship while targeting our current one
+			if(!firstHitPoint.getShipId().equals(hitShip)){
+				aiFirstHits.add(ourAttack); //add it to our list of first hits to pursue next time
+				System.out.println("AI hit a different ship while in target mode.");
+				//set ai firstHit to the new ship so that if we keep hitting it, it won't add the other points to the firstHits arraylist
+				ai.getFirstHit().setRow(ourAttack.getRow());
+				ai.getFirstHit().setColumn(ourAttack.getColumn());
+			}
 		} else if (attackResult.equals("Sank!")) {
 
-			
 
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
 			attackPoint.setShipId(hitShip);
+			//if the ship is sunk, set the first hit to also sunk
+			enemyBoard.getPoint(ai.getFirstHit().getRow(), ai.getFirstHit().getColumn()).setIsSunk(true);
+
 			System.out.println("We sank their " + hitShip);
 
 			gameWindow.playGameSound("Hit");
@@ -142,25 +162,54 @@ public class GameController {
 			enemyStats.incrementTotalSunk();
 
 			aiHits.add(ourAttack);
+			while(aiFirstHits.contains(ai.getFirstHit())){
+				aiFirstHits.remove(ai.getFirstHit());
+			}
 
 
+			ai.resetVals(); //either way everything from the previous targeting session will be cleared
 
-			ai.resetVals();
 			
 
 		} else { // Missed
+			System.out.println("We missed...");
 			enemyStats.incrementTotalMiss();
 			gameWindow.playGameSound("Missed");
 			if (ai.isTargetMode()) { //if we were trying to hit a ship and missed
 				ai.setEndOfCurrentDirection(true); //let AI know we need to change directions
 			}
+
+			
+			Coordinate newFirstHit = new Coordinate(0, 0);
+			boolean unsunkShips = false;
+
+			// in case we hit but didn't sink a ship
+			for (int i = 0; i < aiFirstHits.size(); i++) {
+				System.out.println("size" + aiFirstHits.size());
+				Coordinate currentPoint = aiFirstHits.get(i);
+				System.out.println(currentPoint);
+				// if any of the first hits on a ship is not set to sunk, it means the ship wasn't sunk
+				if (!enemyBoard.getPoint(currentPoint.getRow(), currentPoint.getColumn()).getIsSunk()) {
+					System.out.println("Unsunk ship found, switching targets");
+					System.out.println(
+							"Ship id: "
+									+ enemyBoard.getPoint(currentPoint.getRow(), currentPoint.getColumn()).getShipId());
+					unsunkShips = true;
+					newFirstHit = currentPoint;
+					break;
+				}
+			}
+
+			if (unsunkShips) { // if there are more ships to sink
+				//ai.setFirstHit(newFirstHit); // set the new first hit
+				ai.getFirstHit().setRow(newFirstHit.getRow());
+				ai.getFirstHit().setColumn(newFirstHit.getColumn());
+				ai.setTargetMode(true);
+			}
 		}
 		gameWindow.refreshEnemyStats(enemyStats);
 		gameWindow.refreshEnemyBoard(enemyBoard);
 
-		for (int i=0;i<aiHits.size();i++){
-			System.out.println(aiHits.get(i).toString());
-		}
 
 
 		if (enemyStats.getTotalHit() == Constants.hitsToWin) {
@@ -179,23 +228,7 @@ public class GameController {
 		stage = 2;
 
 	}
-	
-	/**
-	 * Checks if a point contains a hit but unsunk Destroyer.
-	 * The AI's way of hitting random points (only every other point) means a hit but
-	 * unsunk Destroyer will be impossible to sink if we hit one of its Points by accident
-	 * while targeting another ship.
-	 * @param p the point to check
-	 * @param lastShip the last hit ship's shipid to compare to
-	 * @return whether the point is part of an unsunk ship
-	 */
-	//i initially wanted to check for any unsunk ships, but that could leave to catastrophical errors, so I limited it to the Destroyer.
-	boolean checkUnsunkDest(Point p){
-		if(p.getShipId()=="Destroyer"&&!p.getIsSunk()){ //must be unsunk
-			return true;
-		}
-		return false;
-	}
+
 
 	/**
 	 * Asks the user for their move, checks the result, and communicates it to the user.
@@ -338,7 +371,6 @@ public class GameController {
 	 * to save the current game state, board, and status of player and AI
 	 */
 	public void saveGame(){
-		System.out.println("github being wack");
 
 		System.out.println("github being wack part 2");
 
