@@ -43,8 +43,8 @@ public class Ship implements Serializable{ //so Ship objects can be saved and lo
      * @param board which board to place on
      * @param shipName name of ship
      * @param shipLength how long the ship is
-     * @param startRow //the row its starting point is on
-     * @param startCol //the column its starting point is on
+     * @param startRow the row its starting point is on
+     * @param startCol the column its starting point is on
      * @param orientation //which direction the ship will go: right or down
      */
 	public Ship(Board board, String shipName, int shipLength, int startRow, int startCol, String orientation) {

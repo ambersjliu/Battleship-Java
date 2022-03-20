@@ -91,6 +91,7 @@ public class GameController {
 	/**
 	 * Generates an attack from AI, communicates it to the user, and changes the game window to
 	 * reflect the results of the attack.
+	 * Saves first-hits to a "stack". When a new ship is encountered not matching the current shipID, it will be added to the firstHits arraylist.
 	 */
 	void attack() {
 
