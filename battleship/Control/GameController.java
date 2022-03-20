@@ -103,8 +103,11 @@ public class GameController {
 
 		Point attackPoint = enemyBoard.getPoint(ourAttack.getRow(), ourAttack.getColumn());
 		attackPoint.setIsHit(true); // either way the attacked point is hit
+		
+		System.out.println("\tattack result: "+attackResult);
+		//System.out.println(attackResult + " " + ourAttack.getRow() + " " + ourAttack.getColumn());
 
-		System.out.println("We have a " + attackResult + " at " + ourAttackString);
+		// System.out.println("We have a " + attackResult + " at " + ourAttackString);
 		if (attackResult.equals("Hit!")) { //if we hit
 			attackPoint.setIsTaken(true); 
 			ai.setTargetMode(true); //switch to target mode
@@ -147,8 +150,8 @@ public class GameController {
 				ai.getFirstHit().setColumn(ourAttack.getColumn());
 			}
 		} else if (attackResult.equals("Sank!")) {
-
-
+			
+			pointShipIds.add(attackPoint);
 			attackPoint.setIsSunk(true);
 			attackPoint.setIsTaken(true);
 			String hitShip = gameWindow.getShipHit();
@@ -237,17 +240,22 @@ public class GameController {
 	 */
 	void recordAttack() {
 		String enemyAttack = gameWindow.getEnemyAttackCoord().toUpperCase();
+		System.out.println("Your attack: " +enemyAttack);
 		System.out.println("\nEnemy attacks: " +enemyAttack);
 
 		// convert the entered string into a Coord
 		int col = Integer.parseInt(enemyAttack.substring(1)) - 1;
 		int row = ((int) enemyAttack.charAt(0)) - 65;
 		Coordinate enemyAtkCoord = new Coordinate(row, col);
+		// System.out.println("enemy attackCoord: "+enemyAtkCoord.toString());
 		//get the point itself
 		Point attackedPoint = ourBoard.getPoint(enemyAtkCoord.getRow(), enemyAtkCoord.getColumn());
 		attackedPoint.setIsHit(true); //set hit to true
 		AttackResults enemyAttackResult = ai.getEnemyAttackResult(ourBoard, enemyAtkCoord); //get result
-		System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board");
+		
+
+		System.out.println("\tattack results: "+enemyAttackResult.getResult());
+		//System.out.println("Enemy landed a " + enemyAttackResult.getResult() + " on our board");
 
 		if (enemyAttackResult.getResult() == "Hit") {
 
@@ -374,7 +382,7 @@ public class GameController {
 	public void saveGame(){
 
 		save.save(username, this.gameWindow.getWatch().getElapsedTime(), stage, ourStats, enemyStats,
-        ai.getPastShots(),aiHits,userShots,userHits,
+        ai.getPastShots(),aiHits,aiFirstHits,userShots,userHits,
         ai.getShipsPlaced(),pointShipIds, gameWindow.getSup(),
         ai.getHits(), ai.isTargetMode(), ai.getDirectionSet(), 
         ai.getDirection(), ai.getFirstHit(), ai.getEndOfCurrentDirection());
@@ -408,6 +416,7 @@ public class GameController {
 		//load past shots
 		ai.setPastShots(save.getPastShots());
 		aiHits = save.getAiHits();
+		aiFirstHits = save.getAiFirstHit();
 		userShots = save.getUserShots();
 		userHits = save.getUserHits();
 
