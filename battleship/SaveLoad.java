@@ -133,7 +133,7 @@ public class SaveLoad {
             userShots = (ArrayList<Coordinate>) save.readObject();
             userHits = (ArrayList<Coordinate>) save.readObject();
             aiHits = (ArrayList<Coordinate>) save.readObject();
-            aiFirtsHits = (ArrayList<Coordinate>) save.readObject();
+            aiFirstHits = (ArrayList<Coordinate>) save.readObject();
 
             shipsPlaced = (ArrayList<Ship>) save.readObject();
             pointShipIds= (ArrayList<Point>) save.readObject();
