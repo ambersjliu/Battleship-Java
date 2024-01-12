@@ -100,7 +100,7 @@ public class GameWindow implements ActionListener {
 		getFrmBattleship().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmBattleship().setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 		getFrmBattleship().getContentPane().setLayout(new BorderLayout(0, 0));
-
+		
 		
 		getFrmBattleship().getContentPane().setBackground(Constants.bgColor);
 
@@ -359,6 +359,8 @@ public class GameWindow implements ActionListener {
 	 * @param mode the context(shoot, hit, miss, game over)
 	 */
 	public void playGameSound(String mode){
+		
+		new Thread(() -> {
 		String SHOOTAUDIOFILE = "resources/shoot.wav";
 		String HITAUDIOFILE = "resources/explode.wav";
 		String MISSEDAUDIOFILE = "resources/splash.wav";
@@ -379,8 +381,7 @@ public class GameWindow implements ActionListener {
 		}else{
 			audioFile = MISSEDAUDIOFILE;
 		}
-
-		try {
+			try {
 			// create AudioInputStream object
 			audioInputStream = AudioSystem.getAudioInputStream(new File(audioFile).getAbsoluteFile());
 			// create clip reference
@@ -398,6 +399,8 @@ public class GameWindow implements ActionListener {
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) { 
 			e.printStackTrace();
 		}
+		}).start();
+		
 		
 	}
 
